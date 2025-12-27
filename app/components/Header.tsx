@@ -10,15 +10,23 @@ const locales = [
   { code: "en", label: "English" },
 ];
 
+const navItems = [
+  { href: "/services", label: "Services" },
+  { href: "/contact", label: "Contact" },
+];
+
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const navRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname() || "/";
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
-      if (!menuRef.current) return;
-      if (!menuRef.current.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (menuRef.current && !menuRef.current.contains(target)) setOpen(false);
+      if (navRef.current && !navRef.current.contains(target)) setNavOpen(false);
     }
     document.addEventListener("click", onDoc);
     return () => document.removeEventListener("click", onDoc);
@@ -26,7 +34,28 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.left} />
+      <div className={styles.left}>
+        <div className={styles.navDropdown} ref={navRef}>
+          <button
+            className={styles.navToggle}
+            onClick={() => setNavOpen((s) => !s)}
+            aria-haspopup="menu"
+            aria-expanded={navOpen}
+          >
+            Menu ▾
+          </button>
+
+          {navOpen && (
+            <div className={styles.navMenu} role="menu">
+              {navItems.map((it) => (
+                <Link key={it.href} href={it.href} className={styles.menuItem} onClick={() => setNavOpen(false)}>
+                  {it.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       <div className={styles.center}>
         <Link href="/" aria-label="Home">
