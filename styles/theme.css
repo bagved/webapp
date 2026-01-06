@@ -1,0 +1,37 @@
+/* styles/theme.css */
+
+:root {
+  /* ===== 5 CORE COLORS ===== */
+  --c1: #546A76; /* color 1 */
+  --c2: #88A0A8; /* color 2 */
+  --c3: #B4CEB3; /* color 3 */
+  --c4: #DBD3C9; /* color 4 */
+  --c5: #FAD4D8; /* color 5  546A76 - 88A0A8 - B4CEB3 - DBD3C9 - FAD4D8 */
+
+  /* Soft versions */
+  --c1-soft: color-mix(in srgb, var(--c1) 18%, white);
+  --c2-soft: color-mix(in srgb, var(--c2) 18%, white);
+  --c3-soft: color-mix(in srgb, var(--c3) 18%, white);
+  --c4-soft: color-mix(in srgb, var(--c4) 18%, white);
+  --c5-soft: color-mix(in srgb, var(--c5) 18%, white);
+    
+  --font-heading: var(--font-dolce);
+  --font-body: var(--font-body);
+
+  /* ===== GLOBAL UI TOKENS ===== */
+  --bg: var(--c4);        /* ✅ all backgrounds default to color 4 */
+  --panel-bg: var(--c4);  /* ✅ cards/glass use this too */
+
+  --text: #0b0b0c;
+  --muted: rgba(11, 11, 12, 0.68);
+  --border: rgba(11, 11, 12, 0.18);
+
+  --radius-hard: 0px;
+  --radius-soft: 16px;
+
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
+
+  /* Clickable colors (so you can change behavior globally) */
+  --link: var(--c1);
+  --link-hover: var(--c3);
+}

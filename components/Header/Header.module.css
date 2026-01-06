@@ -1,0 +1,134 @@
+/* components/Header/Header.module.css */
+
+.wrap {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 14px 0;
+
+  /* Fade background faster (shorter gradient) */
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--c4) 88%, transparent),
+    color-mix(in srgb, var(--c4) 38%, transparent),
+    rgba(0, 0, 0, 0)
+  );
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 22px;
+
+  padding: 10px 2px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Nav spans width evenly */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: clamp(18px, 3vw, 38px);
+  width: 100%;
+
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.nav a {
+  color: var(--c1);
+  transition: color 160ms ease, transform 160ms ease, opacity 160ms ease;
+  padding: 8px 6px;
+  opacity: 0.95;
+}
+
+.nav a:hover {
+  color: var(--c3);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+/* Right side language dropdown - hangs free */
+.langWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Looks like text, not a box */
+.langButton {
+  border: none;
+  background: transparent;
+  padding: 6px 0;
+  margin: 0;
+
+  color: var(--c1);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  line-height: 1;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.langButton:hover {
+  color: var(--c3);
+}
+
+.chev {
+  color: currentColor;
+  transform: translateY(-1px);
+}
+
+/* Dropdown menu: no border, no “box”.
+   Still readable: we use blur + super subtle wash. */
+.langMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+
+  display: grid;
+  gap: 6px;
+
+  padding: 8px 10px;
+
+  border: none;
+  background: color-mix(in srgb, var(--c4) 10%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* hard corners, very sleek */
+  border-radius: 0;
+
+  /* subtle depth without “box frame” */
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.08);
+}
+
+.langItem {
+  border: none;
+  background: transparent;
+  padding: 6px 8px;
+  text-align: right;
+
+  color: var(--c1);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.langItem:hover {
+  color: var(--c3);
+}
