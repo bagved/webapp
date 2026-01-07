@@ -10,8 +10,7 @@ export default function HomePage() {
       <BrandSection />
       <VideoSection />
       <ContactSection />
-      <ServicesSection />
-      <CasesSection />
+
       {/* Footer is global in layout.tsx */}
     </>
   );
