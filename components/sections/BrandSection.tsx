@@ -1,19 +1,5 @@
 "use client";
 
-/**
- * Brand section:
- * - blank background (uses global)
- * - huge vertical BAGVED (color 1) under header
- * - three points with slow typewriter
- * - professional transparent hard-corner sheets using all five colors
- *
- * Update now:
- * - Points ≈ 2x bigger (icon + type + spacing)
- * - No box/border around each point
- * - Stagger: middle point slightly more to the right
- * - “Across the room” spacing
- */
-
 import { useEffect, useState } from "react";
 import Typewriter from "../Typewriter";
 
@@ -25,7 +11,7 @@ export default function BrandSection() {
         position: "relative",
         minHeight: "100vh",
         background: "transparent",
-        overflow: "hidden",
+        overflow: "visible",
         padding: "128px 0 110px",
       }}
     >
@@ -35,24 +21,20 @@ export default function BrandSection() {
       <div
         className="container"
         style={{
-          paddingLeft: "clamp(160px, 19vw, 290px)",
+          paddingLeft: "clamp(60px, 8vw, 120px)",
           position: "relative",
           zIndex: 2,
         }}
       >
         <div
           style={{
-            // use space nicely (not cramped to the right)
-            maxWidth: 1120,
-            marginLeft: 0,
+            maxWidth: 880,
             display: "grid",
-            // much more vertical air
             gap: 96,
-            paddingTop: 8,
+            paddingTop: 24,
           }}
         >
           <PointRow
-            offset="left"
             imgSrc="/1.png"
             iconFallback="★"
             phrases={["Livestream", "Broadcast", "StorSkærms arrangement"]}
@@ -62,7 +44,6 @@ export default function BrandSection() {
           />
 
           <PointRow
-            offset="midRight"
             imgSrc="/2.png"
             iconFallback="★"
             phrases={["Reklamefilm", "Content", "Kampagne"]}
@@ -72,7 +53,6 @@ export default function BrandSection() {
           />
 
           <PointRow
-            offset="left"
             imgSrc="/3.png"
             iconFallback="★"
             phrases={["Lyd og Lys", "Eventplanlægning", "Dine drømme"]}
@@ -87,8 +67,45 @@ export default function BrandSection() {
 }
 
 function LeftVerticalBrandWord() {
+  const [overlapping, setOverlapping] = useState(false);
+
+  useEffect(() => {
+    const brandEl = document.getElementById("brand-word");
+    const pointEls = document.querySelectorAll(".point-row");
+
+    if (!brandEl || pointEls.length === 0) return;
+
+    const checkOverlap = () => {
+      const brandRect = brandEl.getBoundingClientRect();
+      let isOverlapping = false;
+
+      pointEls.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const overlap =
+          r.left < brandRect.right &&
+          r.right > brandRect.left &&
+          r.top < brandRect.bottom &&
+          r.bottom > brandRect.top;
+
+        if (overlap) isOverlapping = true;
+      });
+
+      setOverlapping(isOverlapping);
+    };
+
+    checkOverlap();
+    window.addEventListener("scroll", checkOverlap);
+    window.addEventListener("resize", checkOverlap);
+
+    return () => {
+      window.removeEventListener("scroll", checkOverlap);
+      window.removeEventListener("resize", checkOverlap);
+    };
+  }, []);
+
   return (
     <div
+      id="brand-word"
       aria-hidden
       style={{
         position: "absolute",
@@ -99,22 +116,20 @@ function LeftVerticalBrandWord() {
         alignItems: "start",
         pointerEvents: "none",
         zIndex: 1,
+        opacity: overlapping ? 0.12 : 0.96, // ✅ FIXED
+        transition: "opacity 0.35s ease",
       }}
     >
       <div
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
-
-          // keep your current sizing behavior
           fontSize: "clamp(1px, 32vh, 270px)",
-
           fontFamily: "var(--font-heading)",
           fontWeight: 300,
           letterSpacing: "0.06em",
           lineHeight: 0.95,
           color: "var(--c1)",
-          opacity: 0.96,
           filter: "drop-shadow(0px 18px 34px rgba(0,0,0,0.10))",
           userSelect: "none",
         }}
@@ -162,7 +177,7 @@ function BackdropSheets() {
             "linear-gradient(135deg," +
             "color-mix(in srgb, var(--c1) 18%, transparent)," +
             "color-mix(in srgb, var(--c5) 16%, transparent))",
-          opacity: 0.60,
+          opacity: 0.6,
         }}
       />
 
@@ -231,49 +246,31 @@ function Sheet({ style }: { style: React.CSSProperties }) {
 }
 
 function PointRow({
-  offset,
   imgSrc,
   iconFallback,
   phrases,
   startDelayMs,
   subtitle,
   body,
-}: {
-  offset: "left" | "midRight";
-  imgSrc: string;
-  iconFallback: string;
-  phrases: string[];
-  startDelayMs: number;
-  subtitle: string;
-  body: string;
-}) {
-  const marginLeft =
-    offset === "midRight"
-      ? "clamp(48px, 8vw, 140px)" // middle goes a bit further right
-      : "clamp(0px, 2vw, 24px)";
-
+}: any) {
   return (
     <div
+      className="point-row"
       style={{
-        marginLeft,
-        maxWidth: "min(920px, 100%)",
         display: "grid",
-        gridTemplateColumns: "96px 1fr",
-        gap: 26,
+        gridTemplateColumns: "56px 1fr",
+        gap: 22,
         alignItems: "start",
       }}
     >
       <IconMark imgSrc={imgSrc} fallback={iconFallback} />
 
       <div style={{ display: "grid", gap: 14 }}>
-        {/* ~2x bigger typography */}
         <div
           style={{
             fontSize: 28,
             fontWeight: 900,
-            color: "var(--c2)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.08,
+            color: "var(--c1)",
           }}
         >
           <Typewriter
@@ -289,9 +286,7 @@ function PointRow({
           style={{
             fontSize: 24,
             fontWeight: 800,
-            color: "var(--c2)",
-            opacity: 0.95,
-            lineHeight: 1.15,
+            color: "var(--c1)",
           }}
         >
           {subtitle}
@@ -301,9 +296,7 @@ function PointRow({
           style={{
             fontSize: 20,
             color: "var(--text)",
-            opacity: 0.95,
-            lineHeight: 1.45,
-            maxWidth: 760,
+            maxWidth: 720,
           }}
         >
           {body}
@@ -313,45 +306,17 @@ function PointRow({
   );
 }
 
-/**
- * No box around the icon — just the mark itself.
- * Tries /1.png /2.png /3.png, otherwise star.
- */
-function IconMark({ imgSrc, fallback }: { imgSrc: string; fallback: string }) {
+function IconMark({ imgSrc, fallback }: any) {
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
     fetch(imgSrc, { method: "HEAD" })
-      .then((res) => {
-        if (cancelled) return;
-        setOk(res.ok);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setOk(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
+      .then((r) => setOk(r.ok))
+      .catch(() => setOk(false));
   }, [imgSrc]);
 
   if (ok) {
-    return (
-      <img
-        src={imgSrc}
-        alt=""
-        width={56}
-        height={56}
-        style={{
-          display: "block",
-          marginTop: 6,
-          filter: "drop-shadow(0px 18px 34px rgba(0,0,0,0.10))",
-        }}
-        onError={() => setOk(false)}
-      />
-    );
+    return <img src={imgSrc} width={56} height={56} alt="" />;
   }
 
   return (
@@ -359,14 +324,12 @@ function IconMark({ imgSrc, fallback }: { imgSrc: string; fallback: string }) {
       style={{
         width: 56,
         height: 56,
-        marginTop: 6,
         display: "grid",
         placeItems: "center",
-        color: "var(--c2)",
-        filter: "drop-shadow(0px 18px 34px rgba(0,0,0,0.10))",
+        color: "var(--c1)",
       }}
     >
-      <span style={{ fontSize: 46, lineHeight: 1 }}>{fallback}</span>
+      <span style={{ fontSize: 46 }}>{fallback}</span>
     </div>
   );
 }
