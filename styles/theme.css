@@ -2,15 +2,11 @@
 
 :root {
   /* ===== 5 CORE COLORS ===== */
-  --c1: #3971b8; /* color 1  Primary and headers*/
-  --c2: #c8d69b; /* color 2  Secondary */
-  --c3: #f6e6a5; /* color 3  Accent and hovering*/
-  --c4: #ecece5; /* color 4 BACKGROUND */
-  --c5: #343b1b; /* color 5  */
-  
-  /* 546A76 - 88A0A8 - B4CEB3 - DBD3C9 - FAD4D8 - Virker nogen lunde, ikke så god */
-  /* #3971b8 - #c8d69b - #f6e6a5 - #fbfcee - #343b1b - Temmelig god, ikke verdens bedste baggrund, men den blå er hovering farve er virkelig god */
- /* #3971b8 - #c8d69b - #f6e6a5 - #ecece5 - #343b1b - Samme som den anden, men en ny baggrund */
+  --c1: #3C3C3B; /* Primary – Graphite Gray */
+  --c2: #EDF2F4; /* Secondary – Frost White */
+  --c3: #EF233C; /* Accent – Crimson Red */
+  --c4: #F9FAFB; /* Background base */
+  --c5: #DDE3E7; /* Background alt (for animation) */
 
   /* Soft versions */
   --c1-soft: color-mix(in srgb, var(--c1) 18%, white);
@@ -18,13 +14,14 @@
   --c3-soft: color-mix(in srgb, var(--c3) 18%, white);
   --c4-soft: color-mix(in srgb, var(--c4) 18%, white);
   --c5-soft: color-mix(in srgb, var(--c5) 18%, white);
-    
-  --font-heading: var(--font-dolce);
-  --font-body: var(--font-dolce);
+
+  /* Fonts */
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
 
   /* ===== GLOBAL UI TOKENS ===== */
-  --bg: var(--c4);        /* ✅ all backgrounds default to color 4 */
-  --panel-bg: var(--c4);  /* ✅ cards/glass use this too */
+  --bg: var(--c4);
+  --panel-bg: var(--c4);
 
   --text: #0b0b0c;
   --muted: rgba(11, 11, 12, 0.68);
@@ -35,7 +32,30 @@
 
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
 
-  /* Clickable colors (so you can change behavior globally) */
   --link: var(--c1);
   --link-hover: var(--c3);
+}
+
+/* ===== Subtle Background Animation ===== */
+@keyframes subtleBackgroundShift {
+  0%   { background-color: var(--c4); }
+  50%  { background-color: var(--c5); }
+  100% { background-color: var(--c4); }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+  opacity: 0.03;
+  z-index: 0;
+}
+
+main, header, footer, .app, .container {
+  position: relative;
+  z-index: 1;
 }

@@ -1,15 +1,23 @@
 @import "../styles/theme.css";
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
   margin: 0;
-  background: var(--bg);                 /* ✅ color 4 */
-  color: var(--text);
-  font-family: var(--font-body, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial);
+  animation: subtleBackgroundShift 120s ease-in-out infinite;
+  font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 1rem;
   line-height: 1.65;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg);
 }
 
 .container {
@@ -21,8 +29,7 @@ body {
   min-height: calc(100vh - 160px);
 }
 
-/* ===== CLICKABLE DEFAULTS =====
-   Most clickable things = color1, hover = color5 */
+/* ===== CLICKABLE DEFAULTS ===== */
 a {
   color: var(--link);
   text-decoration: none;
@@ -35,7 +42,7 @@ a:hover {
 /* Buttons */
 .btn {
   border: 1px solid color-mix(in srgb, var(--link) 65%, rgba(11,11,12,0.15));
-  background: var(--panel-bg); /* ✅ background color 4 */
+  background: var(--panel-bg);
   color: var(--link);
   border-radius: var(--radius-soft);
   padding: 10px 14px;
@@ -50,7 +57,6 @@ a:hover {
   background: color-mix(in srgb, var(--panel-bg) 92%, white);
 }
 
-/* If you have any <button> that isn’t using .btn, give it the same behavior */
 button {
   color: var(--link);
   transition: color 160ms ease;
@@ -59,7 +65,7 @@ button:hover {
   color: var(--link-hover);
 }
 
-/* Type */
+/* Typography */
 .h1 {
   font-family: var(--font-heading, var(--font-body));
   font-size: clamp(2.2rem, 4vw, 3.4rem);
@@ -72,14 +78,16 @@ button:hover {
   letter-spacing: -0.015em;
   margin: 0;
 }
-.muted { color: var(--muted); }
+.muted {
+  color: var(--muted);
+}
 
-/* ===== Panels: backgrounds are color 4 ===== */
+/* Panels */
 .card {
   border-radius: var(--radius-hard);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  background: var(--panel-bg); /* ✅ color 4 */
+  background: var(--panel-bg);
   padding: 16px;
 }
 
@@ -89,7 +97,6 @@ button:hover {
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  /* ✅ still “glass”, but based on color 4 */
   background: linear-gradient(
     135deg,
     color-mix(in srgb, var(--c4) 86%, transparent),
@@ -97,7 +104,7 @@ button:hover {
   );
 }
 
-/* Simple form fields */
+/* Forms */
 .field {
   width: 100%;
   border: 1px solid rgba(11,11,12,0.20);

@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { Inter } from "next/font/google";
-import { dolceVita } from "./fonts";
 
 // Body font (keep something super readable)
 const bodyFont = Inter({
@@ -18,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="da" className={`${bodyFont.variable} ${dolceVita.variable}`}>
+    <html lang="da" className={`${bodyFont.variable}`}>
       <body>
         <Header />
         <main className="pageMain">{children}</main>

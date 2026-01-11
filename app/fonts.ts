@@ -1,13 +1,6 @@
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
-export const dolceVita = localFont({
-  src: [
-    {
-      path: "../public/fonts/DolceVita.ttf",
-      weight: "400",
-      style: "normal",
-    },
-  ],
-  variable: "--font-dolce",
-  display: "swap",
+const bodyFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
 });
