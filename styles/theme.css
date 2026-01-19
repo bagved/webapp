@@ -2,9 +2,9 @@
 
 :root {
   /* ===== 5 CORE COLORS ===== */
-  --c1: #3C3C3B; /* Primary – Graphite Gray */
+  --c1: #3C3C3B; /* Primary – Graphite Gray  3c3c3b*/
   --c2: #EDF2F4; /* Secondary – Frost White */
-  --c3: #EF233C; /* Accent – Crimson Red */
+  --c3: #224870; /* Accent – Crimson Red */
   --c4: #F9FAFB; /* Background base */
   --c5: #DDE3E7; /* Background alt (for animation) */
 
