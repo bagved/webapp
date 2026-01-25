@@ -9,7 +9,7 @@ export default function Footer() {
 
       <div className="container">
         {/* Desktop layout: 4 rows, left + centered link + right (only last has ©) */}
-        <div className="ftDesktop" aria-hidden={false}>
+        <div className="ftDesktop">
           <div className="ftRows">
             <div className="ftRow">
               <div className="ftCell ftLeft">CVR: 42497376</div>
@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
 
         {/* Mobile layout: grouped blocks + divider lines (no interleaving) */}
-        <div className="ftMobile" aria-hidden={false}>
+        <div className="ftMobile">
           <div className="ftBlock">
             <div className="ftCell">CVR: 42497376</div>
             <div className="ftCell">Tlf: +45 61 74 64 16</div>
@@ -103,8 +103,9 @@ const css = `
   font-family: var(--font-body);
 }
 
-/* ✅ single source of truth: EXACT same typography everywhere */
+/* ✅ Single source of truth: EXACT same typography everywhere */
 .ftCell{
+  display: block; /* ✅ makes div + link behave the same */
   font-family: var(--font-body);
   font-size: 11px;
   line-height: 1.55;
@@ -113,36 +114,37 @@ const css = `
   color: color-mix(in srgb, var(--c1) 78%, transparent);
 }
 
-/* ✅ enforce links to be IDENTICAL to text (mobile + desktop) */
+/* ✅ Links are typographically identical to .ftCell */
 .ftLink{
+  display: block;          /* ✅ same as .ftCell */
+  color: inherit;
+  text-decoration: none;
+
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
 
-  color: inherit;
-  text-decoration: none;
+  /* ✅ underline effect without changing line height */
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--c3) 22%, transparent),
+    color-mix(in srgb, var(--c3) 22%, transparent)
+  );
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
 
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
-
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-
-  transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
-  opacity: 0.95;
-}
-.ftLink:hover{
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
-  opacity: 1;
+  transition: color 160ms ease, background-size 160ms ease;
 }
 
-/* extra safety: mobile anchors inherit exactly */
-.ftMobile a{
-  font: inherit;
+/* desktop hover only */
+@media (hover:hover){
+  .ftLink:hover{
+    color: var(--c3);
+    background-size: 100% 1px;
+  }
 }
 
 /* Desktop (default) */
