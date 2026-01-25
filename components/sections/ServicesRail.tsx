@@ -61,6 +61,7 @@ export default function ServicesRail() {
   const [hasOverflow, setHasOverflow] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  // ✅ keep these for the bar + overflow state (unchanged)
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
@@ -84,18 +85,66 @@ export default function ServicesRail() {
     };
   }, []);
 
+  // ✅ NEW: auto-highlight the tile that's visually centered (mobile friendly)
+  useEffect(() => {
+    const el = railRef.current;
+    if (!el) return;
+
+    let raf = 0;
+
+    const pickCentered = () => {
+      const railRect = el.getBoundingClientRect();
+      const railCenter = railRect.left + railRect.width / 2;
+
+      const cards = Array.from(el.querySelectorAll<HTMLElement>("[data-card]"));
+      if (!cards.length) return;
+
+      let bestIdx = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
+
+      for (const card of cards) {
+        const r = card.getBoundingClientRect();
+        const c = r.left + r.width / 2;
+        const d = Math.abs(c - railCenter);
+
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = Number(card.dataset.idx || "0");
+        }
+      }
+
+      setActive(bestIdx);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(pickCentered);
+    };
+
+    // run once on mount + after resize (so the correct one is highlighted)
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(pickCentered);
+    };
+
+    pickCentered();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("scroll", onScroll as any);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
   return (
     <section className="srv section" id="services" aria-label="Services">
       <style>{css}</style>
 
       <div className="fullBleed">
         <div className="wrap">
-          <div
-            ref={railRef}
-            className="rail"
-            role="list"
-            aria-label="Service tiles"
-          >
+          <div ref={railRef} className="rail" role="list" aria-label="Service tiles">
             {items.map((it, i) => {
               const isActive = i === active;
 
@@ -106,15 +155,13 @@ export default function ServicesRail() {
                   className={`tile ${isActive ? "active" : "idle"}`}
                   role="listitem"
                   data-card
+                  data-idx={i}
                   onMouseEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onClick={() => setActive(i)}
                 >
                   <div className="media" aria-hidden>
-                    <div
-                      className="img"
-                      style={{ backgroundImage: `url(${it.img})` }}
-                    />
+                    <div className="img" style={{ backgroundImage: `url(${it.img})` }} />
                     <div className="fade" />
                   </div>
 
