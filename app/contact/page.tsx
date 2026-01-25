@@ -1,93 +1,48 @@
-"use client";
 
-export default function ContactPage() {
+export default function CookiesPage() {
   return (
-    <main className="section">
-      <div className="container">
-        <div className="h">Kontakt</div>
-
-        <div style={{ height: 18 }} />
-
-        <div style={{ display:"grid", gridTemplateColumns:"minmax(260px, 36%) 1fr", gap:18, alignItems:"start" }}>
-          <aside className="box pad">
-            <div style={{ display:"grid", gap:10 }}>
-              <div className="h">BAGVED</div>
-              <div className="t14">CVR: 42497376</div>
-              <div className="t14">Telefon: +45 61 74 64 16</div>
-              <div className="t14">Email: info@bagved.dk</div>
-              <div className="t14">Frederiksvej 32, st. th., 2000 Frederiksberg</div>
-            </div>
-          </aside>
-
-          <section className="box pad">
-            <form onSubmit={(e) => e.preventDefault()} style={{ display:"grid", gap:14 }}>
-              <Row3 />
-
-              <div style={{ display:"grid", gap:8 }}>
-                <label className="label">Hvem er du</label>
-                <select className="field" defaultValue="">
-                  <option value="" disabled>Vælg…</option>
-                  <option>Virksomhed</option>
-                  <option>Selskab</option>
-                  <option>Samarbejdspartner</option>
-                  <option>FTP elev</option>
-                  <option>Andet</option>
-                </select>
-              </div>
-
-              <div style={{ display:"grid", gap:8 }}>
-                <label className="label">Hvad handler det om</label>
-                <select className="field" defaultValue="">
-                  <option value="" disabled>Vælg…</option>
-                  <option>Livestream</option>
-                  <option>Reklamefilm</option>
-                  <option>Lyd og Lys</option>
-                </select>
-              </div>
-
-              <div style={{ display:"grid", gap:8 }}>
-                <label className="label">Besked</label>
-                <textarea className="field" rows={8} placeholder="Skriv…" />
-              </div>
-
-              <div style={{ display:"flex", justifyContent:"flex-end" }}>
-                <button className="btn" type="submit">Send</button>
-              </div>
-            </form>
-          </section>
-
-          <style jsx>{`
-            @media (max-width: 900px){
-              div[style*="grid-template-columns"]{ grid-template-columns: 1fr !important; }
-            }
-          `}</style>
-        </div>
-      </div>
-    </main>
-  );
-}
-
-function Row3() {
-  return (
-    <div style={{ display:"grid", gap:14, gridTemplateColumns:"repeat(3, minmax(0, 1fr))" }}>
-      <div style={{ display:"grid", gap:8 }}>
-        <label className="label">Navn</label>
-        <input className="field" placeholder="Dit navn" />
-      </div>
-      <div style={{ display:"grid", gap:8 }}>
-        <label className="label">Telefon</label>
-        <input className="field" placeholder="+45 ..." />
-      </div>
-      <div style={{ display:"grid", gap:8 }}>
-        <label className="label">Email</label>
-        <input className="field" placeholder="dig@firma.dk" />
+    <div className="container" style={{ padding: "96px 0" }}>
+      <div
+        style={{
+          fontSize: "var(--t11)",
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          fontWeight: 900,
+          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
+        }}
+      >
+        Cookies
       </div>
 
-      <style jsx>{`
-        @media (max-width: 820px){
-          div{ grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <h1
+        style={{
+          margin: "14px 0 0",
+          fontFamily: "var(--font-heading)",
+          fontWeight: 350,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.12,
+          fontSize: "clamp(28px, 3.2vw, 44px)",
+          color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+          textTransform: "none",
+        }}
+      >
+        Cookie Policy
+      </h1>
+
+      <div
+        style={{
+          marginTop: 18,
+          fontSize: "var(--t14)",
+          lineHeight: 1.7,
+          color: "color-mix(in srgb, var(--c1) 72%, transparent)",
+          maxWidth: "70ch",
+        }}
+      >
+        <p style={{ margin: 0 }}>
+          Indhold kommer snart. (Du kan erstatte dette med din rigtige cookie
+          policy senere.)
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,94 +1,47 @@
-const cases = [
-  {
-    img: "/cases/1.jpg",
-    title: "Case",
-    subtitle: "Underoverskrift",
-    text: "Tekst",
-  },
-  {
-    img: "/cases/2.jpg",
-    title: "Case",
-    subtitle: "Underoverskrift",
-    text: "Tekst",
-  },
-  {
-    img: "/cases/3.jpg",
-    title: "Case",
-    subtitle: "Underoverskrift",
-    text: "Tekst",
-  },
-];
-
-export default function CasesPage() {
+export default function CookiesPage() {
   return (
-    <main className="section">
-      <style>{css}</style>
-
-      <div className="container">
-        <div className="h">Cases</div>
-
-        <div className="stack">
-          {cases.map((c, idx) => (
-            <article key={idx} className="row">
-              <div className={`imgBox box ${idx % 2 ? "right" : "left"}`}>
-                <img src={c.img} alt="" loading="lazy" />
-                <div className="dots" aria-hidden />
-              </div>
-
-              <div className={`txt box pad ${idx % 2 ? "left" : "right"}`}>
-                <div className="h">{c.title}</div>
-                <div className="t14 muted">{c.subtitle}</div>
-                <div className="t14">{c.text}</div>
-              </div>
-            </article>
-          ))}
-        </div>
+    <div className="container" style={{ padding: "96px 0" }}>
+      <div
+        style={{
+          fontSize: "var(--t11)",
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          fontWeight: 900,
+          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
+        }}
+      >
+        Cookies
       </div>
-    </main>
+
+      <h1
+        style={{
+          margin: "14px 0 0",
+          fontFamily: "var(--font-heading)",
+          fontWeight: 350,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.12,
+          fontSize: "clamp(28px, 3.2vw, 44px)",
+          color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+          textTransform: "none",
+        }}
+      >
+        Cookie Policy
+      </h1>
+
+      <div
+        style={{
+          marginTop: 18,
+          fontSize: "var(--t14)",
+          lineHeight: 1.7,
+          color: "color-mix(in srgb, var(--c1) 72%, transparent)",
+          maxWidth: "70ch",
+        }}
+      >
+        <p style={{ margin: 0 }}>
+          Indhold kommer snart. (Du kan erstatte dette med din rigtige cookie
+          policy senere.)
+        </p>
+      </div>
+    </div>
   );
 }
-
-const css = `
-.stack{ display:grid; gap: 18px; margin-top: 18px; }
-
-.row{
-  display:grid;
-  grid-template-columns: minmax(260px, 46%) 1fr;
-  gap: 18px;
-  align-items:start;
-}
-
-.imgBox{ position:relative; overflow:hidden; }
-.imgBox img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  aspect-ratio: 4 / 3;
-}
-.dots{
-  position:absolute;
-  left: 12px;
-  bottom: 12px;
-  width: 120px;
-  height: 120px;
-  background-image: radial-gradient(color-mix(in srgb, var(--c3) 26%, transparent) 1px, transparent 1px);
-  background-size: 6px 6px;
-  opacity: 0.45;
-}
-
-@media (min-width: 901px){
-  .imgBox.right{ order: 2; }
-  .txt.left{ order: 1; }
-}
-
-.txt{
-  display:grid;
-  gap: 10px;
-}
-.txt .t14{ color: color-mix(in srgb, var(--text) 88%, transparent); }
-
-@media (max-width: 900px){
-  .row{ grid-template-columns: 1fr; }
-}
-`;

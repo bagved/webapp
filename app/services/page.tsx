@@ -1,37 +1,48 @@
-import Link from "next/link";
 
-const services = [
-  { id: "livestream", title: "Livestream" },
-  { id: "reklamefilm", title: "Reklamefilm" },
-  { id: "lyd-og-lys", title: "Lyd og Lys" },
-];
-
-export default function ServicesPage() {
+export default function CookiesPage() {
   return (
-    <main className="section">
-      <div className="container">
-        <div className="h">Ydelser</div>
-
-        <div style={{ height: 16 }} />
-
-        <nav className="box pad" style={{ display:"flex", gap:10, flexWrap:"wrap", alignItems:"center" }}>
-          {services.map(s => (
-            <Link key={s.id} className="btn" href={`#${s.id}`}>{s.title}</Link>
-          ))}
-        </nav>
-
-        <div style={{ height: 18 }} />
-
-        <div style={{ display:"grid", gap:18 }}>
-          {services.map(s => (
-            <section key={s.id} id={s.id} className="box pad">
-              <div style={{ display:"grid", gap:10 }}>
-                <div className="h">{s.title}</div>
-              </div>
-            </section>
-          ))}
-        </div>
+    <div className="container" style={{ padding: "96px 0" }}>
+      <div
+        style={{
+          fontSize: "var(--t11)",
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          fontWeight: 900,
+          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
+        }}
+      >
+        Cookies
       </div>
-    </main>
+
+      <h1
+        style={{
+          margin: "14px 0 0",
+          fontFamily: "var(--font-heading)",
+          fontWeight: 350,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.12,
+          fontSize: "clamp(28px, 3.2vw, 44px)",
+          color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+          textTransform: "none",
+        }}
+      >
+        Cookie Policy
+      </h1>
+
+      <div
+        style={{
+          marginTop: 18,
+          fontSize: "var(--t14)",
+          lineHeight: 1.7,
+          color: "color-mix(in srgb, var(--c1) 72%, transparent)",
+          maxWidth: "70ch",
+        }}
+      >
+        <p style={{ margin: 0 }}>
+          Indhold kommer snart. (Du kan erstatte dette med din rigtige cookie
+          policy senere.)
+        </p>
+      </div>
+    </div>
   );
 }
