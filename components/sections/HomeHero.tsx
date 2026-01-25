@@ -85,7 +85,7 @@ const css = `
 /* smaller line */
 .heroSub{
   margin-top: clamp(10px, 1.4vw, 14px);
-  transform: translateY(-6px);
+  transform: translateY(-14px);
   font-family: var(--font-body);
   color: var(--c3);
   font-weight: 500;
