@@ -7,6 +7,7 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* Desktop grid */
 .bar{
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -15,7 +16,7 @@
   padding: 14px 0;
 }
 
-/* LEFT: logo */
+/* LEFT */
 .left{
   display: inline-flex;
   align-items: center;
@@ -27,7 +28,6 @@
   align-items: center;
   gap: 10px;
   color: var(--c1);
-  text-decoration: none;
 }
 
 .logoMark{
@@ -43,15 +43,12 @@
   letter-spacing: -0.02em;
 }
 
-/* CENTER: menu (desktop) */
+/* CENTER: desktop menu */
 .nav{
   justify-self: center;
   display: inline-flex;
   align-items: center;
-
-  /* ✅ more space */
-  gap: clamp(22px, 3.2vw, 44px);
-
+  gap: clamp(20px, 3.2vw, 38px);
   font-size: var(--t11);
   font-weight: 900;
   text-transform: uppercase;
@@ -63,7 +60,6 @@
   opacity: 0.86;
   padding: 8px 2px;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
-  text-decoration: none;
 }
 .nav a:hover{
   opacity: 1;
@@ -71,7 +67,7 @@
   transform: translateY(-1px);
 }
 
-/* RIGHT: language (for now: DA only, no dropdown) */
+/* RIGHT: language */
 .right{
   justify-self: end;
   display: inline-flex;
@@ -86,29 +82,25 @@
   letter-spacing: 0.14em;
   color: var(--c1);
   opacity: 0.86;
-  padding: 8px 0;
 }
 
-/* MOBILE: hamburger + dropdown */
+/* Mobile menu button (hidden on desktop) */
 .menuButton{
-  display: none; /* desktop hidden */
-  align-items: center;
-  gap: 10px;
+  display: none;
+  justify-self: center;
 
   border: 0;
   background: transparent;
   padding: 8px 0;
-  margin: 0;
-
-  cursor: pointer;
-  color: var(--c1);
 
   font-size: var(--t11);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 
-  opacity: 0.88;
+  color: var(--c1);
+  cursor: pointer;
+  opacity: 0.86;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
 .menuButton:hover{
@@ -117,38 +109,15 @@
   transform: translateY(-1px);
 }
 
-.icon{
-  position: relative;
-  width: 18px;
-  height: 12px;
-  display: inline-block;
-}
-
-.line{
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: currentColor;
-  transition: transform 180ms ease, opacity 180ms ease;
-}
-
-.line:nth-child(1){ top: 0; }
-.line:nth-child(2){ top: 5px; }
-.line:nth-child(3){ top: 10px; }
-
-/* hamburger -> X */
-.lineTopOpen{ transform: translateY(5px) rotate(45deg); }
-.lineMidOpen{ opacity: 0; }
-.lineBotOpen{ transform: translateY(-5px) rotate(-45deg); }
-
-/* dropdown panel */
+/* Mobile dropdown */
 .mobileNav{
   display: none;
   overflow: hidden;
+
   max-height: 0;
   opacity: 0;
   transform: translateY(-6px);
+
   transition: max-height 220ms ease, opacity 160ms ease, transform 160ms ease;
 }
 
@@ -159,55 +128,60 @@
 }
 
 .mobileNavInner{
-  margin-top: 10px;
+  margin-top: 8px;
   padding: 10px 0 12px;
-
   display: grid;
-  gap: 8px;
+  gap: 10px;
 
-  /* ✅ just a subtle film, no “card” feel */
-  background: color-mix(in srgb, var(--c5) 22%, transparent);
-  border: 1px solid color-mix(in srgb, var(--c1) 10%, transparent);
-  border-radius: 0;
+  /* subtle tint, no “box” vibe */
+  background: color-mix(in srgb, var(--c2) 42%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--c1) 12%, transparent);
 }
 
 .mobileNavInner a{
   color: var(--c1);
-  opacity: 0.88;
-
-  text-decoration: none;
-  font-size: var(--t11);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
+  font-size: var(--t11);
 
-  padding: 10px 12px;
-  transition: opacity 160ms ease, transform 160ms ease, color 160ms ease, background 160ms ease;
+  padding: 10px 0;
+  opacity: 0.9;
+
+  transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
-
 .mobileNavInner a:hover{
   opacity: 1;
   color: var(--c3);
   transform: translateY(-1px);
-  background: color-mix(in srgb, var(--c3) 6%, transparent);
 }
 
-/* Mobile breakpoint */
+/* ✅ Mobile layout:
+   logo small left, menu centered, DA right */
 @media (max-width: 820px){
   .bar{
-    grid-template-columns: auto 1fr auto; /* left: logo, center: spacer, right: menu btn */
-    align-items: center;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    padding: 12px 0;
   }
 
+  /* hide desktop nav */
   .nav{
-    display: none; /* hide desktop nav */
+    display: none;
   }
 
+  /* show menu button in the center */
   .menuButton{
-    display: inline-flex; /* show hamburger */
+    display: inline-flex;
   }
 
-  .mobileNav{
-    display: block;
+  /* make logo smaller on mobile */
+  .logoMark{
+    width: 11px;
+    height: 11px;
+  }
+  .logoText{
+    font-size: var(--t11);
+    letter-spacing: -0.01em;
   }
 }

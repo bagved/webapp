@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
 
+/** Global logo value */
 const BRAND = "BAGVED";
 
 export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
 
-  // close dropdown on resize to desktop
+  // close on resize to desktop
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 820) setNavOpen(false);
@@ -19,7 +20,7 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // close on Escape
+  // close on escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setNavOpen(false);
@@ -28,7 +29,7 @@ export default function Header() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const close = () => setNavOpen(false);
+  const closeAll = () => setNavOpen(false);
 
   return (
     <header className={styles.wrap}>
@@ -36,57 +37,53 @@ export default function Header() {
         <div className={styles.bar}>
           {/* Left: logo */}
           <div className={styles.left}>
-            <Link href="/" className={styles.logo} aria-label={BRAND} onClick={close}>
+            <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
               <span className={styles.logoMark} aria-hidden />
               <span className={styles.logoText}>{BRAND}</span>
             </Link>
           </div>
 
-          {/* Center: desktop menu */}
+          {/* Center: desktop nav */}
           <nav className={styles.nav} aria-label="Primary">
-            <Link href="/" onClick={close}>FORSIDE</Link>
-            <Link href="/services" onClick={close}>YDELSER</Link>
-            <Link href="/cases" onClick={close}>EKSEMPLER</Link>
-            <Link href="/mission" onClick={close}>MISSION</Link>
-            <Link href="/contact" onClick={close}>KONTAKT</Link>
+            <Link href="/" onClick={closeAll}>FORSIDE</Link>
+            <Link href="/services" onClick={closeAll}>YDELSER</Link>
+            <Link href="/cases" onClick={closeAll}>EKSEMPLER</Link>
+            <Link href="/mission" onClick={closeAll}>MISSION</Link>
+            <Link href="/contact" onClick={closeAll}>KONTAKT</Link>
           </nav>
 
-          {/* Right: DA only + mobile menu button */}
+          {/* Center: mobile menu button (only visible on mobile) */}
+          <button
+            type="button"
+            className={styles.menuButton}
+            aria-label={navOpen ? "Luk menu" : "Åbn menu"}
+            aria-expanded={navOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setNavOpen((v) => !v)}
+          >
+            аа MENU
+          </button>
+
+          {/* Right: language (DA only for now, no dropdown) */}
           <div className={styles.right}>
             <span className={styles.langStatic} aria-label="Language">
               DA
             </span>
-
-            <button
-              type="button"
-              className={styles.menuButton}
-              aria-label={navOpen ? "Close menu" : "Open menu"}
-              aria-expanded={navOpen}
-              aria-controls="mobile-nav"
-              onClick={() => setNavOpen((v) => !v)}
-            >
-              <span className={styles.icon} aria-hidden>
-                <span className={`${styles.line} ${navOpen ? styles.lineTopOpen : ""}`} />
-                <span className={`${styles.line} ${navOpen ? styles.lineMidOpen : ""}`} />
-                <span className={`${styles.line} ${navOpen ? styles.lineBotOpen : ""}`} />
-              </span>
-              Menu
-            </button>
           </div>
         </div>
 
-        {/* Mobile dropdown nav */}
+        {/* Mobile dropdown */}
         <div
           id="mobile-nav"
           className={`${styles.mobileNav} ${navOpen ? styles.mobileNavOpen : ""}`}
           aria-hidden={!navOpen}
         >
           <div className={styles.mobileNavInner}>
-            <Link href="/" onClick={close}>FORSIDE</Link>
-            <Link href="/services" onClick={close}>YDELSER</Link>
-            <Link href="/cases" onClick={close}>EKSEMPLER</Link>
-            <Link href="/mission" onClick={close}>MISSION</Link>
-            <Link href="/contact" onClick={close}>KONTAKT</Link>
+            <Link href="/" onClick={closeAll}>FORSIDE</Link>
+            <Link href="/services" onClick={closeAll}>YDELSER</Link>
+            <Link href="/cases" onClick={closeAll}>EKSEMPLER</Link>
+            <Link href="/mission" onClick={closeAll}>MISSION</Link>
+            <Link href="/contact" onClick={closeAll}>KONTAKT</Link>
           </div>
         </div>
       </Container>
