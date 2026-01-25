@@ -22,35 +22,31 @@ export default function VideoPeek() {
 }
 
 const css = `
-/*
-  More air:
-  - softer overlap
-  - more top/bottom whitespace
-*/
 .videoPeek{
-  margin-top: clamp(-92px, -7vh, -48px); /* less aggressive peek */
-  padding-top: clamp(26px, 4vh, 44px);   /* more air above */
+  margin-top: clamp(-92px, -7vh, -48px);
+  padding-top: clamp(26px, 4vh, 44px);
   padding-bottom: clamp(72px, 9vw, 140px);
 }
 
-/* Outer “breathing room” around the framed video */
+/* Outer breathing room */
 .videoOuter{
-  padding: clamp(14px, 2.6vw, 26px);     /* air around */
+  padding: clamp(14px, 2.6vw, 26px);
 }
 
-/* Frame: clean edge, not a card */
+/* Frame: NO border. Clean cut. */
 .videoFrame{
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
 
+  border: 0;            /* ✅ remove frame border */
+  outline: 0;
   border-radius: 0;
-  border: 1px solid var(--border);
   background: transparent;
 }
 
-/* Full bleed iframe */
+/* Vimeo iframe */
 .video{
   position: absolute;
   inset: 0;
@@ -66,11 +62,21 @@ const css = `
     padding-top: 18px;
     padding-bottom: 84px;
   }
+
   .videoOuter{
     padding: 12px;
   }
+
   .videoFrame{
     aspect-ratio: 4 / 3;
+  }
+
+  /* ✅ slight overscan to avoid “edge lines” on mobile */
+  .video{
+    width: 102%;
+    height: 102%;
+    left: -1%;
+    top: -1%;
   }
 }
 `;

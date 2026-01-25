@@ -9,9 +9,14 @@ body{
   font-size: var(--t16);
   line-height: 1.65;
   color: var(--text);
-  background: var(--bg);
-  animation: subtleBackgroundShift 120s ease-in-out infinite;
+
+  /* ✅ use warm bg (driven by the keyframes) */
+  background: var(--bg-warm-a);
+
+  /* ✅ slower + more ambient */
+  animation: subtleBackgroundShift 180s linear infinite;
 }
+
 
 a{
   color: var(--link);

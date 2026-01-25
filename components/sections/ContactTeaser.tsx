@@ -14,16 +14,13 @@ export default function ContactTeaserSection() {
           <div className="ctLeft">
             <h2 className="ctTitle">
               <span className="ctTitleStatic">Skriv til os</span>
-              <span className="ctTitleLive">
-                {" "}
-                <TypeLine
-                  phrases={[
-                    "her — eller ring på +45 61 74 64 16",
-                    "på info@bagved.com",
-                    "hvor end du foretrækker det!",
-                  ]}
-                />
-              </span>
+              <TypeLine
+                phrases={[
+                  "her - eller ring på +45 61 74 64 16",
+                  "på info@bagved.com",
+                  "hvor end du foretrækker det!",
+                ]}
+              />
             </h2>
           </div>
 
@@ -131,28 +128,16 @@ function TypeLine({ phrases }: { phrases: string[] }) {
     return () => window.clearTimeout(t);
   }, [txt, phrase, phase, phrases.length]);
 
-  const longestPhrase = longest(phrases);
-
   return (
     <span className="tw" aria-label="Kontaktmuligheder">
-      {/* invisible longest phrase to lock width */}
-      <span className="twMeasure" aria-hidden>
-        {longestPhrase}
-      </span>
-
-      {/* actual typing overlays measure */}
+      {/* ✅ Leading space lives here so it’s truly “in continuation” */}
       <span className="twText">
+        {" "}
         {txt}
         <span className="twCursor" aria-hidden />
       </span>
     </span>
   );
-}
-
-function longest(arr: string[]) {
-  let best = "";
-  for (const s of arr) if (s.length > best.length) best = s;
-  return best;
 }
 
 /* ---------------- Lined fields ---------------- */
@@ -213,49 +198,39 @@ const css = `
 /* LEFT */
 .ctLeft{
   padding-top: 6px;
+
+  /* ✅ fixed “line length” so wrapping feels intentional and consistent */
+  max-width: 52ch;
 }
 
-/* ✅ One consistent weight across BOTH parts */
 .ctTitle{
   margin: 0;
   font-family: var(--font-heading);
-  font-weight: 350; /* ✅ same for static + typing */
+  font-weight: 350;
   letter-spacing: -0.02em;
   line-height: 1.18;
   font-size: clamp(28px, 3.0vw, 44px);
   color: color-mix(in srgb, var(--c1) 92%, transparent);
+
+  /* ✅ wraps like normal text, next line starts under “Skriv” */
+  white-space: normal;
 }
 
 .ctTitleStatic{
-  font-weight: inherit; /* ✅ identical */
+  font-weight: inherit;
 }
 
-.ctTitleLive{
-  font-weight: inherit; /* ✅ identical */
-  color: color-mix(in srgb, var(--c1) 86%, transparent);
-  display: inline;      /* ✅ keep it in direct flow */
-}
-
-/* Typewriter: keep it inline + lock width without affecting layout */
 .tw{
-  position: relative;
-  display: inline-block; /* ✅ behaves like text */
-  vertical-align: baseline;
+  display: inline; /* ✅ behave like normal text */
 }
 
-/* Invisible longest phrase locks width, but doesn’t push layout around */
-.twMeasure{
-  visibility: hidden;
-  white-space: normal;
-  max-width: min(44ch, 60vw);
-}
-
-/* Actual typing overlays */
 .twText{
-  position: absolute;
-  inset: 0;
-  white-space: normal;  /* ✅ can wrap instead of widening */
-  max-width: min(44ch, 60vw);
+  display: inline;
+  color: color-mix(in srgb, var(--c1) 86%, transparent);
+
+  /* ✅ allow nice wrapping instead of pushing layout */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Cursor: thinner and more “typographic” */
@@ -398,17 +373,18 @@ const css = `
   .ctGrid{
     grid-template-columns: 1fr;
   }
+
+  .ctLeft{
+    max-width: 100%;
+  }
+
   .ctPanel{
     padding: 22px;
   }
+
   .row.two{
     grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .twMeasure,
-  .twText{
-    max-width: 100%;
   }
 }
 `;

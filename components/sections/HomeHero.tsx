@@ -5,12 +5,21 @@ export default function HomeHero() {
 
       <div className="container heroWrap">
         <div className="heroGrid">
-          {/* LEFT: landscape, lower */}
-          <div className="imgFrame left" aria-hidden>
-            <div className="imgBg leftBg" />
+          {/* LEFT COLUMN */}
+          <div className="leftCol">
+            <div className="heroText" aria-hidden>
+              <div className="heroBig">BAGVED det gode udtryk.</div>
+              <div className="heroSub">
+                Vi løfter produktionen fra start til slut.
+              </div>
+            </div>
+
+            <div className="imgFrame left" aria-hidden>
+              <div className="imgBg leftBg" />
+            </div>
           </div>
 
-          {/* RIGHT: portrait, higher, but CONTROLLED height */}
+          {/* RIGHT: portrait */}
           <div className="imgFrame right" aria-hidden>
             <div className="imgBg rightBg" />
           </div>
@@ -21,7 +30,6 @@ export default function HomeHero() {
 }
 
 const css = `
-/* As before: airy “gallery” hero */
 .homeHero{
   height: clamp(420px, 60vh, 720px);
   padding: 22px 0 0;
@@ -33,7 +41,6 @@ const css = `
   align-items: stretch;
 }
 
-/* Big air between */
 .heroGrid{
   height: 100%;
   display: grid;
@@ -42,16 +49,61 @@ const css = `
   align-items: start;
 }
 
-/* Shared frame */
+.leftCol{
+  position: relative;
+  height: 100%;
+  display: grid;
+  align-content: start;
+
+  /* ✅ allow the long text to flow visually without clipping */
+  overflow: visible;
+}
+
+/* ✅ lines are “double length” / long editorial measure */
+.heroText{
+  position: absolute;
+  left: 0;
+  top: clamp(8px, 1.2vh, 14px);
+
+  /* long line length (feels ~2x compared to the left frame) */
+  width: min(72ch, calc(100vw - 80px));
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* BIG line */
+.heroBig{
+  font-family: var(--font-body);
+  color: var(--c3);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  font-size: clamp(34px, 4.2vw, 64px);
+  text-wrap: balance;
+}
+
+/* smaller line */
+.heroSub{
+  margin-top: clamp(10px, 1.4vw, 14px);
+  font-family: var(--font-body);
+  color: var(--c3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  font-size: clamp(14px, 1.35vw, 18px);
+  opacity: 0.92;
+  text-wrap: balance;
+}
+
+/* Frames */
 .imgFrame{
   position: relative;
-  overflow: hidden;              /* ✅ always crops */
+  overflow: hidden;
   border-radius: 0;
   border: 1px solid var(--border);
   background: transparent;
 }
 
-/* Image layer */
 .imgBg{
   position: absolute;
   inset: 0;
@@ -61,27 +113,26 @@ const css = `
   filter: saturate(1.02) contrast(1.02);
 }
 
-/* LEFT: landscape, placed lower */
+/* LEFT image */
 .left{
   width: min(760px, 100%);
-  height: clamp(220px, 34vh, 360px);  /* ✅ controlled “landscape” height */
+  height: clamp(220px, 34vh, 360px);
   justify-self: start;
   margin-top: clamp(90px, 10vh, 160px);
 }
 
-/* RIGHT: portrait, placed higher, goes LOWER than left BUT stops */
+/* RIGHT image */
 .right{
   width: min(620px, 100%);
-  height: clamp(320px, 52vh, 640px);  /* ✅ taller than left, still finite */
+  height: clamp(320px, 52vh, 640px);
   justify-self: end;
   margin-top: clamp(18px, 2.5vh, 46px);
 }
 
-/* Tune the crop so portrait feels right */
 .leftBg{ background-image: url("/hero-left.jpg"); background-position: center 45%; }
 .rightBg{ background-image: url("/hero-right.jpg"); background-position: center 22%; }
 
-/* Mobile: stack */
+/* Mobile */
 @media (max-width: 900px){
   .homeHero{
     height: auto;
@@ -93,15 +144,33 @@ const css = `
     row-gap: 18px;
   }
 
+  .heroText{
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-bottom: 14px;
+    pointer-events: auto;
+  }
+
+  .heroBig{
+    font-size: clamp(30px, 9vw, 44px);
+    line-height: 1.06;
+  }
+
+  .heroSub{
+    font-size: 14px;
+  }
+
   .left{
     width: 100%;
-    height: 220px;
-    margin-top: 40px;
+    height: 240px;
+    margin-top: 10px;
   }
 
   .right{
     width: 100%;
-    height: 360px; /* portrait vibe, still controlled */
+    height: 360px;
     margin-top: 0px;
   }
 }

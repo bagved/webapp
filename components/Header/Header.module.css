@@ -27,6 +27,7 @@
   align-items: center;
   gap: 10px;
   color: var(--c1);
+  text-decoration: none;
 }
 
 .logoMark{
@@ -42,16 +43,19 @@
   letter-spacing: -0.02em;
 }
 
-/* CENTER: menu */
+/* CENTER: menu (desktop) */
 .nav{
   justify-self: center;
   display: inline-flex;
   align-items: center;
-  gap: clamp(18px, 2.8vw, 34px); /* ✅ a little more space */
+
+  /* ✅ more space */
+  gap: clamp(22px, 3.2vw, 44px);
+
   font-size: var(--t11);
   font-weight: 900;
-  text-transform: uppercase; /* ✅ CAPS */
-  letter-spacing: 0.14em;     /* ✅ global menu feel */
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
 .nav a{
@@ -59,6 +63,7 @@
   opacity: 0.86;
   padding: 8px 2px;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
+  text-decoration: none;
 }
 .nav a:hover{
   opacity: 1;
@@ -66,85 +71,143 @@
   transform: translateY(-1px);
 }
 
-/* RIGHT: language */
+/* RIGHT: language (for now: DA only, no dropdown) */
 .right{
   justify-self: end;
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.langButton{
-  border: 0;                 /* ✅ no box */
-  background: transparent;   /* ✅ no box */
+.langStatic{
+  font-size: var(--t11);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c1);
+  opacity: 0.86;
+  padding: 8px 0;
+}
+
+/* MOBILE: hamburger + dropdown */
+.menuButton{
+  display: none; /* desktop hidden */
+  align-items: center;
+  gap: 10px;
+
+  border: 0;
+  background: transparent;
   padding: 8px 0;
   margin: 0;
+
+  cursor: pointer;
+  color: var(--c1);
 
   font-size: var(--t11);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 
-  color: var(--c1);
-  cursor: pointer;
-  opacity: 0.86;
+  opacity: 0.88;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
-.langButton:hover{
+.menuButton:hover{
   opacity: 1;
   color: var(--c3);
   transform: translateY(-1px);
 }
 
-.langMenu{
+.icon{
+  position: relative;
+  width: 18px;
+  height: 12px;
+  display: inline-block;
+}
+
+.line{
   position: absolute;
+  left: 0;
   right: 0;
-  top: calc(100% + 6px);
+  height: 2px;
+  background: currentColor;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.line:nth-child(1){ top: 0; }
+.line:nth-child(2){ top: 5px; }
+.line:nth-child(3){ top: 10px; }
+
+/* hamburger -> X */
+.lineTopOpen{ transform: translateY(5px) rotate(45deg); }
+.lineMidOpen{ opacity: 0; }
+.lineBotOpen{ transform: translateY(-5px) rotate(-45deg); }
+
+/* dropdown panel */
+.mobileNav{
+  display: none;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 220ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.mobileNavOpen{
+  max-height: 420px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobileNavInner{
+  margin-top: 10px;
+  padding: 10px 0 12px;
 
   display: grid;
   gap: 8px;
 
-  opacity: 0;
-  transform: translateY(-4px);
-  pointer-events: none;
-  transition: opacity 140ms ease, transform 140ms ease;
+  /* ✅ just a subtle film, no “card” feel */
+  background: color-mix(in srgb, var(--c5) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c1) 10%, transparent);
+  border-radius: 0;
 }
 
-.langMenuOpen{
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+.mobileNavInner a{
+  color: var(--c1);
+  opacity: 0.88;
 
-.langItem{
-  border: 0;                 /* ✅ no box */
-  background: transparent;   /* ✅ no box */
-  padding: 6px 0;
-
-  text-align: right;
+  text-decoration: none;
   font-size: var(--t11);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 
-  color: color-mix(in srgb, var(--c1) 86%, transparent);
-  cursor: pointer;
-  transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
+  padding: 10px 12px;
+  transition: opacity 160ms ease, transform 160ms ease, color 160ms ease, background 160ms ease;
 }
 
-.langItem:hover{
-  color: var(--c3);
+.mobileNavInner a:hover{
   opacity: 1;
+  color: var(--c3);
   transform: translateY(-1px);
+  background: color-mix(in srgb, var(--c3) 6%, transparent);
 }
 
-/* Mobile: keep simple for now (still blank site) */
+/* Mobile breakpoint */
 @media (max-width: 820px){
   .bar{
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto; /* left: logo, center: spacer, right: menu btn */
+    align-items: center;
   }
+
   .nav{
-    display: none;
+    display: none; /* hide desktop nav */
+  }
+
+  .menuButton{
+    display: inline-flex; /* show hamburger */
+  }
+
+  .mobileNav{
+    display: block;
   }
 }

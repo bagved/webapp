@@ -1,33 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
 
-type Lang = "DA" | "EN" | "DE";
-
-/** ✅ Global logo value (change it here, it updates everywhere) */
 const BRAND = "BAGVED";
 
 export default function Header() {
-  const [lang, setLang] = useState<Lang>("DA");
-  const [langOpen, setLangOpen] = useState(false);
-  const langWrapRef = useRef<HTMLDivElement | null>(null);
+  const [navOpen, setNavOpen] = useState(false);
 
-  const otherLangs = useMemo(() => {
-    const all: Lang[] = ["DA", "EN", "DE"];
-    return all.filter((x) => x !== lang);
-  }, [lang]);
-
+  // close dropdown on resize to desktop
   useEffect(() => {
-    const onDown = (e: MouseEvent) => {
-      if (!langWrapRef.current) return;
-      if (!langWrapRef.current.contains(e.target as Node)) setLangOpen(false);
+    const onResize = () => {
+      if (window.innerWidth > 820) setNavOpen(false);
     };
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  // close on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setNavOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const close = () => setNavOpen(false);
 
   return (
     <header className={styles.wrap}>
@@ -35,54 +36,57 @@ export default function Header() {
         <div className={styles.bar}>
           {/* Left: logo */}
           <div className={styles.left}>
-            <Link href="/" className={styles.logo} aria-label={BRAND}>
+            <Link href="/" className={styles.logo} aria-label={BRAND} onClick={close}>
               <span className={styles.logoMark} aria-hidden />
               <span className={styles.logoText}>{BRAND}</span>
             </Link>
           </div>
 
-          {/* Center: menu (CAPS via CSS) */}
+          {/* Center: desktop menu */}
           <nav className={styles.nav} aria-label="Primary">
-            <Link href="/">Home</Link>
-            <Link href="/services">Services</Link>
-            <Link href="/cases">Cases</Link>
-            <Link href="/mission">Mission</Link>
-            <Link href="/contact">Contact</Link>
+            <Link href="/" onClick={close}>FORSIDE</Link>
+            <Link href="/services" onClick={close}>YDELSER</Link>
+            <Link href="/cases" onClick={close}>EKSEMPLER</Link>
+            <Link href="/mission" onClick={close}>MISSION</Link>
+            <Link href="/contact" onClick={close}>KONTAKT</Link>
           </nav>
 
-          {/* Right: language (no boxes) */}
-          <div className={styles.right} ref={langWrapRef}>
+          {/* Right: DA only + mobile menu button */}
+          <div className={styles.right}>
+            <span className={styles.langStatic} aria-label="Language">
+              DA
+            </span>
+
             <button
               type="button"
-              className={styles.langButton}
-              aria-haspopup="menu"
-              aria-expanded={langOpen}
-              onClick={() => setLangOpen((v) => !v)}
+              className={styles.menuButton}
+              aria-label={navOpen ? "Close menu" : "Open menu"}
+              aria-expanded={navOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setNavOpen((v) => !v)}
             >
-              {lang} ▾
+              <span className={styles.icon} aria-hidden>
+                <span className={`${styles.line} ${navOpen ? styles.lineTopOpen : ""}`} />
+                <span className={`${styles.line} ${navOpen ? styles.lineMidOpen : ""}`} />
+                <span className={`${styles.line} ${navOpen ? styles.lineBotOpen : ""}`} />
+              </span>
+              Menu
             </button>
+          </div>
+        </div>
 
-            <div
-              className={`${styles.langMenu} ${langOpen ? styles.langMenuOpen : ""}`}
-              role="menu"
-              aria-label="Language"
-            >
-              {otherLangs.map((l) => (
-                <button
-                  key={l}
-                  type="button"
-                  role="menuitem"
-                  className={styles.langItem}
-                  tabIndex={langOpen ? 0 : -1}
-                  onClick={() => {
-                    setLang(l);
-                    setLangOpen(false);
-                  }}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+        {/* Mobile dropdown nav */}
+        <div
+          id="mobile-nav"
+          className={`${styles.mobileNav} ${navOpen ? styles.mobileNavOpen : ""}`}
+          aria-hidden={!navOpen}
+        >
+          <div className={styles.mobileNavInner}>
+            <Link href="/" onClick={close}>FORSIDE</Link>
+            <Link href="/services" onClick={close}>YDELSER</Link>
+            <Link href="/cases" onClick={close}>EKSEMPLER</Link>
+            <Link href="/mission" onClick={close}>MISSION</Link>
+            <Link href="/contact" onClick={close}>KONTAKT</Link>
           </div>
         </div>
       </Container>
