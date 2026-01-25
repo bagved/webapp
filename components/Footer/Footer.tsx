@@ -113,17 +113,24 @@ const css = `
   color: color-mix(in srgb, var(--c1) 78%, transparent);
 }
 
-/* links must look EXACTLY like text */
+/* ✅ enforce links to be IDENTICAL to text (mobile + desktop) */
 .ftLink{
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+
   color: inherit;
   text-decoration: none;
-  font: inherit;
-  letter-spacing: inherit;
-  font-weight: inherit;
-  line-height: inherit;
+
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
+
   transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
   opacity: 0.95;
 }
@@ -131,6 +138,11 @@ const css = `
   color: var(--c3);
   border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
   opacity: 1;
+}
+
+/* extra safety: mobile anchors inherit exactly */
+.ftMobile a{
+  font: inherit;
 }
 
 /* Desktop (default) */
