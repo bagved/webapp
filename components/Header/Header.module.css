@@ -43,7 +43,7 @@
   letter-spacing: -0.02em;
 }
 
-/* CENTER: desktop menu */
+/* CENTER: desktop nav */
 .nav{
   justify-self: center;
   display: inline-flex;
@@ -67,7 +67,7 @@
   transform: translateY(-1px);
 }
 
-/* RIGHT: language */
+/* RIGHT */
 .right{
   justify-self: end;
   display: inline-flex;
@@ -84,30 +84,52 @@
   opacity: 0.86;
 }
 
-/* Mobile menu button (hidden on desktop) */
+/* Mobile hamburger button (hidden on desktop) */
 .menuButton{
   display: none;
   justify-self: center;
 
   border: 0;
   background: transparent;
-  padding: 8px 0;
-
-  font-size: var(--t11);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-
-  color: var(--c1);
+  padding: 10px 8px;
   cursor: pointer;
+
   opacity: 0.86;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
 .menuButton:hover{
   opacity: 1;
-  color: var(--c3);
   transform: translateY(-1px);
 }
+
+/* Hamburger icon */
+.menuIcon{
+  position: relative;
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+  color: var(--c1);
+}
+
+.line{
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+
+  transition: transform 180ms ease, opacity 180ms ease, background-color 180ms ease;
+}
+
+.line:nth-child(1){ top: 0; }
+.line:nth-child(2){ top: 6px; }
+.line:nth-child(3){ top: 12px; }
+
+/* hamburger -> X */
+.lineTopOpen{ transform: translateY(6px) rotate(45deg); }
+.lineMidOpen{ opacity: 0; }
+.lineBotOpen{ transform: translateY(-6px) rotate(-45deg); }
 
 /* Mobile dropdown */
 .mobileNav{
@@ -133,7 +155,6 @@
   display: grid;
   gap: 10px;
 
-  /* subtle tint, no “box” vibe */
   background: color-mix(in srgb, var(--c2) 42%, transparent);
   border-top: 1px solid color-mix(in srgb, var(--c1) 12%, transparent);
 }
@@ -157,7 +178,7 @@
 }
 
 /* ✅ Mobile layout:
-   logo small left, menu centered, DA right */
+   logo small left, hamburger centered, DA right */
 @media (max-width: 820px){
   .bar{
     grid-template-columns: auto 1fr auto;
@@ -170,9 +191,14 @@
     display: none;
   }
 
-  /* show menu button in the center */
+  /* show hamburger in the center */
   .menuButton{
     display: inline-flex;
+  }
+
+  /* show dropdown container */
+  .mobileNav{
+    display: block;
   }
 
   /* make logo smaller on mobile */

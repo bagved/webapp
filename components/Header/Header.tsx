@@ -1,17 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
 
-/** Global logo value */
 const BRAND = "BAGVED";
 
 export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
 
-  // close on resize to desktop
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 820) setNavOpen(false);
@@ -20,7 +18,6 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // close on escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setNavOpen(false);
@@ -52,7 +49,7 @@ export default function Header() {
             <Link href="/contact" onClick={closeAll}>KONTAKT</Link>
           </nav>
 
-          {/* Center: mobile menu button (only visible on mobile) */}
+          {/* Center: mobile hamburger */}
           <button
             type="button"
             className={styles.menuButton}
@@ -61,10 +58,14 @@ export default function Header() {
             aria-controls="mobile-nav"
             onClick={() => setNavOpen((v) => !v)}
           >
-            аа MENU
+            <span className={styles.menuIcon} aria-hidden>
+              <span className={`${styles.line} ${navOpen ? styles.lineTopOpen : ""}`} />
+              <span className={`${styles.line} ${navOpen ? styles.lineMidOpen : ""}`} />
+              <span className={`${styles.line} ${navOpen ? styles.lineBotOpen : ""}`} />
+            </span>
           </button>
 
-          {/* Right: language (DA only for now, no dropdown) */}
+          {/* Right: language (static for now) */}
           <div className={styles.right}>
             <span className={styles.langStatic} aria-label="Language">
               DA
