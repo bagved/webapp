@@ -1,32 +1,37 @@
-import Container from "../../components/ui/Container";
+import Link from "next/link";
+
+const services = [
+  { id: "livestream", title: "Livestream" },
+  { id: "reklamefilm", title: "Reklamefilm" },
+  { id: "lyd-og-lys", title: "Lyd og Lys" },
+];
 
 export default function ServicesPage() {
   return (
-    <div className="section">
-      <Container>
-        <div className="stack">
-          <h1 className="h1">Services</h1>
-          <div className="muted" style={{ maxWidth: 780 }}>
-            This is the dedicated Services page (different from the homepage segment).
-            Replace with your real service modules later.
-          </div>
+    <main className="section">
+      <div className="container">
+        <div className="h">Ydelser</div>
 
-          <div className="cardGrid">
-            <div className="card" style={{ borderRadius: 0 }}>
-              <h3 className="h3">Livestream & Broadcast</h3>
-              <div className="muted">Signal flow, redundancy, encoding, delivery.</div>
-            </div>
-            <div className="card" style={{ borderRadius: 0 }}>
-              <h3 className="h3">Commercial & Content</h3>
-              <div className="muted">Production, post, versioning, publishing formats.</div>
-            </div>
-            <div className="card" style={{ borderRadius: 0 }}>
-              <h3 className="h3">Sound / Light / Event</h3>
-              <div className="muted">Tech planning, coordination, on-site execution.</div>
-            </div>
-          </div>
+        <div style={{ height: 16 }} />
+
+        <nav className="box pad" style={{ display:"flex", gap:10, flexWrap:"wrap", alignItems:"center" }}>
+          {services.map(s => (
+            <Link key={s.id} className="btn" href={`#${s.id}`}>{s.title}</Link>
+          ))}
+        </nav>
+
+        <div style={{ height: 18 }} />
+
+        <div style={{ display:"grid", gap:18 }}>
+          {services.map(s => (
+            <section key={s.id} id={s.id} className="box pad">
+              <div style={{ display:"grid", gap:10 }}>
+                <div className="h">{s.title}</div>
+              </div>
+            </section>
+          ))}
         </div>
-      </Container>
-    </div>
+      </div>
+    </main>
   );
 }

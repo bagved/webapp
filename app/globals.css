@@ -1,120 +1,48 @@
 @import "../styles/theme.css";
 
-* {
-  box-sizing: border-box;
-}
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
 
-html, body {
-  height: 100%;
-}
-
-body {
+body{
   margin: 0;
-  animation: subtleBackgroundShift 120s ease-in-out infinite;
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 1rem;
+  font-family: var(--font-body);
+  font-size: var(--t16);
   line-height: 1.65;
   color: var(--text);
-  position: relative;
-  z-index: 1;
-  background-color: var(--bg);
+  background: var(--bg);
+  animation: subtleBackgroundShift 120s ease-in-out infinite;
 }
 
-.container {
+a{
+  color: var(--link);
+  text-decoration: none;
+  transition: color 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+a:hover{
+  color: var(--link-hover);
+  transform: translateY(-1px);
+}
+
+.container{
   width: min(1120px, calc(100% - 40px));
   margin-inline: auto;
 }
 
-.pageMain {
-  min-height: calc(100vh - 160px);
+/* keep main empty for now */
+.pageMain{
+  min-height: calc(100vh - 120px);
 }
 
-/* ===== CLICKABLE DEFAULTS ===== */
-a {
-  color: var(--link);
-  text-decoration: none;
-  transition: color 160ms ease, opacity 160ms ease;
+/* Typography helpers (global) */
+.caps{
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
-a:hover {
-  color: var(--link-hover);
-}
+.t11{ font-size: var(--t11); }
+.t14{ font-size: var(--t14); }
+.t16{ font-size: var(--t16); }
 
-/* Buttons */
-.btn {
-  border: 1px solid color-mix(in srgb, var(--link) 65%, rgba(11,11,12,0.15));
-  background: var(--panel-bg);
-  color: var(--link);
-  border-radius: var(--radius-soft);
-  padding: 10px 14px;
-  cursor: pointer;
-  font-weight: 800;
-  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
-}
-.btn:hover {
-  transform: translateY(-1px);
-  color: var(--link-hover);
-  border-color: color-mix(in srgb, var(--link-hover) 70%, rgba(11,11,12,0.15));
-  background: color-mix(in srgb, var(--panel-bg) 92%, white);
-}
-
-button {
-  color: var(--link);
-  transition: color 160ms ease;
-}
-button:hover {
-  color: var(--link-hover);
-}
-
-/* Typography */
-.h1 {
-  font-family: var(--font-heading, var(--font-body));
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-.h2 {
-  font-family: var(--font-heading, var(--font-body));
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  letter-spacing: -0.015em;
-  margin: 0;
-}
-.muted {
-  color: var(--muted);
-}
-
-/* Panels */
-.card {
-  border-radius: var(--radius-hard);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  background: var(--panel-bg);
-  padding: 16px;
-}
-
-.glass {
-  border-radius: var(--radius-hard);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--c4) 86%, transparent),
-    color-mix(in srgb, var(--c4-soft) 86%, transparent)
-  );
-}
-
-/* Forms */
-.field {
-  width: 100%;
-  border: 1px solid rgba(11,11,12,0.20);
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 1rem;
-  outline: none;
-  background: color-mix(in srgb, var(--panel-bg) 85%, white);
-}
-.field:focus {
-  border-color: color-mix(in srgb, var(--c1) 55%, rgba(11,11,12,0.2));
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c1) 18%, transparent);
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; animation: none !important; }
 }

@@ -1,17 +1,15 @@
-import BrandSection from "../components/sections/BrandSection";
-import VideoSection from "../components/sections/VideoSection";
-import ContactSection from "../components/sections/ContactSection";
-import ServicesSection from "../components/sections/ServicesSection";
-import CasesSection from "../components/sections/CasesSection";
+import HomeHero from "../components/sections/HomeHero";
+import VideoPeek from "../components/sections/VideoPeek";
+import ServicesRail from "../components/sections/ServicesRail";
+import ContactTeaserSection from "../components/sections/ContactTeaser";
 
-export default function HomePage() {
+export default function Page() {
   return (
     <>
-      <BrandSection />
-      <VideoSection />
-      <ContactSection />
-
-      {/* Footer is global in layout.tsx */}
+      <HomeHero />
+      <VideoPeek />
+      <ServicesRail />
+      <ContactTeaserSection />
     </>
   );
 }

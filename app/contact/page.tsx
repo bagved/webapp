@@ -1,45 +1,93 @@
 "use client";
 
-import Container from "../../components/ui/Container";
-import { useState } from "react";
-
 export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-
   return (
-    <div className="section">
-      <Container>
-        <div className="stack">
-          <h1 className="h1">Contact</h1>
-          <div className="muted">
-            Phone: +45 61 74 64 16 • Mail: info@bagved.com
-          </div>
+    <main className="section">
+      <div className="container">
+        <div className="h">Kontakt</div>
 
-          <div className="card" style={{ borderRadius: 0, maxWidth: 640 }}>
-            {sent ? (
-              <>
-                <h3 className="h3">Sent</h3>
-                <div className="muted" style={{ marginTop: 8 }}>
-                  Thanks — we’ll reply fast.
-                </div>
-              </>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-                className="stack"
-              >
-                <input className="field" placeholder="Name" required />
-                <input className="field" placeholder="Email" type="email" required />
-                <textarea className="field" placeholder="Message" rows={5} required />
+        <div style={{ height: 18 }} />
+
+        <div style={{ display:"grid", gridTemplateColumns:"minmax(260px, 36%) 1fr", gap:18, alignItems:"start" }}>
+          <aside className="box pad">
+            <div style={{ display:"grid", gap:10 }}>
+              <div className="h">BAGVED</div>
+              <div className="t14">CVR: 42497376</div>
+              <div className="t14">Telefon: +45 61 74 64 16</div>
+              <div className="t14">Email: info@bagved.dk</div>
+              <div className="t14">Frederiksvej 32, st. th., 2000 Frederiksberg</div>
+            </div>
+          </aside>
+
+          <section className="box pad">
+            <form onSubmit={(e) => e.preventDefault()} style={{ display:"grid", gap:14 }}>
+              <Row3 />
+
+              <div style={{ display:"grid", gap:8 }}>
+                <label className="label">Hvem er du</label>
+                <select className="field" defaultValue="">
+                  <option value="" disabled>Vælg…</option>
+                  <option>Virksomhed</option>
+                  <option>Selskab</option>
+                  <option>Samarbejdspartner</option>
+                  <option>FTP elev</option>
+                  <option>Andet</option>
+                </select>
+              </div>
+
+              <div style={{ display:"grid", gap:8 }}>
+                <label className="label">Hvad handler det om</label>
+                <select className="field" defaultValue="">
+                  <option value="" disabled>Vælg…</option>
+                  <option>Livestream</option>
+                  <option>Reklamefilm</option>
+                  <option>Lyd og Lys</option>
+                </select>
+              </div>
+
+              <div style={{ display:"grid", gap:8 }}>
+                <label className="label">Besked</label>
+                <textarea className="field" rows={8} placeholder="Skriv…" />
+              </div>
+
+              <div style={{ display:"flex", justifyContent:"flex-end" }}>
                 <button className="btn" type="submit">Send</button>
-              </form>
-            )}
-          </div>
+              </div>
+            </form>
+          </section>
+
+          <style jsx>{`
+            @media (max-width: 900px){
+              div[style*="grid-template-columns"]{ grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </div>
-      </Container>
+      </div>
+    </main>
+  );
+}
+
+function Row3() {
+  return (
+    <div style={{ display:"grid", gap:14, gridTemplateColumns:"repeat(3, minmax(0, 1fr))" }}>
+      <div style={{ display:"grid", gap:8 }}>
+        <label className="label">Navn</label>
+        <input className="field" placeholder="Dit navn" />
+      </div>
+      <div style={{ display:"grid", gap:8 }}>
+        <label className="label">Telefon</label>
+        <input className="field" placeholder="+45 ..." />
+      </div>
+      <div style={{ display:"grid", gap:8 }}>
+        <label className="label">Email</label>
+        <input className="field" placeholder="dig@firma.dk" />
+      </div>
+
+      <style jsx>{`
+        @media (max-width: 820px){
+          div{ grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

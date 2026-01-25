@@ -1,27 +1,24 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
 import { Inter } from "next/font/google";
 
-// Body font (keep something super readable)
-const bodyFont = Inter({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
 });
 
 export const metadata = {
-  title: "Bagved",
-  description: "Production / Event / Video",
+  title: "BAGVED",
+  description: "BAGVED",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="da" className={`${bodyFont.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body>
         <Header />
         <main className="pageMain">{children}</main>
-        <Footer />
       </body>
     </html>
   );

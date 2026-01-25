@@ -1,12 +1,11 @@
 /* styles/theme.css */
-
 :root {
-  /* ===== 5 CORE COLORS ===== */
-  --c1: #3C3C3B; /* Primary – Graphite Gray  3c3c3b*/
+  /* ===== 5 CORE COLORS (KEEP) ===== */
+  --c1: #3C3C3B; /* Primary – Graphite Gray */
   --c2: #EDF2F4; /* Secondary – Frost White */
-  --c3: #224870; /* Accent – Crimson Red */
+  --c3: #224870; /* Accent */
   --c4: #F9FAFB; /* Background base */
-  --c5: #DDE3E7; /* Background alt (for animation) */
+  --c5: #DDE3E7; /* Background alt */
 
   /* Soft versions */
   --c1-soft: color-mix(in srgb, var(--c1) 18%, white);
@@ -15,47 +14,47 @@
   --c4-soft: color-mix(in srgb, var(--c4) 18%, white);
   --c5-soft: color-mix(in srgb, var(--c5) 18%, white);
 
-  /* Fonts */
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* Global font tokens (set in layout.tsx via next/font) */
+  --font-body: var(--font-body, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  --font-heading: var(--font-body);
 
-  /* ===== GLOBAL UI TOKENS ===== */
+  /* Global UI tokens */
   --bg: var(--c4);
-  --panel-bg: var(--c4);
-
   --text: #0b0b0c;
   --muted: rgba(11, 11, 12, 0.68);
-  --border: rgba(11, 11, 12, 0.18);
+  --border: color-mix(in srgb, var(--c1) 18%, transparent);
 
-  --radius-hard: 0px;
-  --radius-soft: 16px;
-
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
-
+  /* Links */
   --link: var(--c1);
   --link-hover: var(--c3);
+
+  /* Type scale */
+  --t16: 16px;
+  --t14: 14px;
+  --t11: 11px;
 }
 
-/* ===== Subtle Background Animation ===== */
+/* Optional subtle background shift (keep your vibe) */
 @keyframes subtleBackgroundShift {
   0%   { background-color: var(--c4); }
   50%  { background-color: var(--c5); }
   100% { background-color: var(--c4); }
 }
 
-body::before {
-  content: "";
+/* Optional controlled grain (no external URL) */
+body::before{
+  content:"";
   position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
-  background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-  opacity: 0.03;
   z-index: 0;
+  opacity: 0.06;
+  background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
 }
 
-main, header, footer, .app, .container {
+main, header, footer, .container{
   position: relative;
   z-index: 1;
 }
