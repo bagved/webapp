@@ -1,7 +1,8 @@
 // app/cases/page.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 type CategoryId = "livestream" | "events" | "reklamefilm" | "markedsfoering";
 
@@ -25,6 +26,8 @@ function labelFor(cat: CategoryId) {
 }
 
 export default function CasesPage() {
+  const searchParams = useSearchParams();
+
   const allCases: CaseItem[] = useMemo(
     () => [
       {
@@ -97,6 +100,20 @@ export default function CasesPage() {
 
   const [activeCat, setActiveCat] = useState<CategoryId>("livestream");
 
+  useEffect(() => {
+    const catRaw = (searchParams.get("cat") || "").toLowerCase();
+    const allowed: CategoryId[] = [
+      "livestream",
+      "events",
+      "reklamefilm",
+      "markedsfoering",
+    ];
+
+    if (allowed.includes(catRaw as CategoryId)) {
+      setActiveCat(catRaw as CategoryId);
+    }
+  }, [searchParams]);
+
   const titlesForActive = useMemo(
     () => allCases.filter((c) => c.category === activeCat),
     [allCases, activeCat]
@@ -115,9 +132,7 @@ export default function CasesPage() {
       {/* Top explorer (FAQ-like) */}
       <section className="explore" aria-label="Udforsk">
         <div className="container">
-          <h1 className="exploreTitle">
-            Udforsk vores udvalg af produktioner her
-          </h1>
+          <h1 className="exploreTitle">Udforsk vores udvalg af produktioner her</h1>
 
           <div className="exploreGrid">
             {/* Left categories */}

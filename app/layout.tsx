@@ -1,3 +1,4 @@
+import "../styles/theme.css";
 import "./globals.css";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
