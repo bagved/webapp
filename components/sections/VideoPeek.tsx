@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function VideoPeek() {
   return (
     <section className="videoPeek" id="video" aria-label="Video">
@@ -14,6 +16,11 @@ export default function VideoPeek() {
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
             />
+          </div>
+          <div className="ctaRow">
+            <Link className="cta" href="/cases">
+              SE ALLE EKSEMPLER →
+            </Link>
           </div>
         </div>
       </div>
@@ -53,6 +60,28 @@ const css = `
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+/* CTA (same look as ServicesRail) */
+.ctaRow{
+  display:flex;
+  justify-content: flex-end;
+  padding-top: 18px;
+}
+.cta{
+  font-size: var(--t11);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--c1);
+  opacity: 0.82;
+  border-bottom: 1px solid color-mix(in srgb, var(--c1) 18%, transparent);
+  padding-bottom: 8px;
+}
+.cta:hover{
+  opacity: 1;
+  color: var(--c3);
+  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
 }
 
 /* Mobile */

@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+
 /* styles/theme.css */
 :root {
   /* ===== 5 CORE COLORS (KEEP) ===== */
   --c1: #3C3C3B; /* Primary – Graphite Gray */
-  --c2: #EDF2F4; /* Secondary – Frost White */
-  --c3: #224870; /* Accent */
+  --c2: #edf4f0; /* Secondary – Frost White */
+  --c3: #4C3482; /* Accent */
   --c4: #F9FAFB; /* Background base */
   --c5: #DDE3E7; /* Background alt */
 
@@ -15,7 +17,7 @@
   --c5-soft: color-mix(in srgb, var(--c5) 18%, white);
 
   /* Global font tokens (set in layout.tsx via next/font) */
-  --font-body: var(--font-body, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  --font-body: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-heading: var(--font-body);
 
   /* Global UI tokens */

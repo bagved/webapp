@@ -1,18 +1,6 @@
 export default function MissionPage() {
   return (
     <div className="container" style={{ padding: "96px 0" }}>
-      <div
-        style={{
-          fontSize: "var(--t11)",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          fontWeight: 900,
-          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
-        }}
-      >
-        Mission
-      </div>
-
       <h1
         style={{
           margin: "14px 0 0",
@@ -36,8 +24,22 @@ export default function MissionPage() {
           maxWidth: "70ch",
         }}
       >
-        <p style={{ margin: 0 }}>
-          Indhold kommer snart.
+        <p>
+          Vores mission er at skabe klare, effektive visuelle og audiovisuelle
+          løsninger, der kommunikerer budskaber med gennemslagskraft. Vi arbejder
+          tværfagligt fra koncept til aflevering for at sikre kvalitet,
+          tydelighed og målbar effekt.
+        </p>
+
+        <p>
+          Tilgang: Vi kombinerer strategisk tænkning, kreativt håndværk og
+          teknisk præcision. Hvert projekt tilpasses kundens mål, målgruppe og
+          budget for at levere skræddersyede løsninger.
+        </p>
+
+        <p style={{ marginBottom: 0 }}>
+          Vi prioriterer samarbejde, gennemsigtighed og ansvarlighed i alle
+          faser af produktionen.
         </p>
       </div>
     </div>

@@ -37,6 +37,13 @@
   background: color-mix(in srgb, var(--c3) 10%, transparent);
 }
 
+.logoImg{
+  display: block;
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
 .logoText{
   font-weight: 900;
   font-size: var(--t14);
@@ -209,5 +216,8 @@
   .logoText{
     font-size: var(--t11);
     letter-spacing: -0.01em;
+  }
+  .logoImg{
+    width: 64px;
   }
 }

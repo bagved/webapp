@@ -74,7 +74,7 @@ const css = `
 /* BIG line */
 .heroBig{
   font-family: var(--font-body);
-  color: var(--c3);
+  color: var(--c1);
   font-weight: 650;
   letter-spacing: -0.03em;
   line-height: 1.02;
@@ -87,7 +87,7 @@ const css = `
   margin-top: clamp(10px, 1.4vw, 14px);
   transform: translateY(-14px);
   font-family: var(--font-body);
-  color: var(--c3);
+  color: var(--c1);
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.25;

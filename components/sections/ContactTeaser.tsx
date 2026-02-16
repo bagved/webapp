@@ -64,13 +64,12 @@ export default function ContactTeaserSection() {
           </div>
         </div>
 
-        {/* OUTSIDE BOX – centered ending line */}
-        <p className="ctBelow">
-          <Link className="ctBelowLink" href="/contact">
-            Hvis du vil fortælle os mere om dig, din virksomhed eller mulighederne
-            for et eventuelt samarbejde — så tryk her
+        {/* OUTSIDE BOX – CTA aligned to the right and matching other CTAs */}
+        <div className="ctaRow">
+          <Link className="cta" href="/contact">
+            TAG KONTAKT TIL OS HER →
           </Link>
-        </p>
+        </div>
       </div>
     </section>
   );

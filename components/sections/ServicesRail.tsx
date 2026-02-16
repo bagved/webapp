@@ -373,9 +373,9 @@ const css = `
 .hint.on{ opacity: 1; }
 
 /* CTA */
-.ctaRow{
+  .ctaRow{
   display:flex;
-  justify-content: center;
+  justify-content: flex-end;
   padding-top: 18px;
 }
 .cta{

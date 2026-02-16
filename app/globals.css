@@ -6,6 +6,7 @@ html, body{ height: 100%; }
 body{
   margin: 0;
   font-family: var(--font-body);
+  font-weight: 500;
   font-size: var(--t16);
   line-height: 1.65;
   color: var(--text);
@@ -31,6 +32,42 @@ a:hover{
 .container{
   width: min(1120px, calc(100% - 40px));
   margin-inline: auto;
+}
+
+/* Site-wide CTA style so all 'Se alle...' links match */
+.ctaRow{
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 18px;
+}
+.cta{
+  font-size: var(--t11);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--c1);
+  opacity: 0.82;
+  border-bottom: 1px solid color-mix(in srgb, var(--c1) 18%, transparent);
+  padding-bottom: 8px;
+}
+.cta:hover{
+  opacity: 1;
+  color: var(--c3);
+  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
+}
+
+/* Send button used on contact page */
+.send{
+  padding: 10px 16px;
+  border: 1px solid color-mix(in srgb, var(--c1) 12%, transparent);
+  background: transparent;
+  cursor: pointer;
+  color: var(--c1);
+}
+.send:hover{
+  background: var(--c3);
+  color: white;
+  border-color: color-mix(in srgb, var(--c3) 22%, transparent);
 }
 
 /* keep main empty for now */

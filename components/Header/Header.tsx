@@ -35,8 +35,7 @@ export default function Header() {
           {/* Left: logo */}
           <div className={styles.left}>
             <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-              <span className={styles.logoMark} aria-hidden />
-              <span className={styles.logoText}>{BRAND}</span>
+              <img src="/logo.png" alt={BRAND} className={styles.logoImg} />
             </Link>
           </div>
 

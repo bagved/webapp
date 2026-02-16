@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="ftDesktop">
           <div className="ftRows">
             <div className="ftRow">
-              <div className="ftCell ftLeft">CVR: 42497376</div>
+              <div className="ftCell ftLeft">CVR: 42597376</div>
               <div className="ftCell ftMid">
                 <Link className="ftLink" href="/cookies">
                   Cookie Policy
@@ -58,7 +58,7 @@ export default function Footer() {
         {/* Mobile layout: grouped blocks + divider lines (no interleaving) */}
         <div className="ftMobile">
           <div className="ftBlock">
-            <div className="ftCell">CVR: 42497376</div>
+            <div className="ftCell">CVR: 42597376</div>
             <div className="ftCell">Tlf: +45 61 74 64 16</div>
             <div className="ftCell">Mail: info@bagved.dk</div>
             <div className="ftCell">
@@ -113,6 +113,9 @@ const css = `
   letter-spacing: 0;
   color: color-mix(in srgb, var(--c1) 78%, transparent);
 }
+
+/* small footer logo (grayscale) */
+/* footerLogo removed */
 
 /* ✅ Links are typographically identical to .ftCell */
 .ftLink{

@@ -1,18 +1,6 @@
 export default function PrivacyPage() {
   return (
     <div className="container" style={{ padding: "96px 0" }}>
-      <div
-        style={{
-          fontSize: "var(--t11)",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          fontWeight: 900,
-          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
-        }}
-      >
-        Privacy
-      </div>
-
       <h1
         style={{
           margin: "14px 0 0",
@@ -36,7 +24,30 @@ export default function PrivacyPage() {
           maxWidth: "70ch",
         }}
       >
-        <p style={{ margin: 0 }}>Indhold kommer snart.</p>
+        <p>
+          BAGVED behandler personoplysninger i overensstemmelse med gældende
+          databeskyttelseslovgivning. Denne politik forklarer hvilke data vi
+          indsamler, formålet med behandlingen og hvilke rettigheder du har.
+        </p>
+
+        <p>
+          Vi indsamler kun nødvendige oplysninger (fx navn, e-mail og
+          korrespondance) for at levere vores ydelser, administrere forespørgsler
+          og forbedre vores kommunikation. Behandlingen sker på lovligt grundlag
+          som samtykke eller berettiget interesse, afhængigt af formålet.
+        </p>
+
+        <p>
+          Deling: Oplysninger kan deles med betroede tredjepartsleverandører
+          (fx hosting, analytics) når det er nødvendigt, og altid under
+          passende databehandleraftaler.
+        </p>
+
+        <p style={{ marginBottom: 0 }}>
+          Rettigheder: Du har ret til indsigt, berigtigelse, sletning og
+          dataportabilitet. Kontakt os på info@bagved.dk for at udøve dine
+          rettigheder eller ved spørgsmål vedrørende dine data.
+        </p>
       </div>
     </div>
   );

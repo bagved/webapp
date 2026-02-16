@@ -1,18 +1,6 @@
 export default function CookiesPage() {
   return (
     <div className="container" style={{ padding: "96px 0" }}>
-      <div
-        style={{
-          fontSize: "var(--t11)",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          fontWeight: 900,
-          color: "color-mix(in srgb, var(--c1) 62%, transparent)",
-        }}
-      >
-        Cookies
-      </div>
-
       <h1
         style={{
           margin: "14px 0 0",
@@ -37,9 +25,27 @@ export default function CookiesPage() {
           maxWidth: "70ch",
         }}
       >
-        <p style={{ margin: 0 }}>
-          Indhold kommer snart. (Du kan erstatte dette med din rigtige cookie
-          policy senere.)
+        <p>
+          Vi anvender cookies og tilsvarende teknologier for at forbedre din
+          oplevelse på siden, analysere trafik og levere relevante funktioner.
+        </p>
+
+        <p>
+          Typer af cookies: Nødvendige cookies, der sikrer basale funktioner;
+          præference-cookies, der husker dine valg; og analytiske cookies, som
+          hjælper os med at forstå, hvordan siden anvendes. Tredjepartsudbydere
+          (fx analytics- eller reklametjenester) kan også placere cookies.
+        </p>
+
+        <p>
+          Du kan når som helst trække dit samtykke tilbage eller slette
+          cookies via din browser. Bemærk, at blokering af visse cookies kan
+          påvirke funktionaliteten på sitet.
+        </p>
+
+        <p style={{ marginBottom: 0 }}>
+          Har du spørgsmål til vores cookie-praksis, kontakt os på
+          info@bagved.dk.
         </p>
       </div>
     </div>

@@ -15,6 +15,9 @@ const inter = Inter({
 export const metadata = {
   title: "BAGVED",
   description: "BAGVED",
+  icons: {
+    icon: '/Favicon Transparent.ico',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
