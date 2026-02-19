@@ -35,9 +35,9 @@
   --t14: 14px;
   --t11: 11px;
 
-  /* ✅ Warm background mixes (keeps your colors, just adds a tiny warm bias) */
-  --bg-warm-a: color-mix(in srgb, var(--c4) 94%, #fff1e7 6%);
-  --bg-warm-b: color-mix(in srgb, var(--c5) 94%, #fff1e7 6%);
+  /* ✅ New background colors */
+  --bg-warm-a: #FFFFFF;
+  --bg-warm-b: #F7F3FF;
 }
 
 /* ✅ Softer “ambient” shift (less pendulum) */

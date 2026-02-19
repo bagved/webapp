@@ -12,7 +12,7 @@ export default function MissionPage() {
           color: "color-mix(in srgb, var(--c1) 92%, transparent)",
         }}
       >
-        Mission
+        Vi elsker vores arbejde
       </h1>
 
       <div

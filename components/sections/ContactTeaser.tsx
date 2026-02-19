@@ -250,7 +250,7 @@ const css = `
 
 /* RIGHT PANEL */
 .ctPanel{
-  background: color-mix(in srgb, var(--c2) 86%, transparent);
+  background: color-mix(in srgb, #FFFFFF 94%, #1A0A40 6%);
   border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
   border-radius: 0;
   padding: clamp(22px, 3.6vw, 40px);
@@ -340,9 +340,9 @@ const css = `
 }
 
 .send:hover{
-  border-color: color-mix(in srgb, var(--c3) 26%, var(--c1));
-  color: var(--c1);
-  background: color-mix(in srgb, var(--c3) 7%, transparent);
+  border-color: #F3217C;
+  color: #F3217C;
+  background: transparent;
   transform: translateY(-1px);
 }
 

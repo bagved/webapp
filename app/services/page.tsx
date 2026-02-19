@@ -6,10 +6,9 @@ import { useEffect, useMemo, useState } from "react";
 
 type ServiceId =
   | "livestream"
-  | "reklamefilm"
-  | "lydlys"
-  | "planlaegning"
-  | "content";
+  | "video"
+  | "event"
+  | "installation";
 
 type Service = {
   id: ServiceId;
@@ -24,43 +23,35 @@ export default function ServicesPage() {
     () => [
       {
         id: "livestream",
-        title: "Livestream",
+        title: "Livestream & Webinar",
         body:
           "Broadcast, afvikling og teknik der føles rolig — både for talere, publikum og dem der ser med. Vi sikrer flow, redundans og et clean udtryk.",
         iconPng: "/services/livestream.png",
         examplesHref: "/cases?cat=livestream",
       },
       {
-        id: "reklamefilm",
-        title: "Reklamefilm",
+        id: "video",
+        title: "Video & Content",
         body:
           "Cinematisk produktion med et premium finish. Fra idé og plan til optagelse, post og leverancer i formater der passer til kampagner og SoMe.",
         iconPng: "/services/reklamefilm.png",
-        examplesHref: "/cases?cat=reklamefilm",
+        examplesHref: "/cases?cat=video",
       },
       {
-        id: "lydlys",
-        title: "Lyd og lys",
-        body:
-          "Det der får det hele til at føles rigtigt i rummet. Vi skaber en stemning der understøtter budskabet — uden at det larmer visuelt.",
-        iconPng: "/services/lydlys.png",
-        examplesHref: "/cases?cat=events",
-      },
-      {
-        id: "planlaegning",
-        title: "Planlægning",
+        id: "event",
+        title: "Eventproduktion",
         body:
           "Run of show, cues, timing og overblik. Vi bygger strukturen BAGVED, så afviklingen føles let og professionel — fra start til slut.",
         iconPng: "/services/planlaegning.png",
-        examplesHref: "/cases?cat=events",
+        examplesHref: "/cases?cat=event",
       },
       {
-        id: "content",
-        title: "Content",
+        id: "installation",
+        title: "Installation & Streaming Setup",
         body:
           "Én produktion → flere assets. Vi tænker udnyttelse, format og tempo ind fra starten, så du får mere output uden at miste kvalitet.",
         iconPng: "/services/content.png",
-        examplesHref: "/cases?cat=markedsfoering",
+        examplesHref: "/cases?cat=installation",
       },
     ],
     []

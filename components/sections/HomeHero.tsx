@@ -5,21 +5,17 @@ export default function HomeHero() {
 
       <div className="container heroWrap">
         <div className="heroGrid">
-          {/* LEFT COLUMN */}
+          {/* LEFT COLUMN: Heading + Paragraph text */}
           <div className="leftCol">
             <div className="heroText" aria-hidden>
               <div className="heroBig">BAGVED det gode udtryk.</div>
               <div className="heroSub">
-                Vi løfter produktionen fra start til slut.
+                Bagved leverer video, livestream og AV, der får jeres møder og events til at se knivskarpe ud — og føles lette at afvikle. Vi tager ansvar for hele setup'et fra plan til sidste frame, så I står med et professionelt udtryk, stabil lyd og billede og en produktion der kører roligt på dagen. Ingen rod, ingen stress — bare et format, der holder opmærksomheden og får budskabet helt igennem.
               </div>
-            </div>
-
-            <div className="imgFrame left" aria-hidden>
-              <div className="imgBg leftBg" />
             </div>
           </div>
 
-          {/* RIGHT: portrait */}
+          {/* RIGHT: portrait image */}
           <div className="imgFrame right" aria-hidden>
             <div className="imgBg rightBg" />
           </div>
@@ -90,10 +86,11 @@ const css = `
   color: var(--c1);
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 1.25;
-  font-size: clamp(14px, 1.35vw, 18px);
-  opacity: 0.92;
+  line-height: 1.42;
+  font-size: clamp(13px, 0.95vw, 15px);
+  opacity: 0.85;
   text-wrap: balance;
+  max-width: 70ch;
 }
 
 /* Frames */
@@ -114,12 +111,9 @@ const css = `
   filter: saturate(1.02) contrast(1.02);
 }
 
-/* LEFT image */
+/* LEFT image - HIDDEN */
 .left{
-  width: min(760px, 100%);
-  height: clamp(220px, 34vh, 360px);
-  justify-self: start;
-  margin-top: clamp(90px, 10vh, 160px);
+  display: none;
 }
 
 /* RIGHT image */
