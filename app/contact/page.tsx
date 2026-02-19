@@ -26,10 +26,7 @@ export default function ContactPage() {
       return Math.round(v * dpr) / dpr;
     };
 
-    const snapPct = (v: number) => {
-      // snapping percent a bit reduces shimmer on some GPUs
-      return Math.round(v * 1000) / 1000; // 0.001%
-    };
+    const snapPct = (v: number) => Math.round(v * 1000) / 1000;
 
     const tick = () => {
       const startEl = startMarkerRef.current;
@@ -49,11 +46,11 @@ export default function ContactPage() {
 
       const viewportH = vh();
 
-      // Boundary line in viewport px (snap to device pixel to avoid wobble)
+      // Boundary line in viewport px (snap to device pixel)
       const startY = snapPx(startRect.top);
       const endY = snapPx(endRect.top);
 
-      // Dark overlay must match boundary PERFECTLY -> NO smoothing here
+      // Dark overlay between start..end (NO smoothing here)
       const top = snapPx(Math.max(0, Math.min(viewportH, startY)));
       const bottom = snapPx(Math.max(0, Math.min(viewportH, viewportH - endY)));
 
@@ -62,15 +59,14 @@ export default function ContactPage() {
       // @ts-ignore
       darkEl.style.WebkitClipPath = darkClip;
 
-      // Logo split based on boundary. We can smooth this slightly.
+      // Logo split based on boundary (optional light smoothing)
       const cutPx = startY - logoRect.top;
       const targetSplit = Math.min(
         100,
         Math.max(0, (cutPx / Math.max(1, logoRect.height)) * 100)
       );
 
-      // Smooth only logo (small t so it stays responsive)
-      const LOGO_SMOOTH = 0.22; // tweak 0.18..0.30
+      const LOGO_SMOOTH = 0.22;
       smoothSplitPct = lerp(smoothSplitPct, targetSplit, LOGO_SMOOTH);
       const split = snapPct(smoothSplitPct);
 
@@ -89,17 +85,6 @@ export default function ContactPage() {
     };
 
     raf = requestAnimationFrame(tick);
-
-    // Re-evaluate after fonts settle (reduces first-load jump)
-    // @ts-ignore
-    if (document?.fonts?.ready) {
-      // @ts-ignore
-      document.fonts.ready.then(() => {
-        // Pull the smoothed value toward the current boundary quickly
-        smoothSplitPct = 100;
-      });
-    }
-
     return () => cancelAnimationFrame(raf);
   }, []);
 
@@ -107,14 +92,24 @@ export default function ContactPage() {
     <div className="contactPage">
       <style>{css}</style>
 
-      {/* Dark overlay (clipped via JS) */}
       <div className="darkLayer" ref={darkLayerRef} aria-hidden />
 
-      {/* Logos (clipped via JS) */}
-      <div id="bgLogoA" ref={logoARef} aria-hidden className="bgLogo" />
-      <div id="bgLogoB" ref={logoBRef} aria-hidden className="bgLogo bgLogoB" />
+      {/* Inline backgroundImage => no CSS filename mismatch possible */}
+      <div
+        id="bgLogoA"
+        ref={logoARef}
+        aria-hidden
+        className="bgLogo"
+        style={{ backgroundImage: "url('/Transparent Logo.png')" }}
+      />
+      <div
+        id="bgLogoB"
+        ref={logoBRef}
+        aria-hidden
+        className="bgLogo"
+        style={{ backgroundImage: "url('/Transparent-Logo-2.png')" }}
+      />
 
-      {/* TOP */}
       <section className="contactTop">
         <div className="contactContainer contentLayer">
           <div className="topInner">
@@ -151,9 +146,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* DARK SECTION */}
       <section className="contactFormWrap">
-        {/* boundary start */}
         <div ref={startMarkerRef} className="marker markerStart" aria-hidden />
 
         <div className="contactContainer contentLayer">
@@ -185,14 +178,11 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* boundary end */}
         <div ref={endMarkerRef} className="marker markerEnd" aria-hidden />
       </section>
     </div>
   );
 }
-
-/* ---------------- Lined fields ---------------- */
 
 function LinedInput({
   label,
@@ -244,7 +234,6 @@ const css = `
   background: transparent;
 }
 
-/* Dark layer (no transition; boundary is exact) */
 .darkLayer{
   position: fixed;
   inset: 0;
@@ -255,7 +244,6 @@ const css = `
   transform: translateZ(0);
 }
 
-/* Logos above dark layer */
 .bgLogo{
   position: fixed;
   top: 66%;
@@ -271,21 +259,19 @@ const css = `
 
   z-index: 10;
   pointer-events: none;
-  opacity: 1;
 
+  /* guardrails against “invisible due to globals” */
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
   will-change: clip-path;
 }
 
-.bgLogo#bgLogoA{ background-image: url('/Transparent Logo.png'); }
-.bgLogo#bgLogoB{ background-image: url('/transparent-logo-2.png'); }
-
-/* Content above everything */
 .contentLayer{
   position: relative;
   z-index: 20;
 }
 
-/* TOP */
 .contactTop{
   position: relative;
   padding: clamp(64px, 8vw, 120px) 0;
@@ -340,14 +326,12 @@ const css = `
 }
 a.infoValue:hover{ text-decoration: underline; }
 
-/* Dark section (background handled by darkLayer) */
 .contactFormWrap{
   position: relative;
   padding: clamp(72px, 9vw, 140px) 0;
   background: transparent;
 }
 
-/* Markers define dark start/end */
 .marker{
   position: absolute;
   left: 0;
@@ -358,7 +342,6 @@ a.infoValue:hover{ text-decoration: underline; }
 .markerStart{ top: 0; }
 .markerEnd{ bottom: 0; }
 
-/* Layout inside dark area */
 .darkGrid{
   display: grid;
   grid-template-columns: minmax(420px, 560px) 1fr;
@@ -448,7 +431,7 @@ a.infoValue:hover{ text-decoration: underline; }
     left: 70%;
     width: clamp(180px, 54vw, 320px);
     height: clamp(180px, 54vw, 320px);
-    opacity: 0.45;
+    opacity: 0.45 !important;
   }
 }
 `;
