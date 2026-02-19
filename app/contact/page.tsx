@@ -3,56 +3,67 @@
 import React, { useEffect, useRef, useState } from "react";
 
 export default function ContactPage() {
-  const boundaryRef = useRef<HTMLElement | null>(null);
+  const markerRef = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<HTMLDivElement | null>(null);
-
-  // splitPct = where the “color boundary line” hits the logo in %
-  // 0% = boundary is above logo (only Logo2 visible)
-  // 100% = boundary is below logo (only Logo1 visible)
   const [splitPct, setSplitPct] = useState(100);
 
   useEffect(() => {
-    const updateSplit = () => {
-      const boundaryEl = boundaryRef.current;
-      const logoEl = logoRef.current;
-      if (!boundaryEl || !logoEl) return;
+    let rafId: number | null = null;
+    let ro: ResizeObserver | null = null;
 
-      const boundaryRect = boundaryEl.getBoundingClientRect();
+    const updateSplit = () => {
+      const markerEl = markerRef.current;
+      const logoEl = logoRef.current;
+      if (!markerEl || !logoEl) return;
+
+      const markerRect = markerEl.getBoundingClientRect();
       const logoRect = logoEl.getBoundingClientRect();
 
-      // The boundary is the TOP of the dark section (exactly where the color starts)
-      const boundaryY = boundaryRect.top;
-
-      // Where does that boundary cut through the logo (in px from logo top)?
+      const boundaryY = markerRect.top;
       const cutPx = boundaryY - logoRect.top;
-
-      // Convert to percentage of the logo height
       const pct = (cutPx / Math.max(1, logoRect.height)) * 100;
-
-      // Clamp 0..100 so it behaves nicely when boundary is above/below the logo
-      const clamped = Math.min(100, Math.max(0, pct));
-      setSplitPct(clamped);
+      setSplitPct(Math.min(100, Math.max(0, pct)));
     };
 
-    updateSplit();
-    window.addEventListener("scroll", updateSplit, { passive: true });
-    window.addEventListener("resize", updateSplit);
+    const scheduleUpdate = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateSplit();
+      });
+    };
+
+    scheduleUpdate();
+    // @ts-ignore
+    if (document?.fonts?.ready) {
+      // @ts-ignore
+      document.fonts.ready.then(() => scheduleUpdate());
+    }
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.visualViewport?.addEventListener("resize", scheduleUpdate);
+
+    ro = new ResizeObserver(() => scheduleUpdate());
+    ro.observe(document.documentElement);
+
     return () => {
-      window.removeEventListener("scroll", updateSplit);
-      window.removeEventListener("resize", updateSplit);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.visualViewport?.removeEventListener("resize", scheduleUpdate);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (ro) ro.disconnect();
     };
   }, []);
 
-  // LogoA should show ABOVE the boundary, so we hide the bottom part below it
-  const logoAClipBottom = 100 - splitPct; // % to clip from bottom
-  // LogoB should show BELOW the boundary, so we hide the top part above it
+  const logoAClipBottom = 100 - splitPct;
   const logoBClipTop = splitPct;
 
   return (
-    <div className="page">
+    <div className="contactPage">
       <style>{css}</style>
 
-      {/* Fixed logo layers (split EXACTLY on the color boundary line) */}
+      {/* Fixed logo layers (split EXACTLY on boundary marker) */}
       <div
         id="bgLogoA"
         ref={logoRef}
@@ -73,121 +84,146 @@ export default function ContactPage() {
         }}
       />
 
-      {/* TOP: transparent so global background shows through */}
       <section className="contactTop">
-        <div className="container">
-          <h1 className="contactTitle">Kontakt</h1>
-          <p className="contactLead">
-            Vi hjælper gerne med spørgsmål om produktion, priser eller samarbejde.
-            Ring, skriv eller udfyld formularen — så vender vi tilbage hurtigst muligt.
-          </p>
+        <div className="contactContainer contentLayer">
+          <div className="topInner">
+            <h1 className="contactTitle">Kontakt</h1>
 
-          <div className="contactInfo">
-            <div>
-              <div className="infoLabel">Telefon</div>
-              <a className="infoValue" href="tel:+4561746416">
-                +45 61 74 64 16
-              </a>
-            </div>
+            <p className="contactLead">
+              Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
+              Vi er også åbne for samarbejder — og du er velkommen, hvis du er freelancer og vil connecte,
+              søger job hos os, eller har brug for at leje udstyr.
+            </p>
 
-            <div>
-              <div className="infoLabel">Email</div>
-              <a className="infoValue" href="mailto:info@bagved.dk">
-                info@bagved.dk
-              </a>
-            </div>
+            <div className="contactInfo">
+              <div className="infoItem">
+                <div className="infoLabel">Telefon</div>
+                <a className="infoValue" href="tel:+4561746416">
+                  +45 61 74 64 16
+                </a>
+              </div>
 
-            <div>
-              <div className="infoLabel">Adresse</div>
-              <div className="infoValue">
-                Frederiksvej 32, st. th., 2000 Frederiksberg
+              <div className="infoItem">
+                <div className="infoLabel">Email</div>
+                <a className="infoValue" href="mailto:info@bagved.dk">
+                  info@bagved.dk
+                </a>
+              </div>
+
+              <div className="infoItem">
+                <div className="infoLabel">Adresse</div>
+                <div className="infoValue">
+                  Frederiksvej 32, st. th., 2000 Frederiksberg
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* BOTTOM: boundaryRef is the exact “start of color” line */}
-      <section className="contactFormWrap" ref={boundaryRef}>
-        <div className="container">
-          <form className="largeForm" onSubmit={(e) => e.preventDefault()}>
-            <div className="formTitle">Send os en besked</div>
+      <section className="contactFormWrap">
+        <div ref={markerRef} className="boundaryMarker" aria-hidden />
 
-            <div className="row">
-              <label>
-                <span>Navn</span>
-                <input type="text" name="name" placeholder="Dit navn" />
-              </label>
+        <div className="contactContainer contentLayer">
+          <div className="darkGrid">
+            <div className="ctPanel" aria-label="Kontaktformular">
+              <form
+                className="ctForm"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <div className="row">
+                  <LinedInput label="Navn" name="name" autoComplete="name" />
+                </div>
+
+                <div className="row two">
+                  <LinedInput label="Email" name="email" type="email" autoComplete="email" />
+                  <LinedInput label="Telefonnummer" name="phone" type="tel" autoComplete="tel" />
+                </div>
+
+                <div className="row">
+                  <LinedTextarea label="Besked" name="message" rows={6} />
+                </div>
+
+                <div className="ctaRow">
+                  <button className="send" type="submit">
+                    Send besked
+                  </button>
+                </div>
+              </form>
             </div>
 
-            <div className="row two">
-              <label>
-                <span>Email</span>
-                <input type="email" name="email" placeholder="din@email.dk" />
-              </label>
-              <label>
-                <span>Telefon</span>
-                <input type="tel" name="phone" placeholder="+45 ..." />
-              </label>
-            </div>
-
-            <div className="row">
-              <label>
-                <span>Formål</span>
-                <select name="purpose" defaultValue="">
-                  <option value="" disabled>
-                    Vælg formål
-                  </option>
-                  <option value="virksomhed">Virksomhed (produktion)</option>
-                  <option value="samarbejde">Samarbejdspartner</option>
-                  <option value="arbejde">Job / arbejde hos BAGVED</option>
-                  <option value="andet">Andet</option>
-                </select>
-              </label>
-            </div>
-
-            <div className="row">
-              <label>
-                <span>Besked</span>
-                <textarea name="message" rows={7} placeholder="Skriv din besked..." />
-              </label>
-            </div>
-
-            <div className="formActions">
-              <button type="submit" className="submitBtn">
-                Send besked
-              </button>
-            </div>
-          </form>
+            <div className="darkSpacer" aria-hidden />
+          </div>
         </div>
       </section>
     </div>
   );
 }
 
+/* ---------------- Lined fields ---------------- */
+
+function LinedInput({
+  label,
+  name,
+  type = "text",
+  autoComplete,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  autoComplete?: string;
+}) {
+  return (
+    <label className="field">
+      <span className="lab">{label}</span>
+      <input className="inp" name={name} type={type} autoComplete={autoComplete} />
+      <span className="line" aria-hidden />
+    </label>
+  );
+}
+
+function LinedTextarea({
+  label,
+  name,
+  rows = 6,
+}: {
+  label: string;
+  name: string;
+  rows?: number;
+}) {
+  return (
+    <label className="field">
+      <span className="lab">{label}</span>
+      <textarea className="inp ta" name={name} rows={rows} />
+      <span className="line" aria-hidden />
+    </label>
+  );
+}
+
 const css = `
-.container{
+/* IMPORTANT:
+   Do NOT override your global .container on this page.
+   Use a dedicated container class instead. */
+.contactContainer{
   width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
 }
 
-/* No local background -> global site background shows through */
-.page{
+.contactPage{
   position: relative;
   min-height: 100vh;
   background: transparent;
 }
 
-/* LOGO LAYER: between bg and content */
+/* Logo layer */
 .bgLogo{
   position: fixed;
-
-  /* 2/3 down + right */
   top: 66%;
   left: 76%;
   transform: translate(-50%, -50%);
 
-  /* smaller */
   width: clamp(200px, 26vw, 460px);
   height: clamp(200px, 26vw, 460px);
 
@@ -198,47 +234,32 @@ const css = `
   z-index: 1;
   pointer-events: none;
   opacity: 1;
-
   transition: clip-path 70ms linear;
 }
 
 .bgLogo#bgLogoA{ background-image: url('/Transparent Logo.png'); }
 .bgLogo#bgLogoB{ background-image: url('/transparent-logo-2.png'); }
 
+/* content always above logo */
+.contentLayer{
+  position: relative;
+  z-index: 2;
+}
+
 /* TOP */
 .contactTop{
   position: relative;
   padding: clamp(64px, 8vw, 120px) 0;
   background: transparent;
-  z-index: auto;
 }
 
-/* BOTTOM */
-.contactFormWrap{
-  position: relative;
-  padding: clamp(72px, 9vw, 140px) 0;
-  background: transparent;
-  z-index: auto;
-}
-
-/* Dark color starts EXACTLY at the top of contactFormWrap */
-.contactFormWrap::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #1A0A40;
-  z-index: 0;
-}
-
-/* Content above logo */
-.contactTop .container,
-.contactFormWrap .container{
-  position: relative;
-  z-index: 2;
+.topInner{
+  max-width: 920px;
+  margin: 0;          /* left aligned */
 }
 
 .contactTitle{
-  margin: 0 0 14px 0;
+  margin: 0 0 12px 0;
   font-family: var(--font-heading);
   font-weight: 350;
   letter-spacing: -0.02em;
@@ -247,129 +268,177 @@ const css = `
 }
 
 .contactLead{
-  margin: 0 0 34px 0;
-  max-width: 72ch;
-  font-size: clamp(14px, 1.1vw, 16px);
-  line-height: 1.65;
+  margin: 0 0 22px 0;
+  max-width: 76ch;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.7;
   color: color-mix(in srgb, #3C3C3B 82%, transparent);
 }
 
+/* Contact info: smaller + left */
 .contactInfo{
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
-  max-width: 900px;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 520px;
+}
+
+.infoItem{
+  display: grid;
+  gap: 6px;
 }
 
 .infoLabel{
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.10em;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(26,10,64,0.55);
-  margin-bottom: 10px;
+  color: rgba(26,10,64,0.52);
 }
 
 .infoValue{
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.45;
   color: #1A0A40;
   text-decoration: none;
   font-weight: 520;
 }
 
-a.infoValue:hover{ text-decoration: underline; }
-
-/* Light form card */
-.largeForm{
-  max-width: 860px;
-  margin: 0 auto;
-  background: #FBFAFF;
-  border: 1px solid rgba(168,138,236,0.18);
-  box-shadow: 0 18px 55px rgba(0,0,0,0.22);
-  border-radius: 22px;
-  padding: clamp(22px, 3vw, 36px);
+a.infoValue:hover{
+  text-decoration: underline;
 }
 
-.formTitle{
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.4vw, 34px);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  color: #1A0A40;
-  margin-bottom: 28px;
+/* BOTTOM */
+.contactFormWrap{
+  position: relative;
+  padding: clamp(72px, 9vw, 140px) 0;
+  background: transparent;
 }
 
-.largeForm .row{ display: grid; margin-bottom: 18px; }
-.largeForm .row.two{ grid-template-columns: 1fr 1fr; gap: 16px; }
+.boundaryMarker{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  pointer-events: none;
+}
 
-.largeForm label{ display: grid; gap: 8px; }
+/* Dark bg */
+.contactFormWrap::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #1A0A40;
+  z-index: 0;
+}
 
-.largeForm span{
-  font-size: 11px;
+/* box to the left in the dark area */
+.darkGrid{
+  display: grid;
+  grid-template-columns: minmax(420px, 560px) 1fr;
+  gap: clamp(26px, 5vw, 70px);
+  align-items: start;
+}
+.darkSpacer{ min-height: 1px; }
+
+/* Panel matches frontpage */
+.ctPanel{
+  background: color-mix(in srgb, #FFFFFF 94%, #1A0A40 6%);
+  border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
+  border-radius: 0;
+  padding: clamp(22px, 3.6vw, 40px);
+}
+
+.ctForm{
+  display: grid;
+  gap: 18px;
+}
+
+.row{
+  display: grid;
+  gap: 18px;
+}
+.row.two{
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.field{
+  display: grid;
+  gap: 10px;
+  position: relative;
+}
+
+.lab{
+  font-size: var(--t11);
   font-weight: 800;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(26,10,64,0.65);
+  color: color-mix(in srgb, var(--c1) 66%, transparent);
 }
 
-.largeForm input,
-.largeForm textarea,
-.largeForm select{
-  padding: 12px 13px;
-  border-radius: 14px;
-  border: 1px solid rgba(26,10,64,0.14);
-  background: rgba(255,255,255,0.82);
-  color: #1A0A40;
-  font-family: inherit;
-  font-size: 14px;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-}
-
-.largeForm input::placeholder,
-.largeForm textarea::placeholder{ color: rgba(26,10,64,0.40); }
-
-.largeForm input:focus,
-.largeForm textarea:focus,
-.largeForm select:focus{
+.inp{
+  appearance: none;
+  border: 0;
   outline: none;
-  border-color: rgba(168,138,236,0.55);
-  box-shadow: 0 0 0 5px rgba(168,138,236,0.18);
-  background: #FFFFFF;
+  background: transparent;
+  padding: 6px 0 10px;
+  font-family: var(--font-body);
+  font-size: var(--t14);
+  line-height: 1.4;
+  color: var(--text);
 }
 
-.largeForm textarea{ resize: vertical; min-height: 160px; }
+.ta{
+  resize: vertical;
+  min-height: 140px;
+}
 
-.formActions{
+.line{
+  height: 1px;
+  width: 100%;
+  background: color-mix(in srgb, var(--c1) 26%, transparent);
+  transition: background 180ms ease;
+}
+
+.field:focus-within .line{
+  background: color-mix(in srgb, var(--c3) 28%, var(--c1));
+}
+
+.ctaRow{
   display: flex;
   justify-content: flex-end;
-  margin-top: 22px;
+  padding-top: 12px;
 }
 
-.submitBtn{
-  padding: 14px 28px;
-  border-radius: 999px;
-  border: 1px solid rgba(26,10,64,0.18);
-  background: rgba(26,10,64,0.04);
-  color: #1A0A40;
-  font-weight: 800;
-  letter-spacing: 0.10em;
+.send{
+  border: 1px solid color-mix(in srgb, var(--c1) 22%, transparent);
+  background: transparent;
+  border-radius: 0;
+  padding: 12px 18px;
+
+  font-size: var(--t11);
+  font-weight: 900;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: 11px;
+
+  color: color-mix(in srgb, var(--c1) 88%, transparent);
   cursor: pointer;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+
+  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease, background 160ms ease;
 }
 
-.submitBtn:hover{
-  background: rgba(243,33,124,0.12);
-  border-color: rgba(243,33,124,0.35);
-  box-shadow: 0 10px 30px rgba(243,33,124,0.12);
+.send:hover{
+  border-color: #F3217C;
+  color: #F3217C;
+  background: transparent;
   transform: translateY(-1px);
 }
 
 @media (max-width: 980px){
-  .contactInfo{ grid-template-columns: 1fr; gap: 18px; }
-  .largeForm .row.two{ grid-template-columns: 1fr; gap: 18px; }
+  .darkGrid{ grid-template-columns: 1fr; }
+  .row.two{ grid-template-columns: 1fr; gap: 18px; }
 
   .bgLogo{
     top: 72%;
