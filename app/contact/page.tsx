@@ -3,54 +3,77 @@
 import React, { useEffect, useRef, useState } from "react";
 
 export default function ContactPage() {
-  const markerRef = useRef<HTMLDivElement | null>(null);
+  const startMarkerRef = useRef<HTMLDivElement | null>(null);
+  const endMarkerRef = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<HTMLDivElement | null>(null);
+
   const [splitPct, setSplitPct] = useState(100);
+
+  // Dark layer clipping in viewport px
+  const [darkTopPx, setDarkTopPx] = useState(0);
+  const [darkBottomPx, setDarkBottomPx] = useState(0);
 
   useEffect(() => {
     let rafId: number | null = null;
     let ro: ResizeObserver | null = null;
 
-    const updateSplit = () => {
-      const markerEl = markerRef.current;
-      const logoEl = logoRef.current;
-      if (!markerEl || !logoEl) return;
+    const vh = () => window.visualViewport?.height ?? window.innerHeight ?? 800;
 
-      const markerRect = markerEl.getBoundingClientRect();
+    const update = () => {
+      const startEl = startMarkerRef.current;
+      const endEl = endMarkerRef.current;
+      const logoEl = logoRef.current;
+      if (!startEl || !endEl || !logoEl) return;
+
+      const startRect = startEl.getBoundingClientRect();
+      const endRect = endEl.getBoundingClientRect();
       const logoRect = logoEl.getBoundingClientRect();
 
-      const boundaryY = markerRect.top;
-      const cutPx = boundaryY - logoRect.top;
+      const viewportH = vh();
+
+      // Dark layer should appear from startY -> endY
+      const startY = startRect.top;
+      const endY = endRect.top;
+
+      // Clamp into viewport so clip-path stays valid
+      const top = Math.max(0, Math.min(viewportH, startY));
+      const bottom = Math.max(0, Math.min(viewportH, viewportH - endY));
+
+      setDarkTopPx(top);
+      setDarkBottomPx(bottom);
+
+      // Logo split: boundary is startY (exact color start line)
+      const cutPx = startY - logoRect.top;
       const pct = (cutPx / Math.max(1, logoRect.height)) * 100;
       setSplitPct(Math.min(100, Math.max(0, pct)));
     };
 
-    const scheduleUpdate = () => {
+    const schedule = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         rafId = null;
-        updateSplit();
+        update();
       });
     };
 
-    scheduleUpdate();
+    schedule();
     // @ts-ignore
     if (document?.fonts?.ready) {
       // @ts-ignore
-      document.fonts.ready.then(() => scheduleUpdate());
+      document.fonts.ready.then(() => schedule());
     }
 
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    window.visualViewport?.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.visualViewport?.addEventListener("resize", schedule);
 
-    ro = new ResizeObserver(() => scheduleUpdate());
+    ro = new ResizeObserver(() => schedule());
     ro.observe(document.documentElement);
 
     return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      window.visualViewport?.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.visualViewport?.removeEventListener("resize", schedule);
       if (rafId) cancelAnimationFrame(rafId);
       if (ro) ro.disconnect();
     };
@@ -63,7 +86,17 @@ export default function ContactPage() {
     <div className="contactPage">
       <style>{css}</style>
 
-      {/* Fixed logo layers (split EXACTLY on boundary marker) */}
+      {/* FIXED dark layer - clipped between start and end of the dark section */}
+      <div
+        className="darkLayer"
+        aria-hidden
+        style={{
+          clipPath: `inset(${darkTopPx}px 0 ${darkBottomPx}px 0)`,
+          WebkitClipPath: `inset(${darkTopPx}px 0 ${darkBottomPx}px 0)`,
+        }}
+      />
+
+      {/* FIXED logos above dark layer */}
       <div
         id="bgLogoA"
         ref={logoRef}
@@ -84,11 +117,11 @@ export default function ContactPage() {
         }}
       />
 
+      {/* TOP */}
       <section className="contactTop">
         <div className="contactContainer contentLayer">
           <div className="topInner">
             <h1 className="contactTitle">Kontakt</h1>
-
             <p className="contactLead">
               Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
               Vi er også åbne for samarbejder — og du er velkommen, hvis du er freelancer og vil connecte,
@@ -121,18 +154,15 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* DARK SECTION */}
       <section className="contactFormWrap">
-        <div ref={markerRef} className="boundaryMarker" aria-hidden />
+        {/* start marker = exact start of dark color */}
+        <div ref={startMarkerRef} className="boundaryMarker" aria-hidden />
 
         <div className="contactContainer contentLayer">
           <div className="darkGrid">
             <div className="ctPanel" aria-label="Kontaktformular">
-              <form
-                className="ctForm"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
+              <form className="ctForm" onSubmit={(e) => e.preventDefault()}>
                 <div className="row">
                   <LinedInput label="Navn" name="name" autoComplete="name" />
                 </div>
@@ -157,12 +187,13 @@ export default function ContactPage() {
             <div className="darkSpacer" aria-hidden />
           </div>
         </div>
+
+        {/* end marker = exact end of dark color (placed after section content) */}
+        <div ref={endMarkerRef} className="endMarker" aria-hidden />
       </section>
     </div>
   );
 }
-
-/* ---------------- Lined fields ---------------- */
 
 function LinedInput({
   label,
@@ -203,9 +234,6 @@ function LinedTextarea({
 }
 
 const css = `
-/* IMPORTANT:
-   Do NOT override your global .container on this page.
-   Use a dedicated container class instead. */
 .contactContainer{
   width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
@@ -217,21 +245,27 @@ const css = `
   background: transparent;
 }
 
-/* Logo layer */
+/* Dark layer now clipped between start/end markers */
+.darkLayer{
+  position: fixed;
+  inset: 0;
+  background: #1A0A40;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Logos above dark layer */
 .bgLogo{
   position: fixed;
   top: 66%;
   left: 76%;
   transform: translate(-50%, -50%);
-
   width: clamp(200px, 26vw, 460px);
   height: clamp(200px, 26vw, 460px);
-
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
   opacity: 1;
   transition: clip-path 70ms linear;
@@ -240,10 +274,10 @@ const css = `
 .bgLogo#bgLogoA{ background-image: url('/Transparent Logo.png'); }
 .bgLogo#bgLogoB{ background-image: url('/transparent-logo-2.png'); }
 
-/* content always above logo */
+/* Content above everything */
 .contentLayer{
   position: relative;
-  z-index: 2;
+  z-index: 20;
 }
 
 /* TOP */
@@ -255,7 +289,7 @@ const css = `
 
 .topInner{
   max-width: 920px;
-  margin: 0;          /* left aligned */
+  margin: 0;
 }
 
 .contactTitle{
@@ -275,7 +309,6 @@ const css = `
   color: color-mix(in srgb, #3C3C3B 82%, transparent);
 }
 
-/* Contact info: smaller + left */
 .contactInfo{
   display: grid;
   grid-template-columns: 1fr;
@@ -283,10 +316,7 @@ const css = `
   max-width: 520px;
 }
 
-.infoItem{
-  display: grid;
-  gap: 6px;
-}
+.infoItem{ display: grid; gap: 6px; }
 
 .infoLabel{
   font-size: 10px;
@@ -303,37 +333,29 @@ const css = `
   text-decoration: none;
   font-weight: 520;
 }
+a.infoValue:hover{ text-decoration: underline; }
 
-a.infoValue:hover{
-  text-decoration: underline;
-}
-
-/* BOTTOM */
+/* DARK SECTION */
 .contactFormWrap{
   position: relative;
   padding: clamp(72px, 9vw, 140px) 0;
   background: transparent;
 }
 
-.boundaryMarker{
+/* Markers are 0-height lines */
+.boundaryMarker,
+.endMarker{
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
   height: 0;
   pointer-events: none;
 }
 
-/* Dark bg */
-.contactFormWrap::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #1A0A40;
-  z-index: 0;
-}
+.boundaryMarker{ top: 0; }
+.endMarker{ bottom: 0; }
 
-/* box to the left in the dark area */
+/* Layout inside dark area */
 .darkGrid{
   display: grid;
   grid-template-columns: minmax(420px, 560px) 1fr;
@@ -342,7 +364,6 @@ a.infoValue:hover{
 }
 .darkSpacer{ min-height: 1px; }
 
-/* Panel matches frontpage */
 .ctPanel{
   background: color-mix(in srgb, #FFFFFF 94%, #1A0A40 6%);
   border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
@@ -350,25 +371,11 @@ a.infoValue:hover{
   padding: clamp(22px, 3.6vw, 40px);
 }
 
-.ctForm{
-  display: grid;
-  gap: 18px;
-}
+.ctForm{ display: grid; gap: 18px; }
+.row{ display: grid; gap: 18px; }
+.row.two{ grid-template-columns: 1fr 1fr; gap: 26px; }
 
-.row{
-  display: grid;
-  gap: 18px;
-}
-.row.two{
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
-}
-
-.field{
-  display: grid;
-  gap: 10px;
-  position: relative;
-}
+.field{ display: grid; gap: 10px; position: relative; }
 
 .lab{
   font-size: var(--t11);
@@ -390,10 +397,7 @@ a.infoValue:hover{
   color: var(--text);
 }
 
-.ta{
-  resize: vertical;
-  min-height: 140px;
-}
+.ta{ resize: vertical; min-height: 140px; }
 
 .line{
   height: 1px;
