@@ -105,7 +105,7 @@ export default function CasesPage() {
   const scrollToCase = (id: string) => {
     const el = document.getElementById(`case-${id}`);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   return (
@@ -113,9 +113,19 @@ export default function CasesPage() {
       <style>{css}</style>
 
       {/* Top explorer (FAQ-like) */}
-      <section className="explore" aria-label="Udforsk">
-        <div className="container">
-          <h1 className="exploreTitle">
+      <section className="explore" aria-label="Udforsk" style={{ padding: 0 }}>
+        <div className="container" style={{ padding: "96px 0" }}>
+          <h1
+            style={{
+              margin: "14px 0 0",
+              fontFamily: "var(--font-heading)",
+              fontWeight: 350,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.12,
+              fontSize: "clamp(28px, 3.2vw, 44px)",
+              color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+            }}
+          >
             Udforsk vores udvalg af produktioner her
           </h1>
 

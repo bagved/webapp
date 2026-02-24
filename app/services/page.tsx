@@ -87,12 +87,33 @@ export default function ServicesPage() {
     <main className="srvPage" aria-label="Ydelser">
       <style>{css}</style>
 
-      <section className="srvTop" aria-label="Intro">
-        <div className="container">
-          <p className="srvHint">
-            Her er et overblik over vores ydelser — og eksempler på, hvordan de
-            kan se ud i praksis.
-          </p>
+      <section className="srvTop" aria-label="Intro" style={{ padding: 0 }}>
+        <div className="container" style={{ padding: "96px 0" }}>
+          <h1
+            style={{
+              margin: "14px 0 0",
+              fontFamily: "var(--font-heading)",
+              fontWeight: 350,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.12,
+              fontSize: "clamp(28px, 3.2vw, 44px)",
+              color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+            }}
+          >
+            Ydelser
+          </h1>
+
+          <div
+            style={{
+              marginTop: 18,
+              fontSize: "var(--t14)",
+              lineHeight: 1.7,
+              color: "color-mix(in srgb, var(--c1) 72%, transparent)",
+              maxWidth: "70ch",
+            }}
+          >
+            <p className="srvHint">Her er et overblik over vores ydelser — og eksempler på, hvordan de kan se ud i praksis.</p>
+          </div>
         </div>
       </section>
 
@@ -190,8 +211,9 @@ const css = `
 
 /* deactive */
 .srvCard.idle{
-  opacity: 0.52;
-  transform: scale(0.99);
+  /* keep non-hovered cards visually unchanged */
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* header line */
@@ -276,7 +298,8 @@ const css = `
 /* active / highlighted */
 .srvCard.isHot{
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.03);
+  z-index: 2;
 }
 .srvCard.isHot .srvTitle{
   color: color-mix(in srgb, var(--c3) 56%, var(--c1));

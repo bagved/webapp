@@ -32,7 +32,7 @@ export default function Footer() {
             </div>
 
             <div className="ftRow">
-              <div className="ftCell ftLeft">Mail: info@bagved.dk</div>
+              <div className="ftCell ftLeft">Mail: info@bagved.com</div>
               <div className="ftCell ftMid">
                 <Link className="ftLink" href="/mission">
                   Mission

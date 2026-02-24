@@ -110,17 +110,41 @@ export default function ContactPage() {
         style={{ backgroundImage: "url('/Transparent-Logo-2.png')" }}
       />
 
-      <section className="contactTop">
-        <div className="contactContainer contentLayer">
+      <section className="contactTop" style={{ padding: 0 }}>
+        <div className="container contentLayer" style={{ padding: "96px 0" }}>
           <div className="topInner">
-            <h1 className="contactTitle">Kontakt</h1>
-            <p className="contactLead">
-              Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
-              Vi er også åbne for samarbejder — og du er velkommen, hvis du er freelancer og vil connecte,
-              søger job hos os, eller har brug for at leje udstyr.
-            </p>
+            <h1
+              style={{
+                margin: "14px 0 0",
+                fontFamily: "var(--font-heading)",
+                fontWeight: 350,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.12,
+                fontSize: "clamp(28px, 3.2vw, 44px)",
+                color: "color-mix(in srgb, var(--c1) 92%, transparent)",
+              }}
+            >
+              Kontakt
+            </h1>
 
-            <div className="contactInfo">
+            <div
+              style={{
+                marginTop: 18,
+                fontSize: "var(--t14)",
+                lineHeight: 1.7,
+                color: "color-mix(in srgb, var(--c1) 72%, transparent)",
+                maxWidth: "70ch",
+              }}
+            >
+              <p>
+                Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
+                Vi har allerede nogle af de bedste samarbejdspartnere i branchen, og er altid åbne for at udvide netværket. Så tag endelig kontakt, hvis du ønsker at høre om samarbejdsmuligheder.
+                Søger du job eller ønsker at leje udstyr, er du også velkommen til at skrive.
+              </p>
+            </div>
+          </div>
+
+          <div className="contactInfo">
               <div className="infoItem">
                 <div className="infoLabel">Telefon</div>
                 <a className="infoValue" href="tel:+4561746416">
@@ -130,8 +154,8 @@ export default function ContactPage() {
 
               <div className="infoItem">
                 <div className="infoLabel">Email</div>
-                <a className="infoValue" href="mailto:info@bagved.dk">
-                  info@bagved.dk
+                <a className="infoValue" href="mailto:info@bagved.com">
+                  info@bagved.com
                 </a>
               </div>
 
@@ -142,7 +166,6 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </section>
 
