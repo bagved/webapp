@@ -483,11 +483,11 @@ const css = `
   .exRow:nth-child(even){
     grid-template-columns: 1fr;
   }
-  .exRow .exMedia,
+  .exRow:nth-child(odd) .exMedia,
   .exRow:nth-child(even) .exMedia{
     order: 1;
   }
-  .exRow .exCopy,
+  .exRow:nth-child(odd) .exCopy,
   .exRow:nth-child(even) .exCopy{
     order: 2;
   }
