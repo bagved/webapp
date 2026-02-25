@@ -77,7 +77,7 @@ const css = `
 
 /* smaller line */
 .heroSub{
-  margin-top: clamp(10px, 1.4vw, 14px);
+  margin-top: clamp(18px, 2.2vw, 24px);
   transform: translateY(-14px);
   font-family: var(--font-body);
   color: color-mix(in srgb, var(--c1) 72%, transparent);

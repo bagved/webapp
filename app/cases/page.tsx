@@ -105,7 +105,8 @@ export default function CasesPage() {
   const scrollToCase = (id: string) => {
     const el = document.getElementById(`case-${id}`);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const isMobile = window.innerWidth <= 980;
+    el.scrollIntoView({ behavior: "smooth", block: isMobile ? "start" : "center" });
   };
 
   return (
@@ -442,9 +443,9 @@ const css = `
     display: none;
   }
   .catNav{
-    grid-auto-flow: column;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px 18px;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    gap: 14px;
     padding-top: 0;
   }
   .catLink{

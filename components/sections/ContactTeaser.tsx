@@ -212,8 +212,7 @@ const css = `
   color: color-mix(in srgb, var(--c1) 92%, transparent);
 
   /* ✅ wraps like normal text, next line starts under “Skriv” */
-  white-space: normal;
-}
+  white-space: normal;  min-height: 4.8em;}
 
 .ctTitleStatic{
   font-weight: inherit;

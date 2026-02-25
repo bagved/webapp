@@ -128,26 +128,6 @@ const css = `
   line-height: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
-
-  /* ✅ underline effect without changing line height */
-  background-image: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--c3) 22%, transparent),
-    color-mix(in srgb, var(--c3) 22%, transparent)
-  );
-  background-size: 0% 1px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-
-  transition: color 160ms ease, background-size 160ms ease;
-}
-
-/* desktop hover only */
-@media (hover:hover){
-  .ftLink:hover{
-    color: var(--c3);
-    background-size: 100% 1px;
-  }
 }
 
 /* Desktop (default) */

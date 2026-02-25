@@ -351,7 +351,7 @@ a.infoValue:hover{ text-decoration: underline; }
 
 .contactFormWrap{
   position: relative;
-  padding: clamp(72px, 9vw, 140px) 0;
+  padding: clamp(72px, 9vw, 140px) 0 clamp(140px, 12vw, 220px);
   background: transparent;
 }
 
