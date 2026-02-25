@@ -1,4 +1,3 @@
-// app/cases/page.tsx
 "use client";
 
 import { useMemo, useState } from "react";
@@ -112,7 +111,6 @@ export default function CasesPage() {
     <main className="casesPage" aria-label="Eksempler">
       <style>{css}</style>
 
-      {/* Top explorer (FAQ-like) */}
       <section className="explore" aria-label="Udforsk" style={{ padding: 0 }}>
         <div className="container" style={{ padding: "96px 0" }}>
           <h1
@@ -130,7 +128,6 @@ export default function CasesPage() {
           </h1>
 
           <div className="exploreGrid">
-            {/* Left categories */}
             <aside className="cats" aria-label="Kategorier">
               <nav className="catNav">
                 {categories.map((c) => {
@@ -149,10 +146,8 @@ export default function CasesPage() {
               </nav>
             </aside>
 
-            {/* Divider like the reference */}
             <div className="divider" aria-hidden />
 
-            {/* Right “FAQ lines” (only active category) */}
             <section className="list" aria-label="Produktioner">
               <div className="listHeader">
                 <div className="listKicker">{labelFor(activeCat)}</div>
@@ -180,7 +175,6 @@ export default function CasesPage() {
         </div>
       </section>
 
-      {/* All cases */}
       <section className="examples" aria-label="Eksempler">
         <div className="container">
           <div className="examplesGrid">
@@ -212,7 +206,7 @@ const css = `
   background: transparent;
 }
 
-/* --------- TOP (match the reference) --------- */
+/* --------- TOP --------- */
 .explore{
   padding: clamp(64px, 7.2vw, 96px) 0 clamp(40px, 5vw, 58px);
 }
@@ -235,7 +229,6 @@ const css = `
   align-items: start;
 }
 
-/* Left categories (like the image) */
 .catNav{
   display: grid;
   gap: 18px;
@@ -278,7 +271,6 @@ const css = `
   opacity: 1;
 }
 
-/* Vertical divider */
 .divider{
   width: 1px;
   background: color-mix(in srgb, var(--c1) 14%, transparent);
@@ -287,7 +279,6 @@ const css = `
   margin-top: 8px;
 }
 
-/* Right list (FAQ feel) */
 .listHeader{
   display: flex;
   align-items: center;
@@ -358,7 +349,7 @@ const css = `
   color: var(--c3);
 }
 
-/* --------- CASES (alternate like the reference) --------- */
+/* --------- CASES --------- */
 .examples{
   padding: clamp(34px, 4.8vw, 56px) 0 0;
 }
@@ -391,7 +382,7 @@ const css = `
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
-/* Media (sharp, clean, no rounding) */
+/* Media */
 .exMedia{
   position: relative;
   border-radius: 0;
@@ -401,7 +392,6 @@ const css = `
   min-height: clamp(260px, 32vw, 430px);
 }
 
-/* Purple background alternating rows */
 .exRow:nth-child(even) .exMedia{
   border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
@@ -447,15 +437,13 @@ const css = `
   max-width: 64ch;
 }
 
-/* Purple background alternating rows */
+/* Purple rows */
 .exRow:nth-child(even) .exKicker{
   color: color-mix(in srgb, #FFFFFF 48%, transparent);
 }
-
 .exRow:nth-child(even) .exTitle{
   color: #FFFFFF;
 }
-
 .exRow:nth-child(even) .exBody{
   color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
@@ -479,7 +467,7 @@ const css = `
     padding-bottom: 6px;
   }
 
-  /* Mobile: stack everything with image over text (for BOTH odd + even) */
+  /* Stack all rows */
   .exRow,
   .exRow:nth-child(even),
   .exRow:nth-child(odd){
@@ -488,12 +476,13 @@ const css = `
     padding: 20px 16px;
   }
 
-  .exRow .exMedia{ order: 1; }
-  .exRow .exCopy{ order: 2; }
+  /* ✅ force image on top for ALL rows (overrides desktop even-row order rules) */
+  .exRow .exMedia{ order: 1 !important; }
+  .exRow .exCopy{ order: 2 !important; }
 
-  /* Mobile: keep GLOBAL rows looking like web (global background + web text) */
+  /* Odd rows: global background + web text */
   .exRow:nth-child(odd){
-    background: transparent; /* global background on mobile too */
+    background: transparent;
   }
   .exRow:nth-child(odd) .exMedia{
     border-color: color-mix(in srgb, var(--c1) 14%, transparent);
@@ -511,7 +500,7 @@ const css = `
     line-height: 1.65;
   }
 
-  /* Mobile: keep PURPLE rows looking like web (purple bg + white text) */
+  /* Even rows: purple background + white text */
   .exRow:nth-child(even){
     background: #1A0A40;
   }
