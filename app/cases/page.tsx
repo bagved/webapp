@@ -235,7 +235,7 @@ const css = `
   align-items: start;
 }
 
-/* Left categories (like the image) */
+/* Left categories */
 .catNav{
   display: grid;
   gap: 18px;
@@ -287,7 +287,7 @@ const css = `
   margin-top: 8px;
 }
 
-/* Right list (FAQ feel) */
+/* Right list */
 .listHeader{
   display: flex;
   align-items: center;
@@ -358,7 +358,7 @@ const css = `
   color: var(--c3);
 }
 
-/* --------- CASES (alternate like the reference) --------- */
+/* --------- CASES --------- */
 .examples{
   padding: clamp(34px, 4.8vw, 56px) 0 0;
 }
@@ -379,11 +379,13 @@ const css = `
   margin-left: calc(-50vw + 50%);
 }
 
+/* Keep global background rows transparent (use site's real background) */
 .exRow:nth-child(odd){
   grid-template-columns: 1.35fr 1fr;
   background: transparent;
 }
 
+/* Purple rows */
 .exRow:nth-child(even){
   grid-template-columns: 1fr 1.35fr;
   background: #1A0A40;
@@ -391,7 +393,7 @@ const css = `
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
-/* Media (sharp, clean, no rounding) */
+/* Media */
 .exMedia{
   position: relative;
   border-radius: 0;
@@ -401,7 +403,7 @@ const css = `
   min-height: clamp(260px, 32vw, 430px);
 }
 
-/* Purple background alternating rows */
+/* Purple rows media border */
 .exRow:nth-child(even) .exMedia{
   border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
@@ -421,6 +423,7 @@ const css = `
   align-content: start;
 }
 
+/* Default text (global background rows) */
 .exKicker{
   font-size: var(--t11);
   font-weight: 900;
@@ -447,7 +450,7 @@ const css = `
   max-width: 64ch;
 }
 
-/* Purple background alternating rows */
+/* Purple rows text */
 .exRow:nth-child(even) .exKicker{
   color: color-mix(in srgb, #FFFFFF 48%, transparent);
 }
@@ -479,13 +482,13 @@ const css = `
     padding-bottom: 6px;
   }
 
-  /* Stack all rows the same way on mobile */
+  /* All mobile rows should look like purple rows */
   .exRow,
   .exRow:nth-child(even){
     grid-template-columns: 1fr;
     gap: 16px;
     padding: 20px 16px;
-    background: #1A0A40; /* force purple style for all rows */
+    background: #1A0A40;
   }
 
   .exRow:nth-child(odd) .exMedia,
@@ -497,7 +500,6 @@ const css = `
     order: 2;
   }
 
-  /* Make ALL mobile rows match the purple row look */
   .exRow .exMedia{
     border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
     min-height: 220px;
