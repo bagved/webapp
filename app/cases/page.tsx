@@ -212,7 +212,7 @@ const css = `
   background: transparent;
 }
 
-/* --------- TOP --------- */
+/* --------- TOP (match the reference) --------- */
 .explore{
   padding: clamp(64px, 7.2vw, 96px) 0 clamp(40px, 5vw, 58px);
 }
@@ -235,6 +235,7 @@ const css = `
   align-items: start;
 }
 
+/* Left categories (like the image) */
 .catNav{
   display: grid;
   gap: 18px;
@@ -277,6 +278,7 @@ const css = `
   opacity: 1;
 }
 
+/* Vertical divider */
 .divider{
   width: 1px;
   background: color-mix(in srgb, var(--c1) 14%, transparent);
@@ -285,6 +287,7 @@ const css = `
   margin-top: 8px;
 }
 
+/* Right list (FAQ feel) */
 .listHeader{
   display: flex;
   align-items: center;
@@ -355,7 +358,7 @@ const css = `
   color: var(--c3);
 }
 
-/* --------- CASES --------- */
+/* --------- CASES (alternate like the reference) --------- */
 .examples{
   padding: clamp(34px, 4.8vw, 56px) 0 0;
 }
@@ -388,6 +391,7 @@ const css = `
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
+/* Media (sharp, clean, no rounding) */
 .exMedia{
   position: relative;
   border-radius: 0;
@@ -397,6 +401,7 @@ const css = `
   min-height: clamp(260px, 32vw, 430px);
 }
 
+/* Purple background alternating rows */
 .exRow:nth-child(even) .exMedia{
   border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
@@ -442,12 +447,15 @@ const css = `
   max-width: 64ch;
 }
 
+/* Purple background alternating rows */
 .exRow:nth-child(even) .exKicker{
   color: color-mix(in srgb, #FFFFFF 48%, transparent);
 }
+
 .exRow:nth-child(even) .exTitle{
   color: #FFFFFF;
 }
+
 .exRow:nth-child(even) .exBody{
   color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
@@ -471,35 +479,55 @@ const css = `
     padding-bottom: 6px;
   }
 
-  /* FIX: force BOTH odd+even rows to use identical "purple row" styling on mobile */
-  .exRow{
-    grid-template-columns: 1fr !important;
+  /* Mobile: stack everything with image over text (for BOTH odd + even) */
+  .exRow,
+  .exRow:nth-child(even),
+  .exRow:nth-child(odd){
+    grid-template-columns: 1fr;
     gap: 16px;
     padding: 20px 16px;
-    background: #1A0A40 !important;
   }
 
-  .exRow .exMedia{
-    order: 1;
-    border-color: color-mix(in srgb, #FFFFFF 18%, transparent) !important;
+  .exRow .exMedia{ order: 1; }
+  .exRow .exCopy{ order: 2; }
+
+  /* Mobile: keep GLOBAL rows looking like web (global background + web text) */
+  .exRow:nth-child(odd){
+    background: transparent; /* global background on mobile too */
+  }
+  .exRow:nth-child(odd) .exMedia{
+    border-color: color-mix(in srgb, var(--c1) 14%, transparent);
     min-height: 220px;
   }
-
-  .exRow .exCopy{
-    order: 2;
+  .exRow:nth-child(odd) .exKicker{
+    color: color-mix(in srgb, var(--c1) 58%, transparent);
   }
-
-  .exRow .exKicker{
-    color: color-mix(in srgb, #FFFFFF 48%, transparent) !important;
-  }
-
-  .exRow .exTitle{
-    color: #FFFFFF !important;
+  .exRow:nth-child(odd) .exTitle{
+    color: color-mix(in srgb, var(--c1) 92%, transparent);
     font-size: clamp(22px, 7vw, 30px);
   }
+  .exRow:nth-child(odd) .exBody{
+    color: color-mix(in srgb, var(--c1) 72%, transparent);
+    line-height: 1.65;
+  }
 
-  .exRow .exBody{
-    color: color-mix(in srgb, #FFFFFF 78%, transparent) !important;
+  /* Mobile: keep PURPLE rows looking like web (purple bg + white text) */
+  .exRow:nth-child(even){
+    background: #1A0A40;
+  }
+  .exRow:nth-child(even) .exMedia{
+    border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
+    min-height: 220px;
+  }
+  .exRow:nth-child(even) .exKicker{
+    color: color-mix(in srgb, #FFFFFF 48%, transparent);
+  }
+  .exRow:nth-child(even) .exTitle{
+    color: #FFFFFF;
+    font-size: clamp(22px, 7vw, 30px);
+  }
+  .exRow:nth-child(even) .exBody{
+    color: color-mix(in srgb, #FFFFFF 78%, transparent);
     line-height: 1.65;
   }
 }
