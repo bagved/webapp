@@ -361,12 +361,12 @@ const css = `
 
 /* --------- CASES (alternate like the reference) --------- */
 .examples{
-  padding: clamp(34px, 4.8vw, 56px) 0 clamp(86px, 9vw, 122px);
+  padding: clamp(34px, 4.8vw, 56px) 0 0;
 }
 
 .examplesGrid{
   display: grid;
-  gap: clamp(26px, 4.4vw, 52px);
+  gap: 0;
 }
 
 .exRow{
@@ -374,10 +374,20 @@ const css = `
   grid-template-columns: 1.35fr 1fr;
   gap: clamp(22px, 4vw, 54px);
   align-items: stretch;
+  padding: clamp(22px, 4vw, 40px);
+  border-radius: 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.exRow:nth-child(odd){
+  grid-template-columns: 1.35fr 1fr;
+  background: transparent;
 }
 
 .exRow:nth-child(even){
   grid-template-columns: 1fr 1.35fr;
+  background: #1A0A40;
 }
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
@@ -390,6 +400,11 @@ const css = `
   overflow: hidden;
   background: transparent;
   min-height: clamp(260px, 32vw, 430px);
+}
+
+/* Purple background alternating rows */
+.exRow:nth-child(even) .exMedia{
+  border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
 
 .exImg{
@@ -431,6 +446,19 @@ const css = `
   line-height: 1.8;
   color: color-mix(in srgb, var(--c1) 72%, transparent);
   max-width: 64ch;
+}
+
+/* Purple background alternating rows */
+.exRow:nth-child(even) .exKicker{
+  color: color-mix(in srgb, #FFFFFF 48%, transparent);
+}
+
+.exRow:nth-child(even) .exTitle{
+  color: #FFFFFF;
+}
+
+.exRow:nth-child(even) .exBody{
+  color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
 
 /* --------- Responsive --------- */

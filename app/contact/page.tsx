@@ -288,6 +288,7 @@ const css = `
   filter: none !important;
   mix-blend-mode: normal !important;
   will-change: clip-path;
+  max-height: 85vh;
 }
 
 .contentLayer{
