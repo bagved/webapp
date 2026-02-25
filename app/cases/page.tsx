@@ -479,10 +479,15 @@ const css = `
     padding-bottom: 6px;
   }
 
+  /* Stack all rows the same way on mobile */
   .exRow,
   .exRow:nth-child(even){
     grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 16px;
+    background: #1A0A40; /* force purple style for all rows */
   }
+
   .exRow:nth-child(odd) .exMedia,
   .exRow:nth-child(even) .exMedia{
     order: 1;
@@ -490,6 +495,26 @@ const css = `
   .exRow:nth-child(odd) .exCopy,
   .exRow:nth-child(even) .exCopy{
     order: 2;
+  }
+
+  /* Make ALL mobile rows match the purple row look */
+  .exRow .exMedia{
+    border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
+    min-height: 220px;
+  }
+
+  .exRow .exKicker{
+    color: color-mix(in srgb, #FFFFFF 48%, transparent);
+  }
+
+  .exRow .exTitle{
+    color: #FFFFFF;
+    font-size: clamp(22px, 7vw, 30px);
+  }
+
+  .exRow .exBody{
+    color: color-mix(in srgb, #FFFFFF 78%, transparent);
+    line-height: 1.65;
   }
 }
 `;
