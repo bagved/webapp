@@ -180,7 +180,7 @@ export default function CasesPage() {
         </div>
       </section>
 
-      {/* All cases (still show everything on scroll) */}
+      {/* All cases */}
       <section className="examples" aria-label="Eksempler">
         <div className="container">
           <div className="examplesGrid">
@@ -212,7 +212,7 @@ const css = `
   background: transparent;
 }
 
-/* --------- TOP (match the reference) --------- */
+/* --------- TOP --------- */
 .explore{
   padding: clamp(64px, 7.2vw, 96px) 0 clamp(40px, 5vw, 58px);
 }
@@ -235,7 +235,6 @@ const css = `
   align-items: start;
 }
 
-/* Left categories */
 .catNav{
   display: grid;
   gap: 18px;
@@ -278,7 +277,6 @@ const css = `
   opacity: 1;
 }
 
-/* Vertical divider */
 .divider{
   width: 1px;
   background: color-mix(in srgb, var(--c1) 14%, transparent);
@@ -287,7 +285,6 @@ const css = `
   margin-top: 8px;
 }
 
-/* Right list */
 .listHeader{
   display: flex;
   align-items: center;
@@ -379,13 +376,11 @@ const css = `
   margin-left: calc(-50vw + 50%);
 }
 
-/* Keep global background rows transparent (use site's real background) */
 .exRow:nth-child(odd){
   grid-template-columns: 1.35fr 1fr;
-  background: transparent;
+  background: transparent; /* global background */
 }
 
-/* Purple rows */
 .exRow:nth-child(even){
   grid-template-columns: 1fr 1.35fr;
   background: #1A0A40;
@@ -393,7 +388,6 @@ const css = `
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
-/* Media */
 .exMedia{
   position: relative;
   border-radius: 0;
@@ -403,7 +397,6 @@ const css = `
   min-height: clamp(260px, 32vw, 430px);
 }
 
-/* Purple rows media border */
 .exRow:nth-child(even) .exMedia{
   border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
@@ -423,7 +416,6 @@ const css = `
   align-content: start;
 }
 
-/* Default text (global background rows) */
 .exKicker{
   font-size: var(--t11);
   font-weight: 900;
@@ -450,15 +442,12 @@ const css = `
   max-width: 64ch;
 }
 
-/* Purple rows text */
 .exRow:nth-child(even) .exKicker{
   color: color-mix(in srgb, #FFFFFF 48%, transparent);
 }
-
 .exRow:nth-child(even) .exTitle{
   color: #FFFFFF;
 }
-
 .exRow:nth-child(even) .exBody{
   color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
@@ -482,40 +471,35 @@ const css = `
     padding-bottom: 6px;
   }
 
-  /* All mobile rows should look like purple rows */
-  .exRow,
-  .exRow:nth-child(even){
-    grid-template-columns: 1fr;
+  /* FIX: force BOTH odd+even rows to use identical "purple row" styling on mobile */
+  .exRow{
+    grid-template-columns: 1fr !important;
     gap: 16px;
     padding: 20px 16px;
-    background: #1A0A40;
-  }
-
-  .exRow:nth-child(odd) .exMedia,
-  .exRow:nth-child(even) .exMedia{
-    order: 1;
-  }
-  .exRow:nth-child(odd) .exCopy,
-  .exRow:nth-child(even) .exCopy{
-    order: 2;
+    background: #1A0A40 !important;
   }
 
   .exRow .exMedia{
-    border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
+    order: 1;
+    border-color: color-mix(in srgb, #FFFFFF 18%, transparent) !important;
     min-height: 220px;
   }
 
+  .exRow .exCopy{
+    order: 2;
+  }
+
   .exRow .exKicker{
-    color: color-mix(in srgb, #FFFFFF 48%, transparent);
+    color: color-mix(in srgb, #FFFFFF 48%, transparent) !important;
   }
 
   .exRow .exTitle{
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-size: clamp(22px, 7vw, 30px);
   }
 
   .exRow .exBody{
-    color: color-mix(in srgb, #FFFFFF 78%, transparent);
+    color: color-mix(in srgb, #FFFFFF 78%, transparent) !important;
     line-height: 1.65;
   }
 }
