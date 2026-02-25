@@ -185,12 +185,30 @@
 }
 
 /* ✅ Mobile layout:
-   logo small left, hamburger centered, DA right */
+   language left, logo center, hamburger right */
 @media (max-width: 820px){
   .bar{
     grid-template-columns: auto 1fr auto;
     gap: 10px;
     padding: 12px 0;
+  }
+
+  /* Language on the left */
+  .right{
+    order: 1;
+    justify-self: start;
+  }
+
+  /* Logo in the center */
+  .left{
+    order: 2;
+    justify-self: center;
+  }
+
+  /* Hamburger on the right */
+  .menuButton{
+    order: 3;
+    justify-self: end;
   }
 
   /* hide desktop nav */

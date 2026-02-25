@@ -158,6 +158,16 @@ const css = `
     gap: 6px;
   }
 
+  .ftBlock .ftLink {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 1.55;
+    font-weight: 300;
+    letter-spacing: 0;
+    color: color-mix(in srgb, var(--c1) 78%, transparent);
+  }
+
   .ftDivider{
     height: 1px;
     width: 100%;
