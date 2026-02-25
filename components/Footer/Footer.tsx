@@ -60,7 +60,7 @@ export default function Footer() {
           <div className="ftBlock">
             <div className="ftCell">CVR: 42597376</div>
             <div className="ftCell">Tlf: +45 61 74 64 16</div>
-            <div className="ftCell">Mail: info@bagved.dk</div>
+            <div className="ftCell">Mail: info@bagved.com</div>
             <div className="ftCell">
               Adresse: Frederiksvej 32, st. th., 2000 Frederiksberg
             </div>
