@@ -27,18 +27,16 @@ export default function HomeHero() {
 
 const css = `
 .homeHero{
-  height: clamp(420px, 60vh, 720px);
+  height: auto;
   padding: 22px 0 0;
 }
 
 .heroWrap{
-  height: 100%;
   display: grid;
   align-items: stretch;
 }
 
 .heroGrid{
-  height: 100%;
   display: grid;
   grid-template-columns: 1.25fr 1fr;
   column-gap: clamp(34px, 7vw, 110px);
@@ -47,7 +45,6 @@ const css = `
 
 .leftCol{
   position: relative;
-  height: 100%;
   display: grid;
   align-content: start;
 
@@ -69,12 +66,12 @@ const css = `
 
 /* BIG line */
 .heroBig{
-  font-family: var(--font-body);
-  color: var(--c1);
-  font-weight: 650;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
-  font-size: clamp(34px, 4.2vw, 64px);
+  font-family: var(--font-heading);
+  color: color-mix(in srgb, var(--c1) 92%, transparent);
+  font-weight: 350;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-size: clamp(28px, 3.2vw, 44px);
   text-wrap: balance;
 }
 
@@ -83,12 +80,11 @@ const css = `
   margin-top: clamp(10px, 1.4vw, 14px);
   transform: translateY(-14px);
   font-family: var(--font-body);
-  color: var(--c1);
+  color: color-mix(in srgb, var(--c1) 72%, transparent);
   font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.42;
-  font-size: clamp(13px, 0.95vw, 15px);
-  opacity: 0.85;
+  letter-spacing: 0;
+  line-height: 1.7;
+  font-size: var(--t14);
   text-wrap: balance;
   max-width: 70ch;
 }
@@ -119,7 +115,7 @@ const css = `
 /* RIGHT image */
 .right{
   width: min(620px, 100%);
-  height: clamp(320px, 52vh, 640px);
+  aspect-ratio: 5 / 4;
   justify-self: end;
   margin-top: clamp(18px, 2.5vh, 46px);
 }
@@ -165,7 +161,7 @@ const css = `
 
   .right{
     width: 100%;
-    height: 360px;
+    aspect-ratio: 5 / 4;
     margin-top: 0px;
   }
 }

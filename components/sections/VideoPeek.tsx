@@ -13,6 +13,7 @@ export default function VideoPeek() {
               src="https://player.vimeo.com/video/1150126676?h=2b9851b0d2&badge=0&autopause=0&player_id=0&app_id=58479"
               title="BAGVED video"
               frameBorder={0}
+              loading="lazy"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
             />
@@ -31,7 +32,7 @@ export default function VideoPeek() {
 const css = `
 .videoPeek{
   margin-top: clamp(-92px, -7vh, -48px);
-  padding-top: clamp(26px, 4vh, 44px);
+  padding-top: clamp(44px, 6vh, 64px);
   padding-bottom: clamp(72px, 9vw, 140px);
 }
 
