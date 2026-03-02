@@ -8,9 +8,9 @@ export default function HomeHero() {
           {/* LEFT COLUMN: Heading + Paragraph text */}
           <div className="leftCol">
             <div className="heroText" aria-hidden>
-              <div className="heroBig">BAGVED det gode udtryk.</div>
+              <div className="heroBig">Bagved det gode udtryk.</div>
               <div className="heroSub">
-                Bagved leverer video, livestream og AV, der får jeres møder og events til at se knivskarpe ud — og føles lette at afvikle. Vi tager ansvar for hele setup'et fra plan til sidste frame, så I står med et professionelt udtryk, stabil lyd og billede og en produktion der kører roligt på dagen. Ingen rod, ingen stress — bare et format, der holder opmærksomheden og får budskabet helt igennem.
+                Vil du have videoløsninger, der holder opmærksomheden? Om det er dine kollegaer, kunder eller samarbejdspartnere, så har vi ekspertisen til at løfte dine budskaber og fortællinger. Om det er en reklamefilm, et webinar eller en droneoptagelser og billeder til din hjemmeside, så kan vi det hele. Med en bred vifte af kompetencer og samarbejdspartnere, der er eksperter på diverse områder, så er vi klar til at løfte en lang liste af opgaver. Vi har stået for større sportsproduktioner, der er blevet broadvcastet. Koncerter der filmes til storskærmen. Reklamekampagner, der følges fra idé til optagelse og videre til eskponering på diverse medier. Vi elsker at lave video, og vi er er klar til at hjælpe dig med også at blive forelsket i film, video og levende billeder.
               </div>
             </div>
           </div>
