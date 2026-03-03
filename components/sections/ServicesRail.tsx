@@ -18,36 +18,78 @@ export default function ServicesRail() {
         id: "livestream",
         img: "/services/livestream.png",
         title: "LIVESTREAM",
-        subtitle: "Broadcast & afvikling",
-        href: "/services#livestream",
+        subtitle: "Live & broadcast",
+        href: "/services#live-broadcast",
+      },
+      {
+        id: "sportsbroadcast",
+        img: "/services/livestream.png",
+        title: "SPORTSBROADCAST",
+        subtitle: "Live & broadcast",
+        href: "/services#live-broadcast",
+      },
+      {
+        id: "webinar-studieproduktion",
+        img: "/services/webinar-studieproduktion.png",
+        title: "WEBINAR & STUDIEPRODUKTION",
+        subtitle: "Live & broadcast",
+        href: "/services#live-broadcast",
       },
       {
         id: "reklamefilm",
         img: "/services/reklamefilm.png",
         title: "REKLAMEFILM",
-        subtitle: "Content & kampagner",
-        href: "/services#reklamefilm",
+        subtitle: "Virksomhedsfilm & reklame",
+        href: "/services#virksomhedsfilm-reklame",
       },
       {
-        id: "lydlys",
-        img: "/services/lydlys.png",
-        title: "LYD OG LYS",
-        subtitle: "Planlægning & oplevelse",
-        href: "/services#lydlys",
+        id: "virksomhedsvideo",
+        img: "/services/Virksomhedsvideo.png",
+        title: "VIRKSOMHEDSVIDEO",
+        subtitle: "Virksomhedsfilm & reklame",
+        href: "/services#virksomhedsfilm-reklame",
       },
       {
-        id: "planlaegning",
-        img: "/services/planlaegning.png",
-        title: "PLANLÆGNING",
-        subtitle: "Run of show & flow",
-        href: "/services#planlaegning",
+        id: "produktvideo",
+        img: "/services/produktvideo.png",
+        title: "PRODUKTVIDEO",
+        subtitle: "Virksomhedsfilm & reklame",
+        href: "/services#virksomhedsfilm-reklame",
       },
       {
-        id: "content",
-        img: "/services/content.png",
-        title: "CONTENT",
-        subtitle: "Én produktion → flere assets",
-        href: "/services#content",
+        id: "sociale-medier",
+        img: "/services/social-media-content.png",
+        title: "VIDEO TIL SOCIALE MEDIER",
+        subtitle: "Sociale medier",
+        href: "/services#sociale-medier",
+      },
+      {
+        id: "eventvideo",
+        img: "/services/eventvideo.png",
+        title: "EVENTVIDEO",
+        subtitle: "Eventvideo & eventteknik",
+        href: "/services#eventvideo-eventteknik",
+      },
+      {
+        id: "eventteknik",
+        img: "/services/eventafvikling.png",
+        title: "LYD, LYS & EVENTTEKNIK",
+        subtitle: "Eventvideo & eventteknik",
+        href: "/services#eventvideo-eventteknik",
+      },
+      {
+        id: "drone",
+        img: "/services/droneoptagelser-og-billeder.png",
+        title: "DRONEVIDEO & DRONEBILLEDER",
+        subtitle: "Foto & drone",
+        href: "/services#foto-drone",
+      },
+      {
+        id: "stillfoto",
+        img: "/services/stillbilleder-og-redigering.png",
+        title: "STILLFOTO & BILLEDREDIGERING",
+        subtitle: "Foto & drone",
+        href: "/services#foto-drone",
       },
     ],
     []
@@ -61,7 +103,6 @@ export default function ServicesRail() {
   const [hasOverflow, setHasOverflow] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // ✅ keep these for the bar + overflow state (unchanged)
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
@@ -85,7 +126,6 @@ export default function ServicesRail() {
     };
   }, []);
 
-  // ✅ NEW: auto-highlight the tile that's visually centered (mobile friendly)
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
@@ -121,7 +161,6 @@ export default function ServicesRail() {
       raf = requestAnimationFrame(pickCentered);
     };
 
-    // run once on mount + after resize (so the correct one is highlighted)
     const onResize = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(pickCentered);
@@ -174,7 +213,6 @@ export default function ServicesRail() {
             })}
           </div>
 
-          {/* bottom indicator only (no arrows) */}
           <div className="bar" aria-hidden>
             <div className={`hint ${hasOverflow && canLeft ? "on" : ""}`}>←</div>
             <div className="track">
@@ -203,16 +241,10 @@ const css = `
   padding: 32px 0 20px;
 }
 
-/*
-  ✅ Key fix for “can't see the last borders”:
-  Add side padding so the first/last tiles never sit flush against the viewport.
-  Also remove the edge mask that can fade out borders.
-*/
 .rail{
   --tileW: 360px;
   --tileH: 520px;
-
-  --edgePad: clamp(18px, 3.2vw, 44px); /* ✅ keeps borders fully visible */
+  --edgePad: clamp(18px, 3.2vw, 44px);
   --gap: clamp(26px, 4.4vw, 64px);
 
   display: grid;
@@ -223,19 +255,18 @@ const css = `
   overflow-x: auto;
   overflow-y: visible;
 
-  padding: 10px var(--edgePad) 14px;  /* ✅ side padding */
-  scroll-padding-left: var(--edgePad); /* ✅ snap respects padding */
+  padding: 10px var(--edgePad) 14px;
+  scroll-padding-left: var(--edgePad);
   scroll-padding-right: var(--edgePad);
 
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 
-  justify-content: start; /* with edge padding this feels “gallery” */
+  justify-content: start;
 }
 .rail::-webkit-scrollbar{ display:none; }
 
-/* Tile */
 .tile{
   scroll-snap-align: center;
   position: relative;
@@ -254,13 +285,11 @@ const css = `
     background 220ms ease;
 }
 
-/* Deactive smaller */
 .idle{
   opacity: 0.52;
   transform: scale(0.94);
 }
 
-/* Active */
 .active{
   opacity: 1;
   transform: scale(1);
@@ -268,7 +297,6 @@ const css = `
   background: color-mix(in srgb, var(--c2) 24%, transparent);
 }
 
-/* Media fills tile */
 .media{
   position: absolute;
   inset: 0;
@@ -281,7 +309,7 @@ const css = `
   inset: 0;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain; /* luxe product feel */
+  background-size: contain;
   filter: saturate(1.01) contrast(1.02);
 }
 
@@ -297,7 +325,6 @@ const css = `
   pointer-events: none;
 }
 
-/* Text overlay */
 .meta{
   position: absolute;
   left: 0;
@@ -324,7 +351,6 @@ const css = `
   color: color-mix(in srgb, var(--c1) 66%, transparent);
 }
 
-/* Hover: tiny chroma shift */
 @media (hover:hover){
   .tile:hover{
     border-color: color-mix(in srgb, var(--c3) 20%, transparent);
@@ -338,7 +364,6 @@ const css = `
   }
 }
 
-/* Progress bar */
 .bar{
   display: grid;
   grid-template-columns: 40px 1fr 40px;
@@ -372,8 +397,7 @@ const css = `
 }
 .hint.on{ opacity: 1; }
 
-/* CTA */
-  .ctaRow{
+.ctaRow{
   display:flex;
   justify-content: flex-end;
   padding-top: 18px;
@@ -394,7 +418,6 @@ const css = `
   border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
 }
 
-/* Mobile */
 @media (max-width: 780px){
   .rail{
     --tileW: 78vw;
