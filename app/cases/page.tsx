@@ -1,8 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-type CategoryId = "livestream" | "events" | "reklamefilm" | "markedsfoering";
+type CategoryId =
+  | "live-broadcast"
+  | "virksomhedsfilm-reklame"
+  | "sociale-medier"
+  | "eventvideo-eventteknik"
+  | "foto-drone";
 
 type CaseItem = {
   id: string;
@@ -13,10 +18,11 @@ type CaseItem = {
 };
 
 const categories: { id: CategoryId; label: string }[] = [
-  { id: "livestream", label: "Livestream" },
-  { id: "events", label: "Events" },
-  { id: "reklamefilm", label: "Reklamefilm" },
-  { id: "markedsfoering", label: "Markedsføring" },
+  { id: "live-broadcast", label: "Live & broadcast" },
+  { id: "virksomhedsfilm-reklame", label: "Virksomhedsfilm & reklame" },
+  { id: "sociale-medier", label: "Sociale medier" },
+  { id: "eventvideo-eventteknik", label: "Eventvideo & eventteknik" },
+  { id: "foto-drone", label: "Foto & drone" },
 ];
 
 function labelFor(cat: CategoryId) {
@@ -27,84 +33,166 @@ export default function CasesPage() {
   const allCases: CaseItem[] = useMemo(
     () => [
       {
-        id: "livestream-personalemoede",
-        category: "livestream",
-        title: "Livestream af personalemøde",
+        id: "livestream",
+        category: "live-broadcast",
+        title: "Livestream",
         body:
-          "Multi-cam, stabil afvikling og et udtryk der føles roligt og professionelt — uden at tage fokus fra indholdet.",
+          "Stabil livestream med professionel afvikling til events, oplæg og digitale produktioner. Vi sikrer et roligt setup, god lyd og en udsendelse, der fungerer fra start til slut.",
         image: "/cases/livestream-1.jpg",
       },
       {
-        id: "livestream-konference",
-        category: "livestream",
-        title: "Hybrid konference med publikumsflow",
+        id: "sportsbroadcast",
+        category: "live-broadcast",
+        title: "Sportsbroadcast",
         body:
-          "Scene, storskærm og stream bindes sammen til én samlet produktion — så formatet føles enkelt og sikkert.",
+          "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
         image: "/cases/livestream-2.jpg",
       },
       {
-        id: "events-awards",
-        category: "events",
-        title: "Awards / sceneshow med timing",
+        id: "webinar-studieproduktion",
+        category: "live-broadcast",
+        title: "Webinar & studieproduktion",
         body:
-          "Lys, lyd og cues styres stramt. Setup der ser clean ud og performer stabilt hele vejen.",
-        image: "/cases/events-1.jpg",
+          "Webinarer og studieopsætninger i kontrollerede rammer, hvor teknik, framing og lyd går op i en højere enhed. Velegnet til præsentationer, undervisning og intern kommunikation.",
+        image: "/cases/livestream-3.jpg",
       },
       {
-        id: "events-townhall",
-        category: "events",
-        title: "Townhall med storskærm og talkback",
+        id: "reklamefilm",
+        category: "virksomhedsfilm-reklame",
+        title: "Reklamefilm",
         body:
-          "Tryg afvikling for talere og teknik. Struktur, redundans og ro — fra start til slut.",
-        image: "/cases/events-2.jpg",
-      },
-      {
-        id: "reklamefilm-hero",
-        category: "reklamefilm",
-        title: "Reklamefilm med hero-look",
-        body:
-          "Cinematisk lys, tight pacing og lyd der føles premium. Leveret i formater til kampagne og SoMe.",
+          "Reklamefilm med et skarpt visuelt udtryk og et klart budskab. Produceret til kampagner, lanceringer og branding, hvor kvalitet og genkendelighed er afgørende.",
         image: "/cases/reklamefilm-1.jpg",
       },
       {
-        id: "reklamefilm-case",
-        category: "reklamefilm",
-        title: "Casefilm med fokus på detaljen",
+        id: "virksomhedsvideo",
+        category: "virksomhedsfilm-reklame",
+        title: "Virksomhedsvideo",
         body:
-          "Enkelt, elegant og let at forstå. Historien bygges så den fungerer både langt og i klip.",
+          "Video, der præsenterer virksomheden professionelt og troværdigt. Ideel til hjemmeside, employer branding, salgsarbejde og præsentation af kultur, ydelser eller værdier.",
         image: "/cases/reklamefilm-2.jpg",
       },
       {
-        id: "markedsfoering-contentsystem",
-        category: "markedsfoering",
-        title: "Content-system til løbende output",
+        id: "produktvideo",
+        category: "virksomhedsfilm-reklame",
+        title: "Produktvideo",
         body:
-          "Én produktion → mange assets. Konsekvent stil og mindre friktion på tværs af kanaler.",
+          "Produktvideoer, der gør komplekse produkter lettere at forstå og mere attraktive at se på. Velegnet til lanceringer, annoncer, webshop og præsentationer.",
+        image: "/cases/reklamefilm-3.jpg",
+      },
+      {
+        id: "sociale-medier",
+        category: "sociale-medier",
+        title: "Video til sociale medier",
+        body:
+          "Korte, målrettede videoer til LinkedIn, Instagram, Facebook og andre platforme. Formateret og produceret til hurtigt at fange opmærksomheden og være nemme at bruge i kampagner.",
         image: "/cases/markedsfoering-1.jpg",
       },
       {
-        id: "markedsfoering-kampagne",
-        category: "markedsfoering",
-        title: "Kampagnepakke med flere leverancer",
+        id: "eventvideo",
+        category: "eventvideo-eventteknik",
+        title: "Eventvideo",
         body:
-          "Plan, produktion og leverancer i én pipeline — så du får både kvalitet og tempo uden kompromis.",
-        image: "/cases/markedsfoering-2.jpg",
+          "Visuelle highlights og stemningsvideoer fra events, konferencer og arrangementer. En effektiv måde at forlænge værdien af et event og skabe indhold efterfølgende.",
+        image: "/cases/events-1.jpg",
+      },
+      {
+        id: "eventteknik",
+        category: "eventvideo-eventteknik",
+        title: "Lyd, lys & eventteknik",
+        body:
+          "Teknisk afvikling med fokus på driftssikker lyd, lys og AV til events, talks og fester. Vi leverer det nødvendige setup, så arrangementet fungerer professionelt.",
+        image: "/cases/events-2.jpg",
+      },
+      {
+        id: "drone",
+        category: "foto-drone",
+        title: "Dronevideo & dronebilleder",
+        body:
+          "Luftoptagelser og dronebilleder, der skaber overblik, dybde og stærke vinkler. Perfekt til events, lokationer, ejendomme og visuelle præsentationer.",
+        image: "/cases/drone-1.jpg",
+      },
+      {
+        id: "stillfoto",
+        category: "foto-drone",
+        title: "Stillfoto & billedredigering",
+        body:
+          "Stillbilleder og efterbehandling til virksomheder, events og kampagner. Et stærkt supplement til video, når du også skal bruge skarpt visuelt materiale i høj kvalitet.",
+        image: "/cases/photo-1.jpg",
       },
     ],
     []
   );
 
-  const [activeCat, setActiveCat] = useState<CategoryId>("livestream");
+  const [activeCat, setActiveCat] = useState<CategoryId>("live-broadcast");
+
+  const centerCaseById = (id: string, behavior: ScrollBehavior = "smooth") => {
+    const el = document.getElementById(`case-${id}`);
+    if (!el) return false;
+
+    const rect = el.getBoundingClientRect();
+    const absoluteTop = rect.top + window.scrollY;
+    const targetTop = Math.max(
+      0,
+      absoluteTop - (window.innerHeight / 2 - rect.height / 2)
+    );
+
+    window.scrollTo({
+      top: targetTop,
+      behavior,
+    });
+
+    return true;
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("cat") as CategoryId | null;
+    const caseId = params.get("case");
+
+    if (cat && categories.some((c) => c.id === cat)) {
+      setActiveCat(cat);
+    }
+
+    if (!caseId) return;
+
+    let raf1 = 0;
+    let raf2 = 0;
+    let timeout = 0;
+
+    raf1 = window.requestAnimationFrame(() => {
+      raf2 = window.requestAnimationFrame(() => {
+        timeout = window.setTimeout(() => {
+          centerCaseById(caseId, "smooth");
+        }, 80);
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(raf1);
+      window.cancelAnimationFrame(raf2);
+      window.clearTimeout(timeout);
+    };
+  }, []);
 
   const titlesForActive = useMemo(
     () => allCases.filter((c) => c.category === activeCat),
     [allCases, activeCat]
   );
 
-  const scrollToCase = (id: string) => {
-    const el = document.getElementById(`case-${id}`);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+  const scrollToCase = (id: string, category: CategoryId) => {
+    setActiveCat(category);
+
+    const nextUrl = `/cases?cat=${category}&case=${id}`;
+    window.history.replaceState(null, "", nextUrl);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        centerCaseById(id, "smooth");
+      });
+    });
   };
 
   return (
@@ -124,7 +212,7 @@ export default function CasesPage() {
               color: "color-mix(in srgb, var(--c1) 92%, transparent)",
             }}
           >
-            Udforsk vores udvalg af produktioner her
+            Udforsk vores produktioner
           </h1>
 
           <div className="exploreGrid">
@@ -137,7 +225,10 @@ export default function CasesPage() {
                       key={c.id}
                       type="button"
                       className={`catLink ${isActive ? "isActive" : ""}`}
-                      onClick={() => setActiveCat(c.id)}
+                      onClick={() => {
+                        setActiveCat(c.id);
+                        window.history.replaceState(null, "", `/cases?cat=${c.id}`);
+                      }}
                     >
                       {c.label}
                     </button>
@@ -160,7 +251,7 @@ export default function CasesPage() {
                     type="button"
                     role="listitem"
                     className="row"
-                    onClick={() => scrollToCase(it.id)}
+                    onClick={() => scrollToCase(it.id, it.category)}
                   >
                     <div className="rowText">{it.title}</div>
                     <div className="rowIcon" aria-hidden>
@@ -206,19 +297,8 @@ const css = `
   background: transparent;
 }
 
-/* --------- TOP --------- */
 .explore{
   padding: clamp(64px, 7.2vw, 96px) 0 clamp(40px, 5vw, 58px);
-}
-
-.exploreTitle{
-  margin: 0;
-  font-family: var(--font-heading);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  line-height: 1.18;
-  font-size: clamp(22px, 2.7vw, 38px);
-  color: color-mix(in srgb, var(--c1) 92%, transparent);
 }
 
 .exploreGrid{
@@ -349,7 +429,6 @@ const css = `
   color: var(--c3);
 }
 
-/* --------- CASES --------- */
 .examples{
   padding: clamp(34px, 4.8vw, 56px) 0 0;
 }
@@ -372,7 +451,7 @@ const css = `
 
 .exRow:nth-child(odd){
   grid-template-columns: 1.35fr 1fr;
-  background: transparent; /* global background */
+  background: transparent;
 }
 
 .exRow:nth-child(even){
@@ -382,7 +461,6 @@ const css = `
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
-/* Media */
 .exMedia{
   position: relative;
   border-radius: 0;
@@ -437,7 +515,6 @@ const css = `
   max-width: 64ch;
 }
 
-/* Purple rows */
 .exRow:nth-child(even) .exKicker{
   color: color-mix(in srgb, #FFFFFF 48%, transparent);
 }
@@ -448,7 +525,6 @@ const css = `
   color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
 
-/* --------- Responsive --------- */
 @media (max-width: 980px){
   .exploreGrid{
     grid-template-columns: 1fr;
@@ -467,7 +543,6 @@ const css = `
     padding-bottom: 6px;
   }
 
-  /* Stack all rows */
   .exRow,
   .exRow:nth-child(even),
   .exRow:nth-child(odd){
@@ -476,11 +551,9 @@ const css = `
     padding: 20px 16px;
   }
 
-  /* ✅ force image on top for ALL rows (overrides desktop even-row order rules) */
   .exRow .exMedia{ order: 1 !important; }
   .exRow .exCopy{ order: 2 !important; }
 
-  /* Odd rows: global background + web text */
   .exRow:nth-child(odd){
     background: transparent;
   }
@@ -500,7 +573,6 @@ const css = `
     line-height: 1.65;
   }
 
-  /* Even rows: purple background + white text */
   .exRow:nth-child(even){
     background: #1A0A40;
   }

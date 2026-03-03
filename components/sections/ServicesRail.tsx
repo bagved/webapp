@@ -19,77 +19,77 @@ export default function ServicesRail() {
         img: "/services/livestream.png",
         title: "LIVESTREAM",
         subtitle: "Live & broadcast",
-        href: "/services#live-broadcast",
+        href: "/cases?cat=live-broadcast&case=livestream",
       },
       {
         id: "sportsbroadcast",
         img: "/services/livestream.png",
         title: "SPORTSBROADCAST",
         subtitle: "Live & broadcast",
-        href: "/services#live-broadcast",
+        href: "/cases?cat=live-broadcast&case=sportsbroadcast",
       },
       {
         id: "webinar-studieproduktion",
         img: "/services/webinar-studieproduktion.png",
         title: "WEBINAR & STUDIEPRODUKTION",
         subtitle: "Live & broadcast",
-        href: "/services#live-broadcast",
+        href: "/cases?cat=live-broadcast&case=webinar-studieproduktion",
       },
       {
         id: "reklamefilm",
         img: "/services/reklamefilm.png",
         title: "REKLAMEFILM",
         subtitle: "Virksomhedsfilm & reklame",
-        href: "/services#virksomhedsfilm-reklame",
+        href: "/cases?cat=virksomhedsfilm-reklame&case=reklamefilm",
       },
       {
         id: "virksomhedsvideo",
         img: "/services/Virksomhedsvideo.png",
         title: "VIRKSOMHEDSVIDEO",
         subtitle: "Virksomhedsfilm & reklame",
-        href: "/services#virksomhedsfilm-reklame",
+        href: "/cases?cat=virksomhedsfilm-reklame&case=virksomhedsvideo",
       },
       {
         id: "produktvideo",
         img: "/services/produktvideo.png",
         title: "PRODUKTVIDEO",
         subtitle: "Virksomhedsfilm & reklame",
-        href: "/services#virksomhedsfilm-reklame",
+        href: "/cases?cat=virksomhedsfilm-reklame&case=produktvideo",
       },
       {
         id: "sociale-medier",
         img: "/services/social-media-content.png",
         title: "VIDEO TIL SOCIALE MEDIER",
         subtitle: "Sociale medier",
-        href: "/services#sociale-medier",
+        href: "/cases?cat=sociale-medier&case=sociale-medier",
       },
       {
         id: "eventvideo",
         img: "/services/eventvideo.png",
         title: "EVENTVIDEO",
         subtitle: "Eventvideo & eventteknik",
-        href: "/services#eventvideo-eventteknik",
+        href: "/cases?cat=eventvideo-eventteknik&case=eventvideo",
       },
       {
         id: "eventteknik",
         img: "/services/eventafvikling.png",
         title: "LYD, LYS & EVENTTEKNIK",
         subtitle: "Eventvideo & eventteknik",
-        href: "/services#eventvideo-eventteknik",
+        href: "/cases?cat=eventvideo-eventteknik&case=eventteknik",
       },
       {
         id: "drone",
         img: "/services/droneoptagelser-og-billeder.png",
         title: "DRONEVIDEO & DRONEBILLEDER",
         subtitle: "Foto & drone",
-        href: "/services#foto-drone",
+        href: "/cases?cat=foto-drone&case=drone",
       },
       {
         id: "stillfoto",
         img: "/services/stillbilleder-og-redigering.png",
         title: "STILLFOTO & BILLEDREDIGERING",
         subtitle: "Foto & drone",
-        href: "/services#foto-drone",
+        href: "/cases?cat=foto-drone&case=stillfoto",
       },
     ],
     []
@@ -120,6 +120,7 @@ export default function ServicesRail() {
     update();
     el.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+
     return () => {
       el.removeEventListener("scroll", update as any);
       window.removeEventListener("resize", update);
