@@ -94,7 +94,7 @@ export default function ServicesPage() {
 
       <section className="srvTop" aria-label="Intro" style={{ padding: 0 }}>
         <div className="container" style={{ padding: "96px 0 48px" }}>
-          <h1 className="srvTitle">Ydelser</h1>
+          <h1 className="srvPageTitle">Ydelser</h1>
           <p className="srvHint">
             Her er et overblik over vores ydelser, samlet i de områder virksomheder oftest efterspørger.
           </p>
@@ -164,7 +164,7 @@ const css = `
   padding: 0;
 }
 
-.srvTitle{
+.srvPageTitle{
   margin: 0 0 20px;
   font-family: var(--font-heading);
   font-weight: 800;
