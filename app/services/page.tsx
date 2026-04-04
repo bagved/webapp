@@ -25,7 +25,7 @@ export default function ServicesPage() {
         id: "live-broadcast",
         title: "Live & broadcast",
         body:
-          "Professionelle liveproduktioner til sport, koncerter, events og webinarer. Vi håndterer flerkamera, streamingflow og teknisk afvikling, så udsendelsen kører stabilt og ser skarp ud.",
+          "Professionelle liveproduktioner til sport, koncerter, events og webinarer. Vi planlægger produktionen grundigt og håndterer flerkamera, streamingflow og teknisk afvikling, så I kan fokusere på indholdet og føle jer trygge hele vejen igennem.",
         iconPng: "/services/livestream.png",
         examplesHref: "/cases?cat=live-broadcast",
       },
@@ -49,7 +49,7 @@ export default function ServicesPage() {
         id: "eventvideo-eventteknik",
         title: "Eventvideo & eventteknik",
         body:
-          "Dækning og teknisk afvikling til events, talks, fester og arrangementer. Vi leverer både eventvideo og den nødvendige lyd, lys og teknik, så det hele fungerer samlet.",
+          "Vi planlægger og afvikler events fra idé til slut — både video og den nødvendige lyd, lys og teknik. Vores tilgang er at tage ansvar for den tekniske del, så I kan fokusere på arrangementet og have tryghed i, at det kører professionelt.",
         iconPng: "/services/planlaegning.png",
         examplesHref: "/cases?cat=eventvideo-eventteknik",
       },
@@ -93,34 +93,11 @@ export default function ServicesPage() {
       <style>{css}</style>
 
       <section className="srvTop" aria-label="Intro" style={{ padding: 0 }}>
-        <div className="container" style={{ padding: "96px 0" }}>
-          <h1
-            style={{
-              margin: "14px 0 0",
-              fontFamily: "var(--font-heading)",
-              fontWeight: 350,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.12,
-              fontSize: "clamp(28px, 3.2vw, 44px)",
-              color: "color-mix(in srgb, var(--c1) 92%, transparent)",
-            }}
-          >
-            Ydelser
-          </h1>
-
-          <div
-            style={{
-              marginTop: 18,
-              fontSize: "var(--t14)",
-              lineHeight: 1.7,
-              color: "color-mix(in srgb, var(--c1) 72%, transparent)",
-              maxWidth: "70ch",
-            }}
-          >
-            <p className="srvHint">
-              Her er et overblik over vores ydelser — samlet i de områder, virksomheder oftest efterspørger.
-            </p>
-          </div>
+        <div className="container" style={{ padding: "96px 0 48px" }}>
+          <h1 className="srvTitle">Ydelser</h1>
+          <p className="srvHint">
+            Her er et overblik over vores ydelser, samlet i de områder virksomheder oftest efterspørger.
+          </p>
         </div>
       </section>
 
@@ -184,18 +161,31 @@ const css = `
 }
 
 .srvTop{
-  padding: clamp(52px, 6vw, 78px) 0 10px;
+  padding: 0;
 }
+
+.srvTitle{
+  margin: 0 0 20px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(44px, 6.5vw, 88px);
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  color: var(--color-primary);
+}
+
 .srvHint{
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--t16);
+  font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
-  color: color-mix(in srgb, var(--c1) 78%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  max-width: 56ch;
 }
 
 .srvGridWrap{
   padding: clamp(22px, 3.4vw, 34px) 0 clamp(86px, 9vw, 122px);
+  background: transparent;
 }
 .srvGrid{
   display: grid;
@@ -206,15 +196,23 @@ const css = `
 .srvCard{
   border: 0;
   background: transparent;
-  padding: 0;
-  border-radius: 0;
+  padding: clamp(18px, 2.4vw, 28px);
+  border-left: 2px solid color-mix(in srgb, var(--color-secondary) 60%, transparent);
   min-height: 220px;
-  transition: opacity 200ms ease, transform 260ms cubic-bezier(.18,1,.22,1);
+  transition: opacity 200ms ease, transform 260ms cubic-bezier(.18,1,.22,1), border-color 200ms ease;
 }
 
 .srvCard.idle{
-  opacity: 1;
+  opacity: 0.52;
   transform: scale(1);
+  border-left-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+}
+
+.srvCard.isHot{
+  opacity: 1;
+  transform: scale(1.03);
+  z-index: 2;
+  border-left-color: var(--color-accent);
 }
 
 .srvHead{
@@ -285,16 +283,15 @@ const css = `
   opacity: 1;
 }
 
-.srvCard.isHot{
-  opacity: 1;
-  transform: scale(1.03);
-  z-index: 2;
-}
 .srvCard.isHot .srvTitle{
-  color: color-mix(in srgb, var(--c3) 56%, var(--c1));
+  color: var(--color-accent);
 }
 .srvCard.isHot .srvIcon{
   opacity: 1;
+}
+.srvCard.isHot .srvBtn{
+  color: var(--color-accent);
+  border-bottom-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 
 .srvBottomSpace{

@@ -16,81 +16,81 @@ export default function ServicesRail() {
     () => [
       {
         id: "livestream",
-        img: "/services/livestream.png",
+        img: "/photos/Livestream.jpg",
         title: "LIVESTREAM",
         subtitle: "Live & broadcast",
         href: "/cases?cat=live-broadcast&case=livestream",
       },
       {
         id: "sportsbroadcast",
-        img: "/services/livestream.png",
+        img: "/photos/sportsbroadcast.jpg",
         title: "SPORTSBROADCAST",
         subtitle: "Live & broadcast",
         href: "/cases?cat=live-broadcast&case=sportsbroadcast",
       },
       {
         id: "webinar-studieproduktion",
-        img: "/services/webinar-studieproduktion.png",
+        img: "/photos/studie_pre.jpg",
         title: "WEBINAR & STUDIEPRODUKTION",
         subtitle: "Live & broadcast",
         href: "/cases?cat=live-broadcast&case=webinar-studieproduktion",
       },
-      {
-        id: "reklamefilm",
-        img: "/services/reklamefilm.png",
-        title: "REKLAMEFILM",
-        subtitle: "Virksomhedsfilm & reklame",
-        href: "/cases?cat=virksomhedsfilm-reklame&case=reklamefilm",
-      },
+      // {
+      //   id: "reklamefilm",
+      //   img: "/photos/virksomhedsfilm.jpg",
+      //   title: "REKLAMEFILM",
+      //   subtitle: "Virksomhedsfilm & reklame",
+      //   href: "/cases?cat=virksomhedsfilm-reklame&case=reklamefilm",
+      // },
       {
         id: "virksomhedsvideo",
-        img: "/services/Virksomhedsvideo.png",
+        img: "/photos/virksomhedsfilm.jpg",
         title: "VIRKSOMHEDSVIDEO",
         subtitle: "Virksomhedsfilm & reklame",
         href: "/cases?cat=virksomhedsfilm-reklame&case=virksomhedsvideo",
       },
-      {
-        id: "produktvideo",
-        img: "/services/produktvideo.png",
-        title: "PRODUKTVIDEO",
-        subtitle: "Virksomhedsfilm & reklame",
-        href: "/cases?cat=virksomhedsfilm-reklame&case=produktvideo",
-      },
-      {
-        id: "sociale-medier",
-        img: "/services/social-media-content.png",
-        title: "VIDEO TIL SOCIALE MEDIER",
-        subtitle: "Sociale medier",
-        href: "/cases?cat=sociale-medier&case=sociale-medier",
-      },
+      // {
+      //   id: "produktvideo",
+      //   img: "/photos/produktfilm.jpg",
+      //   title: "PRODUKTVIDEO",
+      //   subtitle: "Virksomhedsfilm & reklame",
+      //   href: "/cases?cat=virksomhedsfilm-reklame&case=produktvideo",
+      // },
+      // {
+      //   id: "sociale-medier",
+      //   img: "/photos/eventfilm.jpg",
+      //   title: "VIDEO TIL SOCIALE MEDIER",
+      //   subtitle: "Sociale medier",
+      //   href: "/cases?cat=sociale-medier&case=sociale-medier",
+      // },
       {
         id: "eventvideo",
-        img: "/services/eventvideo.png",
+        img: "/photos/eventfilm.jpg",
         title: "EVENTVIDEO",
         subtitle: "Eventvideo & eventteknik",
         href: "/cases?cat=eventvideo-eventteknik&case=eventvideo",
       },
       {
         id: "eventteknik",
-        img: "/services/eventafvikling.png",
+        img: "/photos/lys_lyd_pre.jpg",
         title: "LYD, LYS & EVENTTEKNIK",
         subtitle: "Eventvideo & eventteknik",
         href: "/cases?cat=eventvideo-eventteknik&case=eventteknik",
       },
-      {
-        id: "drone",
-        img: "/services/droneoptagelser-og-billeder.png",
-        title: "DRONEVIDEO & DRONEBILLEDER",
-        subtitle: "Foto & drone",
-        href: "/cases?cat=foto-drone&case=drone",
-      },
-      {
-        id: "stillfoto",
-        img: "/services/stillbilleder-og-redigering.png",
-        title: "STILLFOTO & BILLEDREDIGERING",
-        subtitle: "Foto & drone",
-        href: "/cases?cat=foto-drone&case=stillfoto",
-      },
+      // {
+      //   id: "drone",
+      //   img: "/photos/sports_pre.jpg",
+      //   title: "DRONEVIDEO & DRONEBILLEDER",
+      //   subtitle: "Foto & drone",
+      //   href: "/cases?cat=foto-drone&case=drone",
+      // },
+      // {
+      //   id: "stillfoto",
+      //   img: "/photos/produktfilm.jpg",
+      //   title: "STILLFOTO & BILLEDREDIGERING",
+      //   subtitle: "Foto & drone",
+      //   href: "/cases?cat=foto-drone&case=stillfoto",
+      // },
     ],
     []
   );
@@ -184,6 +184,9 @@ export default function ServicesRail() {
 
       <div className="fullBleed">
         <div className="wrap">
+
+          <p className="railHint">Swipe for at se alle ydelser</p>
+
           <div ref={railRef} className="rail" role="list" aria-label="Service tiles">
             {items.map((it, i) => {
               const isActive = i === active;
@@ -225,9 +228,9 @@ export default function ServicesRail() {
             <div className={`hint ${hasOverflow && canRight ? "on" : ""}`}>→</div>
           </div>
 
-          <div className="ctaRow">
-            <Link className="cta" href="/services">
-              Se alle ydelser →
+          <div className="srvCtaRow">
+            <Link className="srvCta" href="/cases">
+              Se alle eksempler →
             </Link>
           </div>
         </div>
@@ -237,9 +240,24 @@ export default function ServicesRail() {
 }
 
 const css = `
+.fullBleed{
+  background: var(--color-primary);
+}
+
 .wrap{
   position: relative;
   padding: 32px 0 20px;
+}
+
+.railHint{
+  margin: 0 0 10px;
+  padding: 0 clamp(18px, 3.2vw, 44px);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-bg) 38%, transparent);
 }
 
 .rail{
@@ -276,26 +294,40 @@ const css = `
   color: inherit;
 
   border-radius: 0;
-  background: transparent;
-  border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-primary));
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
 
   transition:
     transform 320ms cubic-bezier(.18,1,.22,1),
     opacity 200ms ease,
-    border-color 200ms ease,
+    border-color 220ms ease,
     background 220ms ease;
 }
 
 .idle{
-  opacity: 0.52;
+  opacity: 0.45;
   transform: scale(0.94);
+  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-primary));
+  border-color: color-mix(in srgb, var(--color-secondary) 18%, transparent);
 }
 
 .active{
   opacity: 1;
   transform: scale(1);
-  border-color: color-mix(in srgb, var(--c1) 22%, transparent);
-  background: color-mix(in srgb, var(--c2) 24%, transparent);
+  border-color: var(--color-secondary);
+  background: color-mix(in srgb, var(--color-secondary) 38%, var(--color-primary));
+}
+.active .t1{
+  color: var(--color-secondary);
+}
+.active .t2{
+  color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
+}
+.active .t1{
+  color: var(--color-accent);
+}
+.active .t2{
+  color: color-mix(in srgb, var(--color-accent) 72%, transparent);
 }
 
 .media{
@@ -310,8 +342,8 @@ const css = `
   inset: 0;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-  filter: saturate(1.01) contrast(1.02);
+  background-size: cover;
+  filter: saturate(1.02) contrast(1.04);
 }
 
 .fade{
@@ -319,11 +351,22 @@ const css = `
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0) 62%,
-    color-mix(in srgb, var(--c4) 86%, transparent) 100%
+    transparent 0%,
+    transparent 38%,
+    color-mix(in srgb, var(--color-primary) 55%, transparent) 72%,
+    color-mix(in srgb, var(--color-primary) 90%, transparent) 100%
   );
   pointer-events: none;
+}
+
+.active .fade{
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 36%,
+    color-mix(in srgb, var(--color-secondary) 28%, var(--color-primary) 55%) 70%,
+    color-mix(in srgb, var(--color-secondary) 44%, var(--color-primary) 88%) 100%
+  );
 }
 
 .meta{
@@ -340,7 +383,8 @@ const css = `
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: color-mix(in srgb, var(--c1) 88%, transparent);
+  color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  transition: color 220ms ease;
 }
 
 .t2{
@@ -349,19 +393,20 @@ const css = `
   font-weight: 800;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 66%, transparent);
+  color: color-mix(in srgb, var(--color-bg) 52%, transparent);
+  transition: color 220ms ease;
 }
 
 @media (hover:hover){
   .tile:hover{
-    border-color: color-mix(in srgb, var(--c3) 20%, transparent);
-    background: color-mix(in srgb, var(--c3) 2.4%, transparent);
+    border-color: var(--color-secondary);
+    background: color-mix(in srgb, var(--color-secondary) 38%, var(--color-primary));
   }
   .tile:hover .t1{
-    color: color-mix(in srgb, var(--c3) 42%, var(--c1));
+    color: var(--color-secondary);
   }
   .tile:hover .t2{
-    color: color-mix(in srgb, var(--c1) 78%, transparent);
+    color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
   }
 }
 
@@ -371,12 +416,12 @@ const css = `
   align-items: center;
   gap: 10px;
   padding: 14px 0 0;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .track{
   height: 1px;
-  background: color-mix(in srgb, var(--c1) 14%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 35%, transparent);
   position: relative;
   overflow: hidden;
 }
@@ -384,39 +429,39 @@ const css = `
 .fill{
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--c1) 44%, transparent);
+  background: var(--color-secondary);
   transform-origin: left center;
 }
 
 .hint{
   font-size: 14px;
   font-weight: 900;
-  color: var(--c1);
+  color: var(--color-secondary);
   opacity: 0;
   transition: opacity 160ms ease;
   text-align: center;
 }
 .hint.on{ opacity: 1; }
 
-.ctaRow{
-  display:flex;
+.srvCtaRow{
+  display: flex;
   justify-content: flex-end;
   padding-top: 18px;
+  padding-right: clamp(18px, 3.2vw, 44px);
 }
-.cta{
-  font-size: var(--t11);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--c1);
-  opacity: 0.82;
-  border-bottom: 1px solid color-mix(in srgb, var(--c1) 18%, transparent);
-  padding-bottom: 8px;
+.srvCta{
+  font-family: var(--font-body);
+  font-size: var(--t14);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bg) 18%, transparent);
+  padding-bottom: 4px;
+  transition: color 150ms ease, border-color 150ms ease;
 }
-.cta:hover{
-  opacity: 1;
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
+.srvCta:hover{
+  color: var(--color-secondary);
+  border-bottom-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
 }
 
 @media (max-width: 780px){

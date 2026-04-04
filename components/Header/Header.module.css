@@ -2,9 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: transparent;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--color-bg) 62%, transparent);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  /* Ingen border — headeren smelter naturligt ind i siden */
 }
 
 /* Desktop grid */
@@ -27,14 +28,14 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: var(--c1);
+  color: var(--color-primary);
 }
 
 .logoMark{
   width: 14px;
   height: 14px;
   border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--c3) 10%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
 .logoImg{
@@ -63,14 +64,14 @@
 }
 
 .nav a{
-  color: var(--c1);
-  opacity: 0.86;
+  color: var(--color-primary);
+  opacity: 0.72;
   padding: 8px 2px;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
 .nav a:hover{
   opacity: 1;
-  color: var(--c3);
+  color: var(--color-accent);
   transform: translateY(-1px);
 }
 
@@ -80,6 +81,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 14px;
 }
 
 .langStatic{
@@ -87,8 +89,201 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--c1);
-  opacity: 0.86;
+  color: var(--color-primary);
+  opacity: 0.72;
+}
+
+/* ── Color picker toggle ──────────────────────────────── */
+.pickerWrap{
+  position: relative;
+}
+
+.pickerToggle{
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
+  border-radius: 999px;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.pickerToggle:hover{
+  border-color: color-mix(in srgb, var(--color-primary) 36%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+}
+
+.swatchBar{
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.swatchBg,
+.swatchDot{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Color picker panel ───────────────────────────────── */
+.pickerPanel{
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 200;
+  width: 240px;
+
+  background: var(--color-bg);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 16%, transparent);
+  box-shadow:
+    0 4px 6px -1px color-mix(in srgb, var(--color-primary) 8%, transparent),
+    0 12px 28px -4px color-mix(in srgb, var(--color-primary) 14%, transparent);
+
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pickerHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.pickerTitle{
+  font-size: var(--t11);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-primary);
+}
+
+.pickerClose{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  padding: 2px 4px;
+  transition: color 140ms ease;
+}
+.pickerClose:hover{ color: var(--color-accent); }
+
+.pickerRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pickerLabel{
+  font-size: var(--t11);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  flex: 1;
+  white-space: nowrap;
+}
+
+.pickerInputs{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Farve-swatch (native color picker) */
+.pickerSwatch{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  flex-shrink: 0;
+}
+.pickerSwatch::-webkit-color-swatch-wrapper{ padding: 0; border-radius: 3px; }
+.pickerSwatch::-webkit-color-swatch{ border: none; border-radius: 3px; }
+
+/* Hex input */
+.pickerHex{
+  width: 78px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border-radius: 0;
+  padding: 4px 7px;
+  outline: none;
+  transition: border-color 140ms ease;
+}
+.pickerHex:focus{
+  border-color: var(--color-accent);
+}
+
+.pickerSection{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pickerSectionLabel{
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--color-primary) 36%, transparent);
+}
+
+/* Font-knapper */
+.fontGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.fontBtn{
+  padding: 7px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: left;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fontBtn:hover{
+  border-color: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  color: var(--color-primary);
+}
+.fontBtnActive{
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  font-weight: 700;
+}
+
+.pickerHint{
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
+  font-size: 10px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-primary) 36%, transparent);
 }
 
 /* Mobile hamburger button (hidden on desktop) */
@@ -115,7 +310,7 @@
   width: 20px;
   height: 14px;
   display: inline-block;
-  color: var(--c1);
+  color: var(--color-primary);
 }
 
 .line{
@@ -162,25 +357,23 @@
   display: grid;
   gap: 10px;
 
-  background: color-mix(in srgb, var(--c2) 42%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--c1) 12%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 25%, var(--color-bg));
+  border-top: 1px solid color-mix(in srgb, var(--color-secondary) 50%, transparent);
 }
 
 .mobileNavInner a{
-  color: var(--c1);
+  color: var(--color-primary);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: var(--t11);
-
   padding: 10px 0;
-  opacity: 0.9;
-
+  opacity: 0.86;
   transition: opacity 160ms ease, transform 160ms ease, color 160ms ease;
 }
 .mobileNavInner a:hover{
   opacity: 1;
-  color: var(--c3);
+  color: var(--color-accent);
   transform: translateY(-1px);
 }
 

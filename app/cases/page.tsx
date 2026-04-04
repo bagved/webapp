@@ -38,7 +38,7 @@ export default function CasesPage() {
         title: "Livestream",
         body:
           "Stabil livestream med professionel afvikling til events, oplæg og digitale produktioner. Vi sikrer et roligt setup, god lyd og en udsendelse, der fungerer fra start til slut.",
-        image: "/cases/livestream-1.jpg",
+        image: "/photos/Livestream.jpg",
       },
       {
         id: "sportsbroadcast",
@@ -46,7 +46,7 @@ export default function CasesPage() {
         title: "Sportsbroadcast",
         body:
           "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
-        image: "/cases/livestream-2.jpg",
+        image: "/photos/sportsbroadcast.jpg",
       },
       {
         id: "webinar-studieproduktion",
@@ -54,72 +54,72 @@ export default function CasesPage() {
         title: "Webinar & studieproduktion",
         body:
           "Webinarer og studieopsætninger i kontrollerede rammer, hvor teknik, framing og lyd går op i en højere enhed. Velegnet til præsentationer, undervisning og intern kommunikation.",
-        image: "/cases/livestream-3.jpg",
+        image: "/photos/studie_pre.jpg",
       },
-      {
-        id: "reklamefilm",
-        category: "virksomhedsfilm-reklame",
-        title: "Reklamefilm",
-        body:
-          "Reklamefilm med et skarpt visuelt udtryk og et klart budskab. Produceret til kampagner, lanceringer og branding, hvor kvalitet og genkendelighed er afgørende.",
-        image: "/cases/reklamefilm-1.jpg",
-      },
+      // {
+      //   id: "reklamefilm",
+      //   category: "virksomhedsfilm-reklame",
+      //   title: "Reklamefilm",
+      //   body:
+      //     "Reklamefilm med et skarpt visuelt udtryk og et klart budskab. Produceret til kampagner, lanceringer og branding, hvor kvalitet og genkendelighed er afgørende.",
+      //   image: "/photos/virksomhedsfilm.jpg",
+      // },
       {
         id: "virksomhedsvideo",
         category: "virksomhedsfilm-reklame",
         title: "Virksomhedsvideo",
         body:
           "Video, der præsenterer virksomheden professionelt og troværdigt. Ideel til hjemmeside, employer branding, salgsarbejde og præsentation af kultur, ydelser eller værdier.",
-        image: "/cases/reklamefilm-2.jpg",
+        image: "/photos/virksomhedsfilm.jpg",
       },
-      {
-        id: "produktvideo",
-        category: "virksomhedsfilm-reklame",
-        title: "Produktvideo",
-        body:
-          "Produktvideoer, der gør komplekse produkter lettere at forstå og mere attraktive at se på. Velegnet til lanceringer, annoncer, webshop og præsentationer.",
-        image: "/cases/reklamefilm-3.jpg",
-      },
-      {
-        id: "sociale-medier",
-        category: "sociale-medier",
-        title: "Video til sociale medier",
-        body:
-          "Korte, målrettede videoer til LinkedIn, Instagram, Facebook og andre platforme. Formateret og produceret til hurtigt at fange opmærksomheden og være nemme at bruge i kampagner.",
-        image: "/cases/markedsfoering-1.jpg",
-      },
+      // {
+      //   id: "produktvideo",
+      //   category: "virksomhedsfilm-reklame",
+      //   title: "Produktvideo",
+      //   body:
+      //     "Produktvideoer, der gør komplekse produkter lettere at forstå og mere attraktive at se på. Velegnet til lanceringer, annoncer, webshop og præsentationer.",
+      //   image: "/photos/produktfilm.jpg",
+      // },
+      // {
+      //   id: "sociale-medier",
+      //   category: "sociale-medier",
+      //   title: "Video til sociale medier",
+      //   body:
+      //     "Korte, målrettede videoer til LinkedIn, Instagram, Facebook og andre platforme. Formateret og produceret til hurtigt at fange opmærksomheden og være nemme at bruge i kampagner.",
+      //   image: "/photos/eventfilm.jpg",
+      // },
       {
         id: "eventvideo",
         category: "eventvideo-eventteknik",
         title: "Eventvideo",
         body:
           "Visuelle highlights og stemningsvideoer fra events, konferencer og arrangementer. En effektiv måde at forlænge værdien af et event og skabe indhold efterfølgende.",
-        image: "/cases/events-1.jpg",
+        image: "/photos/eventfilm.jpg",
       },
       {
         id: "eventteknik",
         category: "eventvideo-eventteknik",
         title: "Lyd, lys & eventteknik",
         body:
-          "Teknisk afvikling med fokus på driftssikker lyd, lys og AV til events, talks og fester. Vi leverer det nødvendige setup, så arrangementet fungerer professionelt.",
-        image: "/cases/events-2.jpg",
+          "Vi planlægger og leverer teknisk afvikling til events, talks og fester. Lyd, lys og AV sat op til formålet — så I har tryghed i afviklingen og kan fokusere på selve arrangementet.",
+        image: "/photos/lys_lyd_pre.jpg",
       },
-      {
-        id: "drone",
-        category: "foto-drone",
-        title: "Dronevideo & dronebilleder",
-        body:
-          "Luftoptagelser og dronebilleder, der skaber overblik, dybde og stærke vinkler. Perfekt til events, lokationer, ejendomme og visuelle præsentationer.",
-        image: "/cases/drone-1.jpg",
-      },
-      {
-        id: "stillfoto",
-        category: "foto-drone",
-        title: "Stillfoto & billedredigering",
-        body:
-          "Stillbilleder og efterbehandling til virksomheder, events og kampagner. Et stærkt supplement til video, når du også skal bruge skarpt visuelt materiale i høj kvalitet.",
-        image: "/cases/photo-1.jpg",
-      },
+      // {
+      //   id: "drone",
+      //   category: "foto-drone",
+      //   title: "Dronevideo & dronebilleder",
+      //   body:
+      //     "Luftoptagelser og dronebilleder, der skaber overblik, dybde og stærke vinkler. Perfekt til events, lokationer, ejendomme og visuelle præsentationer.",
+      //   image: "/photos/sports_pre.jpg",
+      // },
+      // {
+      //   id: "stillfoto",
+      //   category: "foto-drone",
+      //   title: "Stillfoto & billedredigering",
+      //   body:
+      //     "Stillbilleder og efterbehandling til virksomheder, events og kampagner. Et stærkt supplement til video, når du også skal bruge skarpt visuelt materiale i høj kvalitet.",
+      //   image: "/photos/produktfilm.jpg",
+      // },
     ],
     []
   );
@@ -200,20 +200,9 @@ export default function CasesPage() {
       <style>{css}</style>
 
       <section className="explore" aria-label="Udforsk" style={{ padding: 0 }}>
-        <div className="container" style={{ padding: "96px 0" }}>
-          <h1
-            style={{
-              margin: "14px 0 0",
-              fontFamily: "var(--font-heading)",
-              fontWeight: 350,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.12,
-              fontSize: "clamp(28px, 3.2vw, 44px)",
-              color: "color-mix(in srgb, var(--c1) 92%, transparent)",
-            }}
-          >
-            Udforsk vores produktioner
-          </h1>
+        <div className="container" style={{ padding: "96px 0 48px" }}>
+          <h1 className="exploreTitle">Vores produktioner</h1>
+          <p className="exploreHint">Et udvalg af projekter vi har arbejdet på.</p>
 
           <div className="exploreGrid">
             <aside className="cats" aria-label="Kategorier">
@@ -297,12 +286,32 @@ const css = `
   background: transparent;
 }
 
+.exploreHint{
+  margin: 16px 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  max-width: 56ch;
+}
+
+.exploreTitle{
+  margin: 0 0 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(44px, 6.5vw, 88px);
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  color: var(--color-primary);
+}
+
 .explore{
-  padding: clamp(64px, 7.2vw, 96px) 0 clamp(40px, 5vw, 58px);
+  background: transparent;
 }
 
 .exploreGrid{
   margin-top: clamp(32px, 4.6vw, 56px);
+  padding-bottom: clamp(40px, 5vw, 58px);
   display: grid;
   grid-template-columns: 260px 1px 1fr;
   gap: clamp(26px, 4vw, 56px);
@@ -329,31 +338,29 @@ const css = `
   letter-spacing: -0.01em;
   line-height: 1.35;
 
-  color: color-mix(in srgb, var(--c1) 70%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 65%, transparent);
   width: fit-content;
 
   border-bottom: 1px solid transparent;
   padding-bottom: 8px;
-  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease, opacity 160ms ease;
-  opacity: 0.92;
+  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
 .catLink:hover{
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 26%, transparent);
+  color: var(--color-accent);
+  border-bottom-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
   transform: translateY(-1px);
-  opacity: 1;
 }
 
 .catLink.isActive{
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 34%, transparent);
-  opacity: 1;
+  color: var(--color-accent);
+  font-weight: 700;
+  border-bottom-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .divider{
   width: 1px;
-  background: color-mix(in srgb, var(--c1) 14%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
   height: 100%;
   min-height: 240px;
   margin-top: 8px;
@@ -371,7 +378,7 @@ const css = `
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 55%, transparent);
+  color: var(--color-secondary);
 }
 
 .rows{
@@ -392,7 +399,6 @@ const css = `
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 14px;
-
   text-align: left;
 }
 
@@ -402,14 +408,15 @@ const css = `
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.45;
-  color: color-mix(in srgb, var(--c1) 86%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 84%, transparent);
+  transition: color 160ms ease;
 }
 
 .rowIcon{
   font-size: 18px;
   font-weight: 500;
-  color: color-mix(in srgb, var(--c1) 62%, transparent);
-  transform: translateY(-1px);
+  color: color-mix(in srgb, var(--color-primary) 48%, transparent);
+  transition: color 160ms ease, transform 160ms ease;
 }
 
 .rowLine{
@@ -418,19 +425,19 @@ const css = `
   right: 0;
   bottom: 0;
   height: 1px;
-  background: color-mix(in srgb, var(--c1) 16%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 42%, transparent);
 }
 
 .row:hover .rowText{
-  color: color-mix(in srgb, var(--c3) 52%, var(--c1));
+  color: var(--color-accent);
 }
-
 .row:hover .rowIcon{
-  color: var(--c3);
+  color: var(--color-accent);
+  transform: translateX(3px);
 }
 
 .examples{
-  padding: clamp(34px, 4.8vw, 56px) 0 0;
+  padding: 0;
 }
 
 .examplesGrid{
@@ -444,34 +451,60 @@ const css = `
   gap: clamp(22px, 4vw, 54px);
   align-items: stretch;
   padding: clamp(22px, 4vw, 40px);
-  border-radius: 0;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
 }
 
 .exRow:nth-child(odd){
   grid-template-columns: 1.35fr 1fr;
-  background: transparent;
+  background: var(--color-bg);
+}
+
+.exRow:nth-child(odd) .exKicker{
+  color: var(--color-secondary);
+}
+.exRow:nth-child(odd) .exTitle{
+  color: color-mix(in srgb, var(--color-primary) 92%, transparent);
+}
+.exRow:nth-child(odd) .exBody{
+  color: color-mix(in srgb, var(--color-primary) 68%, transparent);
+}
+.exRow:nth-child(odd) .exMedia{
+  border-color: color-mix(in srgb, var(--color-secondary) 45%, transparent);
 }
 
 .exRow:nth-child(even){
   grid-template-columns: 1fr 1.35fr;
-  background: #1A0A40;
+  background: var(--color-primary);
 }
 .exRow:nth-child(even) .exMedia{ order: 2; }
 .exRow:nth-child(even) .exCopy{ order: 1; }
 
+.exRow:nth-child(even) .exKicker{
+  color: var(--color-secondary);
+}
+.exRow:nth-child(even) .exTitle{
+  color: var(--color-bg);
+}
+.exRow:nth-child(even) .exBody{
+  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
+}
+.exRow:nth-child(even) .exMedia{
+  border-color: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+}
+
+.exRow:nth-child(even) .exKicker{
+  color: var(--color-secondary);
+  font-size: var(--t11);
+}
+
 .exMedia{
   position: relative;
   border-radius: 0;
-  border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
   overflow: hidden;
-  background: transparent;
+  background: color-mix(in srgb, var(--color-secondary) 8%, var(--color-bg));
   min-height: clamp(260px, 32vw, 430px);
-}
-
-.exRow:nth-child(even) .exMedia{
-  border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
 }
 
 .exImg{
@@ -494,7 +527,6 @@ const css = `
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 58%, transparent);
 }
 
 .exTitle{
@@ -504,25 +536,13 @@ const css = `
   letter-spacing: -0.02em;
   line-height: 1.12;
   font-size: clamp(24px, 3.2vw, 44px);
-  color: color-mix(in srgb, var(--c1) 92%, transparent);
 }
 
 .exBody{
   margin: 14px 0 0;
   font-size: var(--t16);
   line-height: 1.8;
-  color: color-mix(in srgb, var(--c1) 72%, transparent);
   max-width: 64ch;
-}
-
-.exRow:nth-child(even) .exKicker{
-  color: color-mix(in srgb, #FFFFFF 48%, transparent);
-}
-.exRow:nth-child(even) .exTitle{
-  color: #FFFFFF;
-}
-.exRow:nth-child(even) .exBody{
-  color: color-mix(in srgb, #FFFFFF 78%, transparent);
 }
 
 @media (max-width: 980px){
@@ -530,65 +550,31 @@ const css = `
     grid-template-columns: 1fr;
     gap: 18px;
   }
-  .divider{
-    display: none;
-  }
+  .divider{ display: none; }
   .catNav{
-    grid-auto-flow: row;
     grid-template-columns: 1fr;
     gap: 14px;
     padding-top: 0;
   }
-  .catLink{
-    padding-bottom: 6px;
-  }
+  .catLink{ padding-bottom: 6px; }
 
   .exRow,
   .exRow:nth-child(even),
   .exRow:nth-child(odd){
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 20px 16px;
+    padding: 24px 16px;
   }
 
-  .exRow .exMedia{ order: 1 !important; }
+  .exRow .exMedia{ order: 1 !important; min-height: 220px; }
   .exRow .exCopy{ order: 2 !important; }
 
-  .exRow:nth-child(odd){
-    background: transparent;
-  }
-  .exRow:nth-child(odd) .exMedia{
-    border-color: color-mix(in srgb, var(--c1) 14%, transparent);
-    min-height: 220px;
-  }
-  .exRow:nth-child(odd) .exKicker{
-    color: color-mix(in srgb, var(--c1) 58%, transparent);
-  }
-  .exRow:nth-child(odd) .exTitle{
-    color: color-mix(in srgb, var(--c1) 92%, transparent);
-    font-size: clamp(22px, 7vw, 30px);
-  }
-  .exRow:nth-child(odd) .exBody{
-    color: color-mix(in srgb, var(--c1) 72%, transparent);
-    line-height: 1.65;
-  }
-
-  .exRow:nth-child(even){
-    background: #1A0A40;
-  }
-  .exRow:nth-child(even) .exMedia{
-    border-color: color-mix(in srgb, #FFFFFF 18%, transparent);
-    min-height: 220px;
-  }
-  .exRow:nth-child(even) .exKicker{
-    color: color-mix(in srgb, #FFFFFF 48%, transparent);
-  }
+  .exRow:nth-child(odd) .exTitle,
   .exRow:nth-child(even) .exTitle{
-    color: #FFFFFF;
     font-size: clamp(22px, 7vw, 30px);
   }
+  .exRow:nth-child(odd) .exBody,
   .exRow:nth-child(even) .exBody{
-    color: color-mix(in srgb, #FFFFFF 78%, transparent);
     line-height: 1.65;
   }
 }

@@ -1,388 +1,347 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ContactTeaserSection() {
   return (
-    <section className="ct section" id="contact-teaser" aria-label="Kontakt">
+    <section className="ct" id="contact-teaser" aria-label="Kontakt">
       <style>{css}</style>
 
-      <div className="container">
+
+      <div className="container ctInner">
         <div className="ctGrid">
-          {/* LEFT COPY */}
+
+          {/* LEFT */}
           <div className="ctLeft">
             <h2 className="ctTitle">
               <span className="ctTitleStatic">Skriv til os</span>
-              <TypeLine
-                phrases={[
-                  "her - eller ring på +45 61 74 64 16",
-                  "på info@bagved.com",
-                  "hvor end du foretrækker det!",
-                ]}
-              />
+              <TypeLine phrases={[
+                "her – eller ring på +45 61 74 64 16",
+                "på info@bagved.com",
+                "hvor end du foretrækker det!",
+              ]} />
             </h2>
+
+            <div className="ctMeta">
+              <a href="tel:+4561746416"      className="ctMetaLine">+45 61 74 64 16</a>
+              <a href="mailto:info@bagved.com" className="ctMetaLine">info@bagved.com</a>
+            </div>
           </div>
 
-          {/* RIGHT FORM PANEL */}
+          {/* RIGHT: formular-panel */}
           <div className="ctPanel" aria-label="Kontaktformular">
-            <form
-              className="ctForm"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <div className="row">
-                <LinedInput label="Navn" name="name" autoComplete="name" />
+            <form className="ctForm" onSubmit={e => e.preventDefault()}>
+
+              <LinedInput label="Navn" name="name" autoComplete="name" />
+
+              <div className="ctFormTwo">
+                <LinedInput label="Email"    name="email" type="email" autoComplete="email" />
+                <LinedInput label="Telefon"  name="phone" type="tel"   autoComplete="tel" />
               </div>
 
-              <div className="row two">
-                <LinedInput
-                  label="Email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                />
-                <LinedInput
-                  label="Telefonnummer"
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                />
+              <LinedTextarea label="Besked" name="message" rows={5} />
+
+              <div className="ctSubmitRow">
+                <button className="ctSubmit" type="submit">Send besked</button>
               </div>
 
-              <div className="row">
-                <LinedTextarea label="Besked" name="message" rows={5} />
-              </div>
-
-              <div className="ctaRow">
-                <button className="send" type="submit">
-                  Send besked
-                </button>
-              </div>
             </form>
           </div>
+
         </div>
 
-        {/* OUTSIDE BOX – CTA aligned to the right and matching other CTAs */}
-        <div className="ctaRow">
-          <Link className="cta" href="/contact">
-            TAG KONTAKT TIL OS HER →
-          </Link>
+        <div className="ctFooterRow">
+          <Link className="cta" href="/contact">Tag kontakt til os her →</Link>
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------------- Typewriter ---------------- */
-
 function TypeLine({ phrases }: { phrases: string[] }) {
-  // calmer timing
-  const TYPE_MS = 44;
-  const DELETE_MS = 18;
-
-  // longer readable holds
-  const HOLD_AFTER_TYPED_MS = 2600;
-  const HOLD_BEFORE_DELETE_MS = 900;
-
-  // gap before next phrase starts
-  const BETWEEN_MS = 520;
-
-  const [i, setI] = useState(0);
-  const [txt, setTxt] = useState("");
-  const [phase, setPhase] = useState<"typing" | "hold" | "deleting">("typing");
-
+  const [i, setI]         = useState(0);
+  const [txt, setTxt]     = useState("");
+  const [phase, setPhase] = useState<"typing"|"hold"|"deleting">("typing");
   const phrase = phrases[i] ?? "";
 
   useEffect(() => {
     let t = 0;
-
     if (phase === "typing") {
-      if (txt.length < phrase.length) {
-        t = window.setTimeout(
-          () => setTxt(phrase.slice(0, txt.length + 1)),
-          TYPE_MS
-        );
-      } else {
-        t = window.setTimeout(() => setPhase("hold"), HOLD_AFTER_TYPED_MS);
-      }
+      if (txt.length < phrase.length)
+        t = window.setTimeout(() => setTxt(phrase.slice(0, txt.length + 1)), 44);
+      else
+        t = window.setTimeout(() => setPhase("hold"), 2600);
     }
-
-    if (phase === "hold") {
-      t = window.setTimeout(() => setPhase("deleting"), HOLD_BEFORE_DELETE_MS);
-    }
-
+    if (phase === "hold")
+      t = window.setTimeout(() => setPhase("deleting"), 900);
     if (phase === "deleting") {
-      if (txt.length > 0) {
-        t = window.setTimeout(() => setTxt(txt.slice(0, -1)), DELETE_MS);
-      } else {
-        t = window.setTimeout(() => {
-          setI((v) => (v + 1) % phrases.length);
-          setPhase("typing");
-        }, BETWEEN_MS);
-      }
+      if (txt.length > 0)
+        t = window.setTimeout(() => setTxt(txt.slice(0, -1)), 18);
+      else
+        t = window.setTimeout(() => { setI(v => (v+1) % phrases.length); setPhase("typing"); }, 520);
     }
-
     return () => window.clearTimeout(t);
   }, [txt, phrase, phase, phrases.length]);
 
+  // Highlight telefonnummer og email i accent-farven
+  const HIGHLIGHTS = ["+45 61 74 64 16", "info@bagved.com"];
+  function renderTxt(t: string) {
+    for (const h of HIGHLIGHTS) {
+      const idx = t.indexOf(h);
+      if (idx !== -1) {
+        return (
+          <>
+            {t.slice(0, idx)}
+            <span className="twHighlight">{t.slice(idx, idx + h.length)}</span>
+            {t.slice(idx + h.length)}
+          </>
+        );
+      }
+    }
+    return t;
+  }
+
   return (
-    <span className="tw" aria-label="Kontaktmuligheder">
-      {/* ✅ Leading space lives here so it’s truly “in continuation” */}
-      <span className="twText">
-        {" "}
-        {txt}
-        <span className="twCursor" aria-hidden />
-      </span>
+    <span className="tw" aria-label={phrase}>
+      <span className="twText"> {renderTxt(txt)}<span className="twCursor" aria-hidden /></span>
     </span>
   );
 }
 
-/* ---------------- Lined fields ---------------- */
-
-function LinedInput({
-  label,
-  name,
-  type = "text",
-  autoComplete,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  autoComplete?: string;
+function LinedInput({ label, name, type = "text", autoComplete }: {
+  label: string; name: string; type?: string; autoComplete?: string;
 }) {
   return (
     <label className="field">
-      <span className="lab">{label}</span>
-      <input className="inp" name={name} type={type} autoComplete={autoComplete} />
-      <span className="line" aria-hidden />
+      <span className="fieldLab">{label}</span>
+      <input className="fieldInp" name={name} type={type} autoComplete={autoComplete} />
+      <span className="fieldLine" aria-hidden />
     </label>
   );
 }
 
-function LinedTextarea({
-  label,
-  name,
-  rows = 5,
-}: {
-  label: string;
-  name: string;
-  rows?: number;
+function LinedTextarea({ label, name, rows = 5 }: {
+  label: string; name: string; rows?: number;
 }) {
   return (
     <label className="field">
-      <span className="lab">{label}</span>
-      <textarea className="inp ta" name={name} rows={rows} />
-      <span className="line" aria-hidden />
+      <span className="fieldLab">{label}</span>
+      <textarea className="fieldInp fieldTa" name={name} rows={rows} />
+      <span className="fieldLine" aria-hidden />
     </label>
   );
 }
-
-/* ---------------- CSS ---------------- */
 
 const css = `
 .ct{
+  position: relative;
   padding: clamp(86px, 9vw, 132px) 0;
-  background: transparent;
+  overflow: hidden;
+}
+
+
+.ctInner{
+  position: relative;
+  z-index: 1;
 }
 
 .ctGrid{
   display: grid;
-  grid-template-columns: 1fr minmax(520px, 1fr);
+  grid-template-columns: 1fr minmax(460px, 1fr);
   gap: clamp(28px, 5vw, 70px);
   align-items: start;
 }
 
-/* LEFT */
 .ctLeft{
-  padding-top: 6px;
-
-  /* ✅ fixed “line length” so wrapping feels intentional and consistent */
-  max-width: 52ch;
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 36px);
 }
 
 .ctTitle{
   margin: 0;
   font-family: var(--font-heading);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  line-height: 1.18;
-  font-size: clamp(28px, 3.0vw, 44px);
-  color: color-mix(in srgb, var(--c1) 92%, transparent);
-
-  /* ✅ wraps like normal text, next line starts under “Skriv” */
-  white-space: normal;  min-height: 4.8em;}
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-size: clamp(28px, 3.2vw, 46px);
+  color: var(--color-primary);
+  min-height: 5em;
+}
 
 .ctTitleStatic{
-  font-weight: inherit;
+  display: inline;
 }
 
-.tw{
-  display: inline; /* ✅ behave like normal text */
-}
-
+.tw{ display: inline; }
 .twText{
   display: inline;
-  color: color-mix(in srgb, var(--c1) 86%, transparent);
-
-  /* ✅ allow nice wrapping instead of pushing layout */
+  color: var(--color-primary);
   white-space: normal;
   overflow-wrap: anywhere;
 }
+.twHighlight{
+  color: var(--color-accent);
+}
 
-/* Cursor: thinner and more “typographic” */
 .twCursor{
   display: inline-block;
-  width: 2px;
-  height: 0.95em;
-  margin-left: 4px;
-  background: color-mix(in srgb, var(--c1) 62%, transparent);
-  transform: translateY(0.08em);
-  animation: blink 920ms steps(1,end) infinite;
+  width: 1px;
+  height: 0.9em;
+  margin-left: 3px;
+  background: var(--color-accent);
+  transform: translateY(0.1em);
+  animation: twBlink 880ms steps(1) infinite;
+}
+@keyframes twBlink{
+  0%,49%{ opacity:1; } 50%,100%{ opacity:0; }
 }
 
-@keyframes blink{
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+.ctMeta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* RIGHT PANEL */
+.ctMetaLine{
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.3vw, 17px);
+  font-weight: 500;
+  color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  text-decoration: none;
+  transition: color 140ms ease;
+  width: fit-content;
+}
+.ctMetaLine:hover{ color: var(--color-accent); }
+
 .ctPanel{
-  background: color-mix(in srgb, #FFFFFF 94%, #1A0A40 6%);
-  border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
-  border-radius: 0;
+  background: color-mix(in srgb, var(--color-secondary) 52%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 100%, transparent);
   padding: clamp(22px, 3.6vw, 40px);
 }
 
-/* FORM */
 .ctForm{
   display: grid;
-  gap: 18px;
+  gap: clamp(14px, 2vw, 22px);
 }
 
-.row{
+.ctFormTwo{
   display: grid;
-  gap: 18px;
-}
-.row.two{
   grid-template-columns: 1fr 1fr;
-  gap: 26px;
+  gap: clamp(14px, 2vw, 26px);
 }
 
 .field{
   display: grid;
-  gap: 10px;
+  gap: 8px;
   position: relative;
 }
 
-.lab{
-  font-size: var(--t11);
-  font-weight: 800;
-  letter-spacing: 0.06em;
+.fieldLab{
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 66%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 44%, transparent);
+  transition: color 140ms ease;
+}
+.field:focus-within .fieldLab{
+  color: var(--color-primary);
 }
 
-.inp{
+.fieldInp{
   appearance: none;
   border: 0;
   outline: none;
   background: transparent;
-  padding: 6px 0 10px;
-
+  padding: 4px 0 10px;
   font-family: var(--font-body);
   font-size: var(--t14);
-  line-height: 1.4;
-  color: var(--text);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-primary);
+  width: 100%;
 }
 
-.ta{
+.fieldTa{
   resize: vertical;
   min-height: 120px;
 }
 
-.line{
+.fieldLine{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 1px;
-  width: 100%;
-  background: color-mix(in srgb, var(--c1) 26%, transparent);
-  transition: background 180ms ease;
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  transition: background 160ms ease;
+}
+.field:focus-within .fieldLine{
+  background: var(--color-accent);
 }
 
-.field:focus-within .line{
-  background: color-mix(in srgb, var(--c3) 28%, var(--c1));
-}
-
-/* Button: premium, calm */
-.ctaRow{
+.ctSubmitRow{
   display: flex;
   justify-content: flex-end;
-  padding-top: 12px;
+  padding-top: 6px;
 }
 
-.send{
-  border: 1px solid color-mix(in srgb, var(--c1) 22%, transparent);
-  background: transparent;
-
-  border-radius: 0;
-  padding: 12px 18px;
-
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
+.ctSubmit{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 24px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-
-  color: color-mix(in srgb, var(--c1) 88%, transparent);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: 1.5px solid var(--color-primary);
   cursor: pointer;
-
-  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease, background 160ms ease;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, transform 120ms ease;
+}
+.ctSubmit:hover{
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
-.send:hover{
-  border-color: #F3217C;
-  color: #F3217C;
-  background: transparent;
-  transform: translateY(-1px);
+.ctFooterRow{
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
 }
 
-/* BELOW TEXT (outside the box) */
-.ctBelow{
-  margin: 26px 0 0;
-  text-align: center;
-  font-size: var(--t11);
-  line-height: 1.6;
-  color: color-mix(in srgb, var(--c1) 70%, transparent);
+.ctFooterRow .cta{
+  font-family: var(--font-body);
+  font-size: var(--t14);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--color-primary) 72%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 16%, transparent);
+  padding-bottom: 4px;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.ctFooterRow .cta:hover{
+  color: var(--color-accent);
+  border-bottom-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
-.ctBelowLink{
-  display: inline-block;
-  color: inherit;
-  border-bottom: 1px solid color-mix(in srgb, var(--c1) 16%, transparent);
-  padding-bottom: 6px;
-  transition: color 160ms ease, border-color 160ms ease;
-}
-.ctBelowLink:hover{
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
-}
-
-/* responsive */
-@media (max-width: 980px){
+@media (max-width: 860px){
   .ctGrid{
     grid-template-columns: 1fr;
   }
-
-  .ctLeft{
-    max-width: 100%;
+  .ctTitle{
+    min-height: 0;
   }
-
-  .ctPanel{
-    padding: 22px;
-  }
-
-  .row.two{
+  .ctFormTwo{
     grid-template-columns: 1fr;
-    gap: 18px;
   }
 }
 `;

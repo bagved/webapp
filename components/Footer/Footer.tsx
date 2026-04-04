@@ -14,9 +14,7 @@ export default function Footer() {
             <div className="ftRow">
               <div className="ftCell ftLeft">CVR: 42597376</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/cookies">
-                  Cookie Policy
-                </Link>
+                <Link className="ftLink" href="/mission">Mission</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
@@ -24,9 +22,7 @@ export default function Footer() {
             <div className="ftRow">
               <div className="ftCell ftLeft">Tlf: +45 61 74 64 16</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/privacy">
-                  Privacy Policy
-                </Link>
+                <Link className="ftLink" href="/cookies">Cookie Policy</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
@@ -34,9 +30,7 @@ export default function Footer() {
             <div className="ftRow">
               <div className="ftCell ftLeft">Mail: info@bagved.com</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/mission">
-                  Mission
-                </Link>
+                <Link className="ftLink" href="/privacy">Privacy Policy</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
@@ -46,41 +40,29 @@ export default function Footer() {
                 Adresse: Frederiksvej 32, st. th., 2000 Frederiksberg
               </div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/terms">
-                  Terms and Conditions
-                </Link>
+                <Link className="ftLink" href="/terms">Terms and Conditions</Link>
               </div>
               <div className="ftCell ftRight">© 2026</div>
             </div>
           </div>
         </div>
 
-        {/* Mobile layout: grouped blocks + divider lines (no interleaving) */}
+        {/* Mobile layout: grouped blocks + divider lines */}
         <div className="ftMobile">
           <div className="ftBlock">
             <div className="ftCell">CVR: 42597376</div>
             <div className="ftCell">Tlf: +45 61 74 64 16</div>
             <div className="ftCell">Mail: info@bagved.com</div>
-            <div className="ftCell">
-              Adresse: Frederiksvej 32, st. th., 2000 Frederiksberg
-            </div>
+            <div className="ftCell">Adresse: Frederiksvej 32, st. th., 2000 Frederiksberg</div>
           </div>
 
           <div className="ftDivider" aria-hidden />
 
           <div className="ftBlock">
-            <Link className="ftLink ftCell" href="/cookies">
-              Cookie Policy
-            </Link>
-            <Link className="ftLink ftCell" href="/privacy">
-              Privacy Policy
-            </Link>
-            <Link className="ftLink ftCell" href="/mission">
-              Mission
-            </Link>
-            <Link className="ftLink ftCell" href="/terms">
-              Terms and Conditions
-            </Link>
+            <Link className="ftLink ftCell" href="/mission">Mission</Link>
+            <Link className="ftLink ftCell" href="/cookies">Cookie Policy</Link>
+            <Link className="ftLink ftCell" href="/privacy">Privacy Policy</Link>
+            <Link className="ftLink ftCell" href="/terms">Terms and Conditions</Link>
           </div>
 
           <div className="ftDivider" aria-hidden />
@@ -98,43 +80,37 @@ const css = `
 .ft{
   width: 100%;
   padding: 34px 0;
-  background: transparent;
-  border-top: 1px solid color-mix(in srgb, var(--c1) 10%, transparent);
+  background: var(--color-primary);
+  border-top: 1px solid color-mix(in srgb, var(--color-primary) 100%, transparent);
   font-family: var(--font-body);
 }
 
-/* ✅ Single source of truth: EXACT same typography everywhere */
 .ftCell{
-  display: block; /* ✅ makes div + link behave the same */
+  display: block;
   font-family: var(--font-body);
   font-size: 11px;
   line-height: 1.55;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0;
-  color: color-mix(in srgb, var(--c1) 78%, transparent);
+  color: color-mix(in srgb, var(--color-bg) 62%, transparent);
 }
 
-/* small footer logo (grayscale) */
-/* footerLogo removed */
-
-/* ✅ Links are typographically identical to .ftCell */
 .ftLink{
-  display: block;          /* ✅ same as .ftCell */
+  display: block;
   color: inherit;
   text-decoration: none;
-
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
+  transition: color 140ms ease;
+}
+.ftLink:hover{
+  color: var(--color-secondary);
 }
 
-/* Desktop (default) */
-.ftRows{
-  display: grid;
-  gap: 2px;
-}
+.ftRows{ display: grid; gap: 2px; }
 .ftRow{
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -148,30 +124,24 @@ const css = `
 .ftDesktop{ display: block; }
 .ftMobile{ display: none; }
 
-/* ✅ Mobile: grouped layout with divider lines */
 @media (max-width: 860px){
   .ftDesktop{ display: none; }
   .ftMobile{ display: grid; gap: 14px; }
 
-  .ftBlock{
-    display: grid;
-    gap: 6px;
-  }
+  .ftBlock{ display: grid; gap: 6px; }
 
-  .ftBlock .ftLink {
+  .ftBlock .ftLink{
     display: block;
     font-family: var(--font-body);
     font-size: 11px;
     line-height: 1.55;
-    font-weight: 300;
-    letter-spacing: 0;
-    color: color-mix(in srgb, var(--c1) 78%, transparent);
+    font-weight: 400;
+    color: color-mix(in srgb, var(--color-bg) 62%, transparent);
   }
 
   .ftDivider{
     height: 1px;
-    width: 100%;
-    background: color-mix(in srgb, var(--c1) 10%, transparent);
+    background: color-mix(in srgb, var(--color-bg) 14%, transparent);
   }
 }
 `;

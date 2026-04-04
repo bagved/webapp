@@ -1,99 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+/* Skift farver og fonte her — ændringer slår igennem på hele siden */
 
-/* styles/theme.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+
 :root {
-  /* ===== 5 CORE COLORS (KEEP) ===== */
-  --c1: #3C3C3B; /* Primary – Graphite Gray */
-  --c2: #edf4f0; /* Secondary – Frost White */
-  --c3: #4C3482; /* Accent */
-  --c4: #F9FAFB; /* Background base */
-  --c5: #DDE3E7; /* Background alt */
+  /* Font */
+  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-  /* Soft versions */
+  /* Farver */
+  --color-bg:        #FFF6E8;   /* Baggrund                    */
+  --color-primary:   #5b4bb7;   /* Primær   (tekst, UI)        */
+  --color-secondary: #e9d696;   /* Sekundær (bløde paneler)    */
+  --color-accent:    #fa3b51;   /* Accent   (hover, highlights) */
+}
+
+
+/* Afledte variabler — normalt ikke nødvendigt at ændre herunder */
+:root {
+  /* Komponent-aliaser (c1–c5 bruges af alle komponenter) */
+  --c1: var(--color-primary);
+  --c2: var(--color-secondary);
+  --c3: var(--color-accent);
+  --c4: var(--color-bg);
+  --c5: color-mix(in srgb, var(--color-secondary) 52%, var(--color-bg));
+
+  /* Soft versioner (18 % blandet med hvid) */
   --c1-soft: color-mix(in srgb, var(--c1) 18%, white);
   --c2-soft: color-mix(in srgb, var(--c2) 18%, white);
   --c3-soft: color-mix(in srgb, var(--c3) 18%, white);
   --c4-soft: color-mix(in srgb, var(--c4) 18%, white);
   --c5-soft: color-mix(in srgb, var(--c5) 18%, white);
 
-  /* Global font tokens (set in layout.tsx via next/font) */
-  --font-body: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-heading: var(--font-body);
+  /* Globale UI-tokens */
+  --bg:     var(--color-bg);
+  --text:   color-mix(in srgb, var(--color-primary) 96%, transparent);
+  --muted:  color-mix(in srgb, var(--color-primary) 58%, transparent);
+  --border: color-mix(in srgb, var(--color-primary) 13%, transparent);
 
-  /* Global UI tokens */
-  --bg: var(--c4);
-  --text: #0b0b0c;
-  --muted: rgba(11, 11, 12, 0.68);
-  --border: color-mix(in srgb, var(--c1) 18%, transparent);
+  --link:       var(--color-primary);
+  --link-hover: var(--color-accent);
 
-  /* Links */
-  --link: var(--c1);
-  --link-hover: var(--c3);
-
-  /* Type scale */
+  /* Typeskala */
   --t16: 16px;
   --t14: 14px;
   --t11: 11px;
-
-  /* ✅ New background colors */
-  --bg-warm-a: #FFFFFF;
-  --bg-warm-b: #F7F3FF;
 }
 
-/* ✅ Softer “ambient” shift (less pendulum) */
-@keyframes subtleBackgroundShift {
-  0%   { background-color: var(--bg-warm-a); }
-  50%  { background-color: var(--bg-warm-b); }
-  100% { background-color: var(--bg-warm-a); }
-}
 
-/* ✅ Organic grain (CSS-only, no external URL)
-   - Use multiple layers + non-uniform sizes so it feels less “patterned” */
-body::before{
-  content:"";
+/* GRAIN-TEKSTUR */
+body::before {
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-
-  /* lower opacity = more premium */
-  opacity: 0.035;
+  opacity: 0.028;
 
   background-image:
-    radial-gradient(rgba(0,0,0,0.22) 0.6px, transparent 0.8px),
-    radial-gradient(rgba(0,0,0,0.18) 0.7px, transparent 1px),
-    radial-gradient(rgba(0,0,0,0.12) 0.6px, transparent 1px);
+    radial-gradient(rgba(0, 0, 0, 0.24) 0.5px, transparent 0.7px),
+    radial-gradient(rgba(0, 0, 0, 0.18) 0.65px, transparent 0.95px),
+    radial-gradient(rgba(0, 0, 0, 0.10) 0.55px, transparent 0.9px);
   background-size:
     3px 3px,
     5px 5px,
-    7px 7px;
+    7.5px 7.5px;
   background-position:
     0 0,
     1px 2px,
-    2px 1px;
+    2.5px 1.5px;
 
   mix-blend-mode: multiply;
 }
 
-/* ✅ Subtle “depth” glow (very faint, makes it feel less flat/cold) */
-body::after{
-  content:"";
+
+/* AMBIENT GLØ */
+body::after {
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
 
   background:
-    radial-gradient(900px 600px at 18% 10%,
-      color-mix(in srgb, var(--c2) 38%, transparent),
-      transparent 62%),
-    radial-gradient(800px 600px at 82% 22%,
-      color-mix(in srgb, #fff1e7 22%, transparent),
-      transparent 66%);
-  opacity: 0.55;
+    /* Meget subtil accent-toning øverst til højre */
+    radial-gradient(
+      560px 420px at 88% 12%,
+      color-mix(in srgb, var(--color-accent) 5%, transparent),
+      transparent 56%
+    );
+
+  opacity: 0.6;
 }
 
-main, header, footer, .container{
+
+/* Sørg for at indhold sidder over pseudo-effekterne */
+main, header, footer, .container {
   position: relative;
   z-index: 1;
 }

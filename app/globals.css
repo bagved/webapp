@@ -6,16 +6,16 @@ html, body{ height: 100%; }
 body{
   margin: 0;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 400;
   font-size: var(--t16);
   line-height: 1.65;
   color: var(--text);
 
-  /* ✅ use warm bg (driven by the keyframes) */
-  background: var(--bg-warm-a);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
-  /* ✅ slower + more ambient */
-  animation: subtleBackgroundShift 180s linear infinite;
+  background: var(--color-bg);
 }
 
 
@@ -34,40 +34,21 @@ a:hover{
   margin-inline: auto;
 }
 
-/* Site-wide CTA style so all 'Se alle...' links match */
-.ctaRow{
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 18px;
-}
-.cta{
-  font-size: var(--t11);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--c1);
-  opacity: 0.82;
-  border-bottom: 1px solid color-mix(in srgb, var(--c1) 18%, transparent);
-  padding-bottom: 8px;
-}
-.cta:hover{
-  opacity: 1;
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
-}
 
 /* Send button used on contact page */
 .send{
+  font-family: var(--font-body);
   padding: 10px 16px;
-  border: 1px solid color-mix(in srgb, var(--c1) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
   background: transparent;
   cursor: pointer;
-  color: var(--c1);
+  color: var(--color-primary);
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 .send:hover{
-  background: var(--c3);
-  color: white;
-  border-color: color-mix(in srgb, var(--c3) 22%, transparent);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
 }
 
 /* keep main empty for now */

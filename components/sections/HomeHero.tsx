@@ -1,25 +1,36 @@
+"use client";
+
+import Link from "next/link";
+
 export default function HomeHero() {
   return (
     <section className="homeHero" aria-label="Home hero">
       <style>{css}</style>
 
-      <div className="container heroWrap">
-        <div className="heroGrid">
-          {/* LEFT COLUMN: Heading + Paragraph text */}
-          <div className="leftCol">
-            <div className="heroText" aria-hidden>
-              <div className="heroBig">Bagved det gode udtryk.</div>
-              <div className="heroSub">
-                Vil du have videoløsninger, der holder opmærksomheden? Om det er dine kollegaer, kunder eller samarbejdspartnere, så har vi ekspertisen til at løfte dine budskaber og fortællinger. Om det er en reklamefilm, et webinar eller en droneoptagelser og billeder til din hjemmeside, så kan vi det hele. Med en bred vifte af kompetencer og samarbejdspartnere, der er eksperter på diverse områder, så er vi klar til at løfte en lang liste af opgaver. Vi har stået for større sportsproduktioner, der er blevet broadvcastet. Koncerter der filmes til storskærmen. Reklamekampagner, der følges fra idé til optagelse og videre til eskponering på diverse medier. Vi elsker at lave video, og vi er er klar til at hjælpe dig med også at blive forelsket i film, video og levende billeder.
-              </div>
-            </div>
-          </div>
+      <div className="container heroInner">
 
-          {/* RIGHT: portrait image */}
-          <div className="imgFrame right" aria-hidden>
-            <div className="imgBg rightBg" />
+        <h1 className="heroBig">
+          <span className="heroLine1">Bagved det</span>
+          <span className="heroLine2">
+            <em className="heroAccent">gode udtryk.</em>
+          </span>
+        </h1>
+
+        <div className="heroBottom">
+          <p className="heroSub">
+            Videoproduktion der holder opmærksomheden – reklamefilm,
+            livestream, events og dronevideoer til virksomheder der
+            vil sige noget.
+          </p>
+
+          <div className="heroCtas">
+            <Link href="/cases"    className="btnPrimary">Se cases</Link>
+            <Link href="/services" className="btnOutline">Ydelser</Link>
+            <Link href="/contact"  className="btnGhost">Kontakt →</Link>
           </div>
         </div>
+
+
       </div>
     </section>
   );
@@ -27,142 +38,138 @@ export default function HomeHero() {
 
 const css = `
 .homeHero{
-  height: auto;
-  padding: 22px 0 0;
+  min-height: calc(100svh - 56px - 88px);
+  display: flex;
+  flex-direction: column;
 }
 
-.heroWrap{
-  display: grid;
-  align-items: stretch;
+.heroInner{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: clamp(40px, 5.5vh, 80px);
+  padding-bottom: clamp(28px, 3.5vh, 48px);
+  gap: 0;
 }
 
-.heroGrid{
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  column-gap: clamp(34px, 7vw, 110px);
-  align-items: start;
-}
-
-.leftCol{
-  position: relative;
-  display: grid;
-  align-content: start;
-
-  /* ✅ allow the long text to flow visually without clipping */
-  overflow: visible;
-}
-
-/* ✅ lines are “double length” / long editorial measure */
-.heroText{
-  position: absolute;
-  left: 0;
-  top: clamp(8px, 1.2vh, 14px);
-
-  /* long line length (feels ~2x compared to the left frame) */
-  width: min(72ch, calc(100vw - 80px));
-  z-index: 3;
-  pointer-events: none;
-}
-
-/* BIG line */
 .heroBig{
+  margin: 0;
   font-family: var(--font-heading);
-  color: color-mix(in srgb, var(--c1) 92%, transparent);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  font-size: clamp(28px, 3.2vw, 44px);
-  text-wrap: balance;
+  font-style: normal;
+  line-height: 0.93;
+  letter-spacing: -0.04em;
+  display: flex;
+  flex-direction: column;
 }
 
-/* smaller line */
+.heroLine1{
+  font-size: clamp(52px, 10vw, 138px);
+  font-weight: 800;
+  color: var(--color-primary);
+  display: block;
+}
+
+.heroLine2{
+  display: block;
+  font-size: clamp(52px, 10vw, 138px);
+}
+
+.heroAccent{
+  font-style: italic;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.heroBottom{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: clamp(24px, 5vw, 80px);
+}
+
 .heroSub{
-  margin-top: clamp(18px, 2.2vw, 24px);
-  transform: translateY(-14px);
+  margin: 0;
   font-family: var(--font-body);
-  color: color-mix(in srgb, var(--c1) 72%, transparent);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.7;
-  font-size: var(--t14);
-  text-wrap: balance;
-  max-width: 70ch;
+  font-size: clamp(14px, 1.25vw, 17px);
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  max-width: 46ch;
+  text-decoration: none;
 }
 
-/* Frames */
-.imgFrame{
-  position: relative;
-  overflow: hidden;
-  border-radius: 0;
-  border: 1px solid var(--border);
+.heroCtas{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.btnPrimary,
+.btnOutline,
+.btnGhost{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 22px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease,
+              border-color 150ms ease, transform 120ms ease;
+}
+
+.btnPrimary{
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: 1.5px solid var(--color-primary);
+}
+.btnPrimary:hover{
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+}
+
+.btnOutline{
   background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
+}
+.btnOutline:hover{
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
-.imgBg{
-  position: absolute;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  filter: saturate(1.02) contrast(1.02);
+.btnGhost{
+  background: transparent;
+  color: color-mix(in srgb, var(--color-primary) 52%, transparent);
+  border: 1.5px solid transparent;
+  padding-inline: 8px;
+}
+.btnGhost:hover{
+  color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
-/* LEFT image - HIDDEN */
-.left{
-  display: none;
-}
-
-/* RIGHT image */
-.right{
-  width: min(620px, 100%);
-  aspect-ratio: 5 / 4;
-  justify-self: end;
-  margin-top: clamp(18px, 2.5vh, 46px);
-}
-
-.leftBg{ background-image: url("/hero-left.jpg"); background-position: center 45%; }
-.rightBg{ background-image: url("/hero-right.jpg"); background-position: center 22%; }
-
-/* Mobile */
-@media (max-width: 900px){
+@media (max-width: 720px){
   .homeHero{
-    height: auto;
-    padding-top: 14px;
+    min-height: calc(100svh - 56px - 56px);
   }
 
-  .heroGrid{
+  .heroBottom{
     grid-template-columns: 1fr;
-    row-gap: 18px;
+    gap: 20px;
   }
 
-  .heroText{
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    margin-bottom: 14px;
-    pointer-events: auto;
-  }
-
-  .heroBig{
-    font-size: clamp(30px, 9vw, 44px);
-    line-height: 1.06;
-  }
-
-  .heroSub{
-    font-size: 14px;
-  }
-
-  .left{
-    width: 100%;
-    height: 240px;
-    margin-top: 10px;
-  }
-
-  .right{
-    width: 100%;
-    aspect-ratio: 5 / 4;
-    margin-top: 0px;
+  .heroCtas{
+    justify-content: flex-start;
   }
 }
 `;

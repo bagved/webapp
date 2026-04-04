@@ -3,14 +3,6 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-  fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-});
 
 export const metadata = {
   title: "BAGVED",
@@ -22,8 +14,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="da" className={inter.variable}>
-      <body className={inter.className}>
+    <html lang="da">
+      <body>
         <Header />
         <main className="pageMain">{children}</main>
         <Footer />

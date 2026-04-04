@@ -8,16 +8,8 @@ export default function ContactPage() {
 
   const darkLayerRef = useRef<HTMLDivElement | null>(null);
 
-  const logoARef = useRef<HTMLDivElement | null>(null);
-  const logoBRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     let raf = 0;
-
-    // Smooth only the logo split (NOT the boundary line)
-    let smoothSplitPct = 100;
-
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const vh = () => window.visualViewport?.height ?? window.innerHeight ?? 800;
 
@@ -26,31 +18,24 @@ export default function ContactPage() {
       return Math.round(v * dpr) / dpr;
     };
 
-    const snapPct = (v: number) => Math.round(v * 1000) / 1000;
-
     const tick = () => {
       const startEl = startMarkerRef.current;
       const endEl = endMarkerRef.current;
       const darkEl = darkLayerRef.current;
-      const logoAEl = logoARef.current;
-      const logoBEl = logoBRef.current;
 
-      if (!startEl || !endEl || !darkEl || !logoAEl || !logoBEl) {
+      if (!startEl || !endEl || !darkEl) {
         raf = requestAnimationFrame(tick);
         return;
       }
 
       const startRect = startEl.getBoundingClientRect();
       const endRect = endEl.getBoundingClientRect();
-      const logoRect = logoAEl.getBoundingClientRect();
 
       const viewportH = vh();
 
-      // Boundary line in viewport px (snap to device pixel)
       const startY = snapPx(startRect.top);
       const endY = snapPx(endRect.top);
 
-      // Dark overlay between start..end (NO smoothing here)
       const top = snapPx(Math.max(0, Math.min(viewportH, startY)));
       const bottom = snapPx(Math.max(0, Math.min(viewportH, viewportH - endY)));
 
@@ -58,28 +43,6 @@ export default function ContactPage() {
       darkEl.style.clipPath = darkClip;
       // @ts-ignore
       darkEl.style.WebkitClipPath = darkClip;
-
-      // Logo split based on boundary (optional light smoothing)
-      const cutPx = startY - logoRect.top;
-      const targetSplit = Math.min(
-        100,
-        Math.max(0, (cutPx / Math.max(1, logoRect.height)) * 100)
-      );
-
-      const LOGO_SMOOTH = 0.22;
-      smoothSplitPct = lerp(smoothSplitPct, targetSplit, LOGO_SMOOTH);
-      const split = snapPct(smoothSplitPct);
-
-      const logoAClip = `inset(0 0 ${snapPct(100 - split)}% 0)`;
-      const logoBClip = `inset(${split}% 0 0 0)`;
-
-      logoAEl.style.clipPath = logoAClip;
-      // @ts-ignore
-      logoAEl.style.WebkitClipPath = logoAClip;
-
-      logoBEl.style.clipPath = logoBClip;
-      // @ts-ignore
-      logoBEl.style.WebkitClipPath = logoBClip;
 
       raf = requestAnimationFrame(tick);
     };
@@ -94,54 +57,15 @@ export default function ContactPage() {
 
       <div className="darkLayer" ref={darkLayerRef} aria-hidden />
 
-      {/* Inline backgroundImage => no CSS filename mismatch possible */}
-      <div
-        id="bgLogoA"
-        ref={logoARef}
-        aria-hidden
-        className="bgLogo"
-        style={{ backgroundImage: "url('/Transparent Logo.png')" }}
-      />
-      <div
-        id="bgLogoB"
-        ref={logoBRef}
-        aria-hidden
-        className="bgLogo"
-        style={{ backgroundImage: "url('/Transparent-Logo-2.png')" }}
-      />
 
       <section className="contactTop" style={{ padding: 0 }}>
-        <div className="container contentLayer" style={{ padding: "96px 0" }}>
+        <div className="container contentLayer" style={{ padding: "96px 0 64px" }}>
           <div className="topInner">
-            <h1
-              style={{
-                margin: "14px 0 0",
-                fontFamily: "var(--font-heading)",
-                fontWeight: 350,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.12,
-                fontSize: "clamp(28px, 3.2vw, 44px)",
-                color: "color-mix(in srgb, var(--c1) 92%, transparent)",
-              }}
-            >
-              Kontakt
-            </h1>
-
-            <div
-              style={{
-                marginTop: 18,
-                fontSize: "var(--t14)",
-                lineHeight: 1.7,
-                color: "color-mix(in srgb, var(--c1) 72%, transparent)",
-                maxWidth: "70ch",
-              }}
-            >
-              <p>
-                Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
-                Vi har allerede nogle af de bedste samarbejdspartnere i branchen, og er altid åbne for at udvide netværket. Så tag endelig kontakt, hvis du ønsker at høre om samarbejdsmuligheder.
-                Søger du job eller ønsker at leje udstyr, er du også velkommen til at skrive.
-              </p>
-            </div>
+            <h1 className="contactTitle">Kontakt</h1>
+            <p className="contactLead">
+              Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
+              Vi er altid åbne for nye samarbejder og hører gerne fra dig.
+            </p>
           </div>
 
           <div className="contactInfo">
@@ -260,36 +184,13 @@ const css = `
 .darkLayer{
   position: fixed;
   inset: 0;
-  background: #1A0A40;
+  background: color-mix(in srgb, var(--color-primary) 92%, black);
   z-index: 5;
   pointer-events: none;
   will-change: clip-path;
   transform: translateZ(0);
 }
 
-.bgLogo{
-  position: fixed;
-  top: 66%;
-  left: 76%;
-  transform: translate(-50%, -50%) translateZ(0);
-
-  width: clamp(200px, 26vw, 460px);
-  height: clamp(200px, 26vw, 460px);
-
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-
-  z-index: 10;
-  pointer-events: none;
-
-  /* guardrails against “invisible due to globals” */
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  will-change: clip-path;
-  max-height: 85vh;
-}
 
 .contentLayer{
   position: relative;
@@ -308,47 +209,55 @@ const css = `
 }
 
 .contactTitle{
-  margin: 0 0 12px 0;
+  margin: 0 0 20px;
   font-family: var(--font-heading);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  font-size: clamp(28px, 3.2vw, 48px);
-  color: #3C3C3B;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  font-size: clamp(44px, 6.5vw, 88px);
+  color: var(--color-primary);
 }
 
 .contactLead{
-  margin: 0 0 22px 0;
-  max-width: 76ch;
-  font-size: clamp(13px, 1.05vw, 15px);
-  line-height: 1.7;
-  color: color-mix(in srgb, #3C3C3B 82%, transparent);
+  margin: 0 0 36px;
+  max-width: 58ch;
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.72;
+  color: color-mix(in srgb, var(--color-primary) 62%, transparent);
 }
 
 .contactInfo{
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  max-width: 520px;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 0 clamp(32px, 5vw, 64px);
+  max-width: 680px;
 }
 
 .infoItem{ display: grid; gap: 6px; }
 
 .infoLabel{
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(26,10,64,0.52);
+  color: color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
 
 .infoValue{
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.15vw, 15px);
   line-height: 1.45;
-  color: #1A0A40;
+  color: var(--color-primary);
   text-decoration: none;
-  font-weight: 520;
+  font-weight: 500;
+  transition: color 140ms ease;
 }
-a.infoValue:hover{ text-decoration: underline; }
+a.infoValue:hover{
+  color: var(--color-accent);
+}
 
 .contactFormWrap{
   position: relative;
@@ -375,8 +284,8 @@ a.infoValue:hover{ text-decoration: underline; }
 .darkSpacer{ min-height: 1px; }
 
 .ctPanel{
-  background: color-mix(in srgb, #FFFFFF 94%, #1A0A40 6%);
-  border: 1px solid color-mix(in srgb, var(--c1) 14%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 22%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 65%, transparent);
   border-radius: 0;
   padding: clamp(22px, 3.6vw, 40px);
 }
@@ -388,11 +297,16 @@ a.infoValue:hover{ text-decoration: underline; }
 .field{ display: grid; gap: 10px; position: relative; }
 
 .lab{
-  font-size: var(--t11);
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 66%, transparent);
+  color: color-mix(in srgb, var(--color-primary) 44%, transparent);
+  transition: color 140ms ease;
+}
+.field:focus-within .lab{
+  color: var(--color-primary);
 }
 
 .inp{
@@ -404,7 +318,7 @@ a.infoValue:hover{ text-decoration: underline; }
   font-family: var(--font-body);
   font-size: var(--t14);
   line-height: 1.4;
-  color: var(--text);
+  color: var(--color-primary);
 }
 
 .ta{ resize: vertical; min-height: 140px; }
@@ -412,11 +326,11 @@ a.infoValue:hover{ text-decoration: underline; }
 .line{
   height: 1px;
   width: 100%;
-  background: color-mix(in srgb, var(--c1) 26%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
   transition: background 180ms ease;
 }
 .field:focus-within .line{
-  background: color-mix(in srgb, var(--c3) 28%, var(--c1));
+  background: var(--color-accent);
 }
 
 .ctaRow{
@@ -426,36 +340,29 @@ a.infoValue:hover{ text-decoration: underline; }
 }
 
 .send{
-  border: 1px solid color-mix(in srgb, var(--c1) 22%, transparent);
-  background: transparent;
-  border-radius: 0;
-  padding: 12px 18px;
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 24px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--c1) 88%, transparent);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: 1.5px solid var(--color-primary);
   cursor: pointer;
-  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease, background 160ms ease;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, transform 120ms ease;
 }
-
 .send:hover{
-  border-color: #F3217C;
-  color: #F3217C;
-  background: transparent;
-  transform: translateY(-1px);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 980px){
   .darkGrid{ grid-template-columns: 1fr; }
   .row.two{ grid-template-columns: 1fr; gap: 18px; }
-
-  .bgLogo{
-    top: 72%;
-    left: 70%;
-    width: clamp(180px, 54vw, 320px);
-    height: clamp(180px, 54vw, 320px);
-    opacity: 0.45 !important;
-  }
 }
 `;
