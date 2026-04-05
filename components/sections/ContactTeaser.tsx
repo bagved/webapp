@@ -52,7 +52,7 @@ export default function ContactTeaserSection() {
         </div>
 
         <div className="ctFooterRow">
-          <Link className="cta" href="/contact">Tag kontakt til os her →</Link>
+          <Link className="cta" href="/contact">FORTÆL OS MERE OM DIG</Link>
         </div>
       </div>
     </section>

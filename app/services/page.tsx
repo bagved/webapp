@@ -94,9 +94,9 @@ export default function ServicesPage() {
 
       <section className="srvTop" aria-label="Intro" style={{ padding: 0 }}>
         <div className="container" style={{ padding: "96px 0 48px" }}>
-          <h1 className="srvPageTitle">Ydelser</h1>
+          <h1 className="srvPageTitle">Ydelser vi tilbyder</h1>
           <p className="srvHint">
-            Her er et overblik over vores ydelser, samlet i de områder virksomheder oftest efterspørger.
+            Med specialister i eventplanlægning, video afvikling og kreativt indhold, tilbyder vi en bred vifte af ydelser, der kan tilpasses dine behov. Uanset om du har brug for en enkelt reklamefilm, løbende indhold til sociale medier eller en komplet eventproduktion, har vi ekspertisen og erfaringen til at levere resultater, der skaber værdi for din virksomhed.
           </p>
         </div>
       </section>

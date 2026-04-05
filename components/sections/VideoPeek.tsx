@@ -20,7 +20,7 @@ export default function VideoPeek() {
         </div>
 
         <div className="vpCtaRow">
-          <Link className="vpCta" href="/services">Se alle ydelser →</Link>
+          <Link className="vpCta" href="/services">SE ALLE VORES YDELSER HER</Link>
         </div>
       </div>
     </section>

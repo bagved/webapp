@@ -10,23 +10,22 @@ export default function HomeHero() {
       <div className="container heroInner">
 
         <h1 className="heroBig">
-          <span className="heroLine1">Bagved det</span>
+          <span className="heroLine1">Bagved den</span>
           <span className="heroLine2">
-            <em className="heroAccent">gode udtryk.</em>
+            <em className="heroAccent">gode oplevelse.</em>
           </span>
         </h1>
 
         <div className="heroBottom">
           <p className="heroSub">
-            Videoproduktion der holder opmærksomheden – reklamefilm,
-            livestream, events og dronevideoer til virksomheder der
-            vil sige noget.
+            Video- og eventproduktion der skaber følelser. Reklamefilm,
+            livestream, events og fester til virksomheden eller foreningen, der ønsker at sige noget.
           </p>
 
           <div className="heroCtas">
-            <Link href="/cases"    className="btnPrimary">Se cases</Link>
-            <Link href="/services" className="btnOutline">Ydelser</Link>
-            <Link href="/contact"  className="btnGhost">Kontakt →</Link>
+            <Link href="/cases"    className="btnPrimary">Se eksempler</Link>
+            <Link href="/services" className="btnOutline"> Vores ydelser</Link>
+            <Link href="/contact"  className="btnGhost">Kontakt</Link>
           </div>
         </div>
 

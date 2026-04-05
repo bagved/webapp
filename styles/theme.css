@@ -8,9 +8,9 @@
   --font-body:    'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
   /* Farver */
-  --color-bg:        #FFF6E8;   /* Baggrund                    */
+  --color-bg:        #ffffff;   /* Baggrund                    */
   --color-primary:   #5b4bb7;   /* Primær   (tekst, UI)        */
-  --color-secondary: #e9d696;   /* Sekundær (bløde paneler)    */
+  --color-secondary: #ab9d70;   /* Sekundær (bløde paneler)    */
   --color-accent:    #fa3b51;   /* Accent   (hover, highlights) */
 }
 

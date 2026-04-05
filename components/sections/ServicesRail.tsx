@@ -230,7 +230,7 @@ export default function ServicesRail() {
 
           <div className="srvCtaRow">
             <Link className="srvCta" href="/cases">
-              Se alle eksempler →
+              LÆS OM EKSEMPLERNE HER
             </Link>
           </div>
         </div>
