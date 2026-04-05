@@ -185,7 +185,7 @@ export default function ServicesRail() {
       <div className="fullBleed">
         <div className="wrap">
 
-          <p className="railHint">Swipe for at se alle ydelser</p>
+          <p className="railHint">Swipe for at se et udpluk af vores eksempler</p>
 
           <div ref={railRef} className="rail" role="list" aria-label="Service tiles">
             {items.map((it, i) => {

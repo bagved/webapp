@@ -17,7 +17,7 @@ export default function ContactTeaserSection() {
             <h2 className="ctTitle">
               <span className="ctTitleStatic">Skriv til os</span>
               <TypeLine phrases={[
-                "her – eller ring på +45 61 74 64 16",
+                "her, eller ring på +45 61 74 64 16",
                 "på info@bagved.com",
                 "hvor end du foretrækker det!",
               ]} />
