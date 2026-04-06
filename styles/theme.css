@@ -1,17 +1,18 @@
 /* Skift farver og fonte her — ændringer slår igennem på hele siden */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100;1,300;1,400;1,600;1,700&display=swap');
 
 :root {
   /* Font */
-  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-body:    'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Josefin Sans', system-ui, -apple-system, sans-serif;
+  --font-body:    'Josefin Sans', system-ui, -apple-system, sans-serif;
 
-  /* Farver */
-  --color-bg:        #ffffff;   /* Baggrund                    */
-  --color-primary:   #5b4bb7;   /* Primær   (tekst, UI)        */
-  --color-secondary: #ab9d70;   /* Sekundær (bløde paneler)    */
-  --color-accent:    #fa3b51;   /* Accent   (hover, highlights) */
+  /* Farver — to neutrale + primær + sekundær + accent */
+  --color-bg:        #FFF6E8;   /* Baggrund (neutral lys)       */
+  --color-text:      #1a1520;   /* Tekst    (neutral mørk)      */
+  --color-primary:   #5b4bb7;   /* Primær   (CTAs, sektioner)   */
+  --color-secondary: #e9d696;   /* Sekundær (cards, info)       */
+  --color-accent:    #fa3b51;   /* Accent   (links, highlights) */
 }
 
 
@@ -33,9 +34,9 @@
 
   /* Globale UI-tokens */
   --bg:     var(--color-bg);
-  --text:   color-mix(in srgb, var(--color-primary) 96%, transparent);
-  --muted:  color-mix(in srgb, var(--color-primary) 58%, transparent);
-  --border: color-mix(in srgb, var(--color-primary) 13%, transparent);
+  --text:   var(--color-text);
+  --muted:  color-mix(in srgb, var(--color-text) 52%, transparent);
+  --border: color-mix(in srgb, var(--color-text) 12%, transparent);
 
   --link:       var(--color-primary);
   --link-hover: var(--color-accent);

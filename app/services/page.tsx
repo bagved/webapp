@@ -179,7 +179,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
-  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
   max-width: 56ch;
 }
 
@@ -241,7 +241,7 @@ const css = `
   letter-spacing: -0.02em;
   line-height: 1.12;
   font-size: clamp(22px, 2.2vw, 34px);
-  color: color-mix(in srgb, var(--c1) 92%, transparent);
+  color: var(--color-primary);
   outline: none;
   transition: color 200ms ease;
 }
@@ -256,7 +256,7 @@ const css = `
   font-family: var(--font-body);
   font-size: var(--t16);
   line-height: 1.9;
-  color: color-mix(in srgb, var(--c1) 74%, transparent);
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
   max-width: 62ch;
 }
 
@@ -270,9 +270,9 @@ const css = `
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--c1);
-  opacity: 0.84;
-  border-bottom: 1px solid color-mix(in srgb, var(--c1) 18%, transparent);
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  opacity: 1;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
   padding-bottom: 8px;
   transition: color 160ms ease, border-color 160ms ease, transform 160ms ease, opacity 160ms ease;
 }

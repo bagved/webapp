@@ -93,9 +93,8 @@ const css = `
   font-size: clamp(14px, 1.25vw, 17px);
   font-weight: 400;
   line-height: 1.75;
-  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
   max-width: 46ch;
-  text-decoration: none;
 }
 
 .heroCtas{
@@ -148,7 +147,7 @@ const css = `
 
 .btnGhost{
   background: transparent;
-  color: color-mix(in srgb, var(--color-primary) 52%, transparent);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
   border: 1.5px solid transparent;
   padding-inline: 8px;
 }

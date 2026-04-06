@@ -63,8 +63,8 @@ const css = `
   font-size: var(--t14);
   font-weight: 400;
   letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-primary) 75%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 16%, transparent);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
   padding-bottom: 4px;
   text-decoration: none;
   transition: color 150ms ease, border-color 150ms ease;

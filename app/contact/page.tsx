@@ -224,7 +224,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.72;
-  color: color-mix(in srgb, var(--color-primary) 62%, transparent);
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
 }
 
 .contactInfo{
@@ -243,14 +243,14 @@ const css = `
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  color: color-mix(in srgb, var(--color-text) 42%, transparent);
 }
 
 .infoValue{
   font-family: var(--font-body);
   font-size: clamp(13px, 1.15vw, 15px);
   line-height: 1.45;
-  color: var(--color-primary);
+  color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
   transition: color 140ms ease;
@@ -302,11 +302,11 @@ a.infoValue:hover{
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 44%, transparent);
+  color: color-mix(in srgb, var(--color-text) 42%, transparent);
   transition: color 140ms ease;
 }
 .field:focus-within .lab{
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .inp{
@@ -318,7 +318,7 @@ a.infoValue:hover{
   font-family: var(--font-body);
   font-size: var(--t14);
   line-height: 1.4;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .ta{ resize: vertical; min-height: 140px; }

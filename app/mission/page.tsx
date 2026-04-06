@@ -91,7 +91,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
-  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
   max-width: 56ch;
 }
 
@@ -124,7 +124,7 @@ const css = `
   font-size: clamp(16px, 1.6vw, 21px);
   font-weight: 500;
   line-height: 1.65;
-  color: color-mix(in srgb, var(--color-primary) 72%, transparent);
+  color: var(--color-text);
   max-width: 32ch;
 }
 
@@ -185,7 +185,7 @@ const css = `
   font-size: clamp(14px, 1.2vw, 16px);
   font-weight: 400;
   line-height: 1.75;
-  color: color-mix(in srgb, var(--color-primary) 62%, transparent);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
 }
 
 @media (max-width: 780px){

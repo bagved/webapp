@@ -10,6 +10,7 @@ const BRAND = "BAGVED";
 // ── Farve-variabler ───────────────────────────────────────────────────
 const COLOR_VARS: { key: string; label: string; cssVar: string }[] = [
   { key: "bg",        label: "Baggrund",  cssVar: "--color-bg"        },
+  { key: "text",      label: "Tekst",     cssVar: "--color-text"      },
   { key: "primary",   label: "Primær",    cssVar: "--color-primary"   },
   { key: "secondary", label: "Sekundær",  cssVar: "--color-secondary" },
   { key: "accent",    label: "Accent",    cssVar: "--color-accent"    },
@@ -18,43 +19,79 @@ const COLOR_VARS: { key: string; label: string; cssVar: string }[] = [
 // ── Google Fonts der kan vælges ───────────────────────────────────────
 const FONT_OPTIONS: { label: string; value: string; import: string }[] = [
   {
-    label: "Plus Jakarta Sans",
-    value: "'Plus Jakarta Sans', sans-serif",
-    import: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap",
+    label: "Josefin Sans",
+    value: "'Josefin Sans', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100;1,300;1,400;1,700&display=swap",
   },
   {
-    label: "Inter",
-    value: "'Inter', sans-serif",
-    import: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+    label: "Raleway",
+    value: "'Raleway', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,300;0,400;0,600;0,700;0,800;1,400;1,700&display=swap",
   },
   {
-    label: "DM Sans",
-    value: "'DM Sans', sans-serif",
-    import: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400;1,700&display=swap",
+    label: "Lexend",
+    value: "'Lexend', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Lexend:wght@100;300;400;500;600;700;800&display=swap",
   },
   {
-    label: "Geist",
-    value: "'Geist', sans-serif",
-    import: "https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap",
+    label: "Rubik",
+    value: "'Rubik', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&display=swap",
   },
   {
-    label: "Syne",
-    value: "'Syne', sans-serif",
-    import: "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap",
+    label: "Alexandria",
+    value: "'Alexandria', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Alexandria:wght@100;300;400;600;700;800&display=swap",
   },
   {
-    label: "Cormorant",
-    value: "'Cormorant Garamond', serif",
-    import: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap",
+    label: "Unbounded",
+    value: "'Unbounded', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;600;700;800&display=swap",
+  },
+  {
+    label: "Krona One",
+    value: "'Krona One', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Krona+One&display=swap",
+  },
+  {
+    label: "Atkinson Hyperlegible",
+    value: "'Atkinson Hyperlegible', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+  },
+  {
+    label: "Encode Sans Expanded",
+    value: "'Encode Sans Expanded', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;300;400;600;700;800&display=swap",
+  },
+  {
+    label: "Genos",
+    value: "'Genos', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Genos:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&display=swap",
+  },
+  {
+    label: "Gayathri",
+    value: "'Gayathri', sans-serif",
+    import: "https://fonts.googleapis.com/css2?family=Gayathri:wght@100;400;700&display=swap",
+  },
+  {
+    label: "Averia Serif",
+    value: "'Averia Serif Libre', serif",
+    import: "https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap",
+  },
+  {
+    label: "Martian Mono",
+    value: "'Martian Mono', monospace",
+    import: "https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100;300;400;600;700;800&display=swap",
   },
 ];
 
 function readCurrentColors(): Record<string, string> {
   if (typeof window === "undefined")
-    return { bg: "#FFF6E8", primary: "#5b4bb7", secondary: "#e9d696", accent: "#fa3b51" };
+    return { bg: "#FFF6E8", text: "#1a1520", primary: "#5b4bb7", secondary: "#e9d696", accent: "#fa3b51" };
   const s = getComputedStyle(document.documentElement);
   return {
     bg:        s.getPropertyValue("--color-bg").trim()        || "#FFF6E8",
+    text:      s.getPropertyValue("--color-text").trim()      || "#1a1520",
     primary:   s.getPropertyValue("--color-primary").trim()   || "#5b4bb7",
     secondary: s.getPropertyValue("--color-secondary").trim() || "#e9d696",
     accent:    s.getPropertyValue("--color-accent").trim()    || "#fa3b51",
@@ -65,7 +102,7 @@ function readCurrentColors(): Record<string, string> {
 function ThemePanel({ onClose }: { onClose: () => void }) {
   const [colors, setColors]     = useState(readCurrentColors);
   const [hexInputs, setHexInputs] = useState(readCurrentColors);
-  const [activeFont, setActiveFont] = useState(FONT_OPTIONS[0].value);
+  const [activeFont, setActiveFont] = useState(FONT_OPTIONS[0].value); // Josefin Sans
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -203,7 +240,7 @@ export default function Header() {
           {/* Logo */}
           <div className={styles.left}>
             <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-              <img src="/logo.png" alt={BRAND} className={styles.logoImg} />
+              <span className={styles.logoWordmark}>Bagved</span>
             </Link>
           </div>
 
@@ -228,7 +265,8 @@ export default function Header() {
                 title="Skift tema"
               >
                 <span className={styles.swatchBar}>
-                  <span className={styles.swatchDot} style={{ background: "var(--color-bg)",        outline: "1.5px solid var(--color-primary)", outlineOffset: "1px" }} />
+                  <span className={styles.swatchDot} style={{ background: "var(--color-bg)",        outline: "1.5px solid var(--color-text)", outlineOffset: "1px" }} />
+                  <span className={styles.swatchDot} style={{ background: "var(--color-text)"      }} />
                   <span className={styles.swatchDot} style={{ background: "var(--color-primary)"   }} />
                   <span className={styles.swatchDot} style={{ background: "var(--color-secondary)" }} />
                   <span className={styles.swatchDot} style={{ background: "var(--color-accent)"    }} />

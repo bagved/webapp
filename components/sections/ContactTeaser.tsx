@@ -209,7 +209,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.3vw, 17px);
   font-weight: 500;
-  color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  color: var(--color-text);
   text-decoration: none;
   transition: color 140ms ease;
   width: fit-content;
@@ -245,11 +245,11 @@ const css = `
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 44%, transparent);
+  color: color-mix(in srgb, var(--color-text) 42%, transparent);
   transition: color 140ms ease;
 }
 .field:focus-within .fieldLab{
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .fieldInp{
@@ -262,7 +262,7 @@ const css = `
   font-size: var(--t14);
   font-weight: 400;
   line-height: 1.45;
-  color: var(--color-primary);
+  color: var(--color-text);
   width: 100%;
 }
 
@@ -323,8 +323,8 @@ const css = `
   font-size: var(--t14);
   font-weight: 400;
   letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-primary) 72%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 16%, transparent);
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
   padding-bottom: 4px;
   transition: color 150ms ease, border-color 150ms ease;
 }

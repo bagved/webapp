@@ -291,7 +291,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
-  color: color-mix(in srgb, var(--color-primary) 58%, transparent);
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
   max-width: 56ch;
 }
 
@@ -338,7 +338,7 @@ const css = `
   letter-spacing: -0.01em;
   line-height: 1.35;
 
-  color: color-mix(in srgb, var(--color-primary) 65%, transparent);
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
   width: fit-content;
 
   border-bottom: 1px solid transparent;
@@ -408,14 +408,14 @@ const css = `
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.45;
-  color: color-mix(in srgb, var(--color-primary) 84%, transparent);
+  color: var(--color-text);
   transition: color 160ms ease;
 }
 
 .rowIcon{
   font-size: 18px;
   font-weight: 500;
-  color: color-mix(in srgb, var(--color-primary) 48%, transparent);
+  color: color-mix(in srgb, var(--color-text) 40%, transparent);
   transition: color 160ms ease, transform 160ms ease;
 }
 
@@ -461,13 +461,13 @@ const css = `
 }
 
 .exRow:nth-child(odd) .exKicker{
-  color: var(--color-secondary);
+  color: color-mix(in srgb, var(--color-primary) 45%, transparent);
 }
 .exRow:nth-child(odd) .exTitle{
-  color: color-mix(in srgb, var(--color-primary) 92%, transparent);
+  color: var(--color-primary);
 }
 .exRow:nth-child(odd) .exBody{
-  color: color-mix(in srgb, var(--color-primary) 68%, transparent);
+  color: var(--color-text);
 }
 .exRow:nth-child(odd) .exMedia{
   border-color: color-mix(in srgb, var(--color-secondary) 45%, transparent);
