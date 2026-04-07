@@ -110,6 +110,24 @@ export default function ContactPage() {
                 </div>
 
                 <div className="row">
+                  <LinedSelect
+                    label="Emne"
+                    name="subject"
+                    options={[
+                      "General",
+                      "Livestream",
+                      "Sportsbroadcast",
+                      "Virksomhedsvideo",
+                      "Eventvideo",
+                      "Eventteknik",
+                      "Samarbejde",
+                      "Tilbud",
+                      "Job",
+                    ]}
+                  />
+                </div>
+
+                <div className="row">
                   <LinedTextarea label="Besked" name="message" rows={6} />
                 </div>
 
@@ -146,6 +164,28 @@ function LinedInput({
     <label className="field">
       <span className="lab">{label}</span>
       <input className="inp" name={name} type={type} autoComplete={autoComplete} />
+      <span className="line" aria-hidden />
+    </label>
+  );
+}
+
+function LinedSelect({
+  label,
+  name,
+  options,
+}: {
+  label: string;
+  name: string;
+  options: string[];
+}) {
+  return (
+    <label className="field">
+      <span className="lab">{label}</span>
+      <select className="inp sel" name={name}>
+        {options.map((o) => (
+          <option key={o} value={o}>{o}</option>
+        ))}
+      </select>
       <span className="line" aria-hidden />
     </label>
   );
@@ -256,7 +296,7 @@ const css = `
   transition: color 140ms ease;
 }
 a.infoValue:hover{
-  color: var(--color-accent);
+  color: inherit;
 }
 
 .contactFormWrap{
@@ -322,6 +362,16 @@ a.infoValue:hover{
 }
 
 .ta{ resize: vertical; min-height: 140px; }
+
+.sel{
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235b4bb7' fill-opacity='0.45'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  padding-right: 18px;
+}
 
 .line{
   height: 1px;

@@ -261,10 +261,10 @@ const css = `
 }
 
 .rail{
-  --tileW: 360px;
-  --tileH: 520px;
+  --tileW: clamp(220px, 21.5vw, 290px);
+  --tileH: clamp(340px, 33vw, 440px);
   --edgePad: clamp(18px, 3.2vw, 44px);
-  --gap: clamp(26px, 4.4vw, 64px);
+  --gap: clamp(13px, 1.6vw, 22px);
 
   display: grid;
   grid-auto-flow: column;
@@ -293,7 +293,7 @@ const css = `
   text-decoration: none;
   color: inherit;
 
-  border-radius: 0;
+  border-radius: 18px;
   background: color-mix(in srgb, var(--color-primary) 18%, var(--color-secondary));
   border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
 
@@ -466,8 +466,8 @@ const css = `
 
 @media (max-width: 780px){
   .rail{
-    --tileW: 78vw;
-    --tileH: 520px;
+    --tileW: 65vw;
+    --tileH: clamp(310px, 84vw, 420px);
     --edgePad: 14px;
   }
 }

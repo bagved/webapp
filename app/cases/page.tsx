@@ -260,9 +260,14 @@ const css = `
 
 .catSubInner{
   min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   padding-bottom: clamp(10px, 1.4vw, 18px);
+  visibility: hidden;
+}
+.catRow.isOpen .catSubInner{
+  visibility: visible;
 }
 
 .subLink{

@@ -1,18 +1,18 @@
 /* Skift farver og fonte her — ændringer slår igennem på hele siden */
 
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,300;0,400;0,600;0,700;1,100;1,300;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Genos:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&display=swap');
 
 :root {
   /* Font */
-  --font-heading: 'Josefin Sans', system-ui, -apple-system, sans-serif;
-  --font-body:    'Josefin Sans', system-ui, -apple-system, sans-serif;
-  --font-text:    'Josefin Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Genos', sans-serif;
+  --font-body:    'Rubik', sans-serif;
+  --font-text:    'Rubik', sans-serif;
 
   /* Farver — to neutrale + primær + sekundær + accent */
-  --color-bg:        #FFF6E8;   /* Baggrund (neutral lys)       */
-  --color-text:      #1a1520;   /* Tekst    (neutral mørk)      */
+  --color-bg:        #fafafa;   /* Baggrund (neutral lys)       */
+  --color-text:      #000000;   /* Tekst    (neutral mørk)      */
   --color-primary:   #5b4bb7;   /* Primær   (CTAs, sektioner)   */
-  --color-secondary: #e9d696;   /* Sekundær (cards, info)       */
+  --color-secondary: #eed2e7;   /* Sekundær (cards, info)       */
   --color-accent:    #fa3b51;   /* Accent   (links, highlights) */
 }
 

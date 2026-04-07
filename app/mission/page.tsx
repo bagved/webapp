@@ -1,196 +1,274 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+const PHOTOS = ["/photos/Mission1.jpg", "/photos/mission2.jpg"];
+
 export default function MissionPage() {
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setSlide(s => (s + 1) % PHOTOS.length), 3800);
+    return () => clearInterval(t);
+  }, []);
+
   return (
-    <main className="missionPage" aria-label="Mission">
+    <main className="mp" aria-label="Mission">
       <style>{css}</style>
 
+      {/* ── Top ── */}
+      <section className="mpTop container">
+        <div className="mpTopLeft">
+          <h1 className="mpTitle">Vi elsker<br />vores arbejde.</h1>
+          <p className="mpSubtitle">
+            Om hvem vi er, hvad vi tror på<br />og hvordan vi arbejder.
+          </p>
+        </div>
 
-      <div className="container">
+        {/* Small alternating photos */}
+        <div className="mpPhotoWrap" aria-hidden>
+          {PHOTOS.map((src, i) => (
+            <div
+              key={src}
+              className={`mpPhoto ${i === slide ? "mpPhotoActive" : "mpPhotoIdle"}`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+        </div>
+      </section>
 
-        <section className="mTop">
-          <h1 className="mTitle">Vi elsker<br />vores arbejde.</h1>
-          <p className="mSubtitle">Om hvem vi er, hvad vi tror på og hvordan vi arbejder.</p>
-        </section>
+      <div className="mpDivider container" aria-hidden />
 
-        <section className="mBody">
+      {/* ── Blocks ── */}
+      <section className="mpBlocks container">
 
-          <div className="mLeft">
-            <div className="mLead">
-              <p>
-                Vi skaber klare, effektive visuelle løsninger der kommunikerer
-                med gennemslagskraft. Fra første idé til færdigt produkt
-                arbejder vi tæt på dig hele vejen.
-              </p>
-            </div>
-
-            <div className="mPhotos" aria-hidden>
-              <div className="mPhoto mPhoto1" style={{ backgroundImage: "url('/photos/Mission1.jpg')" }} />
-              <div className="mPhoto mPhoto2" style={{ backgroundImage: "url('/photos/mission2.jpg')" }} />
-            </div>
+        <article className="mpBlock">
+          <span className="mpBlockNum">01</span>
+          <div className="mpBlockText">
+            <h2 className="mpBlockTitle">Det vi tror på</h2>
+            <p className="mpBlockBody">
+              God video handler ikke om udstyr. Det handler om at forstå
+              hvad du vil sige og hvem du siger det til. Vi kombinerer
+              strategisk tænkning med kreativt håndværk og et ægte øje
+              for fortællingen.
+            </p>
           </div>
+          <div className="mpBlockAccent" style={{ background: "var(--color-accent)" }} aria-hidden />
+        </article>
 
-          <div className="mBlocks">
-
-            <div className="mBlock">
-              <div className="mBlockBar mBlockBarAccent" aria-hidden />
-              <h2 className="mBlockTitle">Det vi tror på</h2>
-              <p className="mBlockBody">
-                God video handler ikke om udstyr. Det handler om at forstå
-                hvad du vil sige og hvem du siger det til. Vi kombinerer
-                strategisk tænkning med kreativt håndværk og et ægte øje
-                for fortællingen.
-              </p>
-            </div>
-
-            <div className="mBlock">
-              <div className="mBlockBar mBlockBarSecondary" aria-hidden />
-              <h2 className="mBlockTitle">Sådan arbejder vi</h2>
-              <p className="mBlockBody">
-                Hvert projekt tilpasses dine mål, din målgruppe og dit budget.
-                Vi prioriterer samarbejde og ærlighed i alle faser og leverer
-                aldrig noget vi ikke selv er stolte af.
-              </p>
-            </div>
-
-            <div className="mBlock">
-              <div className="mBlockBar mBlockBarPrimary" aria-hidden />
-              <h2 className="mBlockTitle">Hvem vi er</h2>
-              <p className="mBlockBody">
-                Bagved er et netværk af specialister inden for video, lyd,
-                lys og produktion. Vi bringer de rette folk til hvert
-                projekt frem for at skalere unødvendigt.
-              </p>
-            </div>
-
+        <article className="mpBlock">
+          <span className="mpBlockNum">02</span>
+          <div className="mpBlockText">
+            <h2 className="mpBlockTitle">Sådan arbejder vi</h2>
+            <p className="mpBlockBody">
+              Hvert projekt tilpasses dine mål, din målgruppe og dit budget.
+              Vi prioriterer samarbejde og ærlighed i alle faser og leverer
+              aldrig noget vi ikke selv er stolte af.
+            </p>
           </div>
+          <div className="mpBlockAccent" style={{ background: "var(--color-secondary)" }} aria-hidden />
+        </article>
 
-        </section>
+        <article className="mpBlock">
+          <span className="mpBlockNum">03</span>
+          <div className="mpBlockText">
+            <h2 className="mpBlockTitle">Hvem vi er</h2>
+            <p className="mpBlockBody">
+              Bagved er et netværk af specialister inden for video, lyd,
+              lys og produktion. Vi bringer de rette folk til hvert
+              projekt frem for at skalere unødvendigt.
+            </p>
+          </div>
+          <div className="mpBlockAccent" style={{ background: "var(--color-primary)" }} aria-hidden />
+        </article>
 
-      </div>
+      </section>
+
+      {/* ── Quote ── */}
+      <section className="mpQuote container">
+        <blockquote className="mpQuoteText">
+          "Bag enhver god produktion er et team der lytter — og leverer."
+        </blockquote>
+      </section>
+
     </main>
   );
 }
 
 const css = `
-.missionPage{
-  position: relative;
-  overflow: hidden;
+.mp{
   padding-bottom: clamp(80px, 10vw, 140px);
 }
 
-
-.missionPage .container{ position: relative; z-index: 1; }
-
-.mTop{
-  padding: clamp(64px, 8vw, 110px) 0 clamp(40px, 5vw, 64px);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-  margin-bottom: clamp(48px, 6vw, 80px);
+/* ── Top ── */
+.mpTop{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+  padding-top: clamp(72px, 9vw, 120px);
+  padding-bottom: clamp(52px, 7vw, 96px);
 }
 
-.mSubtitle{
-  margin: 16px 0 0;
+.mpTopLeft{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mpEyebrow{
+  margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(14px, 1.2vw, 17px);
-  line-height: 1.7;
-  color: color-mix(in srgb, var(--color-text) 68%, transparent);
-  max-width: 56ch;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 38%, transparent);
 }
 
-.mTitle{
+.mpTitle{
   margin: 0;
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: clamp(44px, 7vw, 96px);
+  font-size: clamp(48px, 7.5vw, 100px);
   letter-spacing: -0.04em;
-  line-height: 0.96;
+  line-height: 0.94;
   color: var(--color-primary);
 }
 
-.mBody{
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: clamp(40px, 7vw, 100px);
-  align-items: start;
-}
-
-.mLeft{
-  display: flex;
-  flex-direction: column;
-  gap: clamp(28px, 4vw, 48px);
-}
-
-.mLead p{
+.mpSubtitle{
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.6vw, 21px);
-  font-weight: 500;
-  line-height: 1.65;
-  color: var(--color-text);
-  max-width: 32ch;
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 52%, transparent);
 }
 
-/* Billedpar — 4:3, stacked med lille offset */
-.mPhotos{
-  display: grid;
-  gap: clamp(8px, 1.2vw, 16px);
+/* Photos */
+.mpPhotoWrap{
+  position: relative;
+  width: clamp(140px, 16vw, 220px);
+  aspect-ratio: 3 / 4;
+  flex-shrink: 0;
 }
 
-.mPhoto{
-  width: 100%;
-  aspect-ratio: 4 / 3;
+.mpPhoto{
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
-  background-color: color-mix(in srgb, var(--color-secondary) 44%, var(--color-bg));
-  border: 1px solid color-mix(in srgb, var(--color-secondary) 80%, transparent);
+  transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
 }
 
-.mPhoto2{
-  margin-left: clamp(12px, 1.8vw, 28px);
-  margin-right: clamp(-12px, -1.8vw, -28px);
+.mpPhotoActive{
+  opacity: 0.62;
 }
 
-.mBlocks{
+.mpPhotoIdle{
+  opacity: 0;
+}
+
+/* Divider */
+.mpDivider{
+  height: 1px;
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  margin-bottom: clamp(52px, 7vw, 96px);
+}
+
+/* ── Blocks ── */
+.mpBlocks{
   display: grid;
-  gap: clamp(32px, 4vw, 52px);
+  gap: 0;
 }
 
-.mBlock{
+.mpBlock{
   position: relative;
-  padding-left: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(24px, 3vw, 48px);
+  align-items: start;
+  padding: clamp(28px, 3.5vw, 48px) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
+  overflow: hidden;
+}
+.mpBlock:first-child{
+  border-top: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
-.mBlockBar{
-  position: absolute;
-  left: 0;
-  top: 4px;
-  bottom: 4px;
-  width: 3px;
-  border-radius: 2px;
-}
-.mBlockBarAccent{    background: var(--color-accent); }
-.mBlockBarSecondary{ background: color-mix(in srgb, var(--color-secondary) 100%, black 12%); }
-.mBlockBarPrimary{   background: color-mix(in srgb, var(--color-primary) 36%, transparent); }
-
-.mBlockTitle{
-  margin: 0 0 10px;
+.mpBlockNum{
   font-family: var(--font-heading);
-  font-size: clamp(17px, 1.6vw, 22px);
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.mpBlockText{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 64ch;
+}
+
+.mpBlockTitle{
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 2.2vw, 30px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-primary);
 }
 
-.mBlockBody{
+.mpBlockBody{
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(14px, 1.2vw, 16px);
-  font-weight: 400;
-  line-height: 1.75;
-  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.78;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
 }
 
-@media (max-width: 780px){
-  .mBody{ grid-template-columns: 1fr; gap: 40px; }
-  .mLead p{ max-width: 100%; }
-  .mPhoto2{ margin-left: 0; margin-right: 0; }
+.mpBlockAccent{
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  opacity: 0.5;
+}
+
+/* ── Quote ── */
+.mpQuote{
+  padding-top: clamp(52px, 7vw, 96px);
+}
+
+.mpQuoteText{
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 2.4vw, 32px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  max-width: 62ch;
+  border-left: 2px solid var(--color-accent);
+  padding-left: clamp(18px, 2.5vw, 32px);
+}
+
+@media (max-width: 720px){
+  .mpTop{
+    grid-template-columns: 1fr;
+  }
+  .mpPhotoWrap{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-width: 320px;
+  }
+  .mpBlock{
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+  }
 }
 `;

@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="ftRow">
               <div className="ftCell ftLeft">Tlf: +45 61 74 64 16</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/cookies">Cookie Policy</Link>
+                <Link className="ftLink" href="/privacy">Privacy Policy</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
@@ -30,7 +30,7 @@ export default function Footer() {
             <div className="ftRow">
               <div className="ftCell ftLeft">Mail: info@bagved.com</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/privacy">Privacy Policy</Link>
+                <Link className="ftLink" href="/cookies">Cookie Policy</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
@@ -60,8 +60,8 @@ export default function Footer() {
 
           <div className="ftBlock">
             <Link className="ftLink ftCell" href="/mission">Mission</Link>
-            <Link className="ftLink ftCell" href="/cookies">Cookie Policy</Link>
             <Link className="ftLink ftCell" href="/privacy">Privacy Policy</Link>
+            <Link className="ftLink ftCell" href="/cookies">Cookie Policy</Link>
             <Link className="ftLink ftCell" href="/terms">Terms and Conditions</Link>
           </div>
 

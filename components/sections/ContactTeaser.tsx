@@ -84,21 +84,7 @@ function TypeLine({ phrases }: { phrases: string[] }) {
     return () => window.clearTimeout(t);
   }, [txt, phrase, phase, phrases.length]);
 
-  // Highlight telefonnummer og email i accent-farven
-  const HIGHLIGHTS = ["+45 61 74 64 16", "info@bagved.com"];
   function renderTxt(t: string) {
-    for (const h of HIGHLIGHTS) {
-      const idx = t.indexOf(h);
-      if (idx !== -1) {
-        return (
-          <>
-            {t.slice(0, idx)}
-            <span className="twHighlight">{t.slice(idx, idx + h.length)}</span>
-            {t.slice(idx + h.length)}
-          </>
-        );
-      }
-    }
     return t;
   }
 
@@ -157,7 +143,8 @@ const css = `
   padding-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 3vw, 36px);
+  justify-content: space-between;
+  gap: clamp(16px, 2vw, 24px);
 }
 
 .ctTitle{
@@ -202,19 +189,18 @@ const css = `
 .ctMeta{
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  margin-top: auto;
 }
 
 .ctMetaLine{
   font-family: var(--font-body);
-  font-size: clamp(14px, 1.3vw, 17px);
-  font-weight: 500;
-  color: var(--color-text);
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 400;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
   text-decoration: none;
-  transition: color 140ms ease;
   width: fit-content;
 }
-.ctMetaLine:hover{ color: var(--color-accent); }
 
 .ctPanel{
   background: var(--color-bg);
