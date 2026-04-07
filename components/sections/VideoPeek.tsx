@@ -20,7 +20,7 @@ export default function VideoPeek() {
         </div>
 
         <div className="vpCtaRow">
-          <Link className="vpCta" href="/services">SE ALLE VORES YDELSER HER</Link>
+          <Link className="vpBtn" href="/services">Se alle ydelser →</Link>
         </div>
       </div>
     </section>
@@ -58,20 +58,28 @@ const css = `
   padding-top: 16px;
 }
 
-.vpCta{
+.vpBtn{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 22px;
   font-family: var(--font-body);
-  font-size: var(--t14);
-  font-weight: 400;
-  letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-text) 65%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
-  padding-bottom: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
-  transition: color 150ms ease, border-color 150ms ease;
+  white-space: nowrap;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border: 1.5px solid var(--color-primary);
+  transition: background 150ms ease, color 150ms ease,
+              border-color 150ms ease, transform 120ms ease;
 }
-.vpCta:hover{
-  color: var(--color-accent);
-  border-bottom-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+.vpBtn:hover{
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 720px){

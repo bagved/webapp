@@ -6,6 +6,7 @@
   /* Font */
   --font-heading: 'Josefin Sans', system-ui, -apple-system, sans-serif;
   --font-body:    'Josefin Sans', system-ui, -apple-system, sans-serif;
+  --font-text:    'Josefin Sans', system-ui, -apple-system, sans-serif;
 
   /* Farver — to neutrale + primær + sekundær + accent */
   --color-bg:        #FFF6E8;   /* Baggrund (neutral lys)       */

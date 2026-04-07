@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 type CategoryId =
   | "live-broadcast"
@@ -18,11 +18,61 @@ type CaseItem = {
 };
 
 const categories: { id: CategoryId; label: string }[] = [
-  { id: "live-broadcast", label: "Live & broadcast" },
+  { id: "live-broadcast",          label: "Live & broadcast" },
   { id: "virksomhedsfilm-reklame", label: "Virksomhedsfilm & reklame" },
-  { id: "sociale-medier", label: "Sociale medier" },
-  { id: "eventvideo-eventteknik", label: "Eventvideo & eventteknik" },
-  { id: "foto-drone", label: "Foto & drone" },
+  { id: "sociale-medier",          label: "Sociale medier" },
+  { id: "eventvideo-eventteknik",  label: "Eventvideo & eventteknik" },
+  { id: "foto-drone",              label: "Foto & drone" },
+];
+
+const allCases: CaseItem[] = [
+  {
+    id: "livestream",
+    category: "live-broadcast",
+    title: "Livestream",
+    body: "Stabil livestream med professionel afvikling til events, oplæg og digitale produktioner. Vi sikrer et roligt setup, god lyd og en udsendelse, der fungerer fra start til slut.",
+    image: "/photos/Livestream.jpg",
+  },
+  {
+    id: "sportsbroadcast",
+    category: "live-broadcast",
+    title: "Sportsbroadcast",
+    body: "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
+    image: "/photos/sportsbroadcast.jpg",
+  },
+  {
+    id: "webinar-studieproduktion",
+    category: "live-broadcast",
+    title: "Webinar & studieproduktion",
+    body: "Webinarer og studieopsætninger i kontrollerede rammer, hvor teknik, framing og lyd går op i en højere enhed. Velegnet til præsentationer, undervisning og intern kommunikation.",
+    image: "/photos/studie_pre.jpg",
+  },
+  // { id: "reklamefilm", category: "virksomhedsfilm-reklame", title: "Reklamefilm", body: "...", image: "/photos/virksomhedsfilm.jpg" },
+  {
+    id: "virksomhedsvideo",
+    category: "virksomhedsfilm-reklame",
+    title: "Virksomhedsvideo",
+    body: "Video, der præsenterer virksomheden professionelt og troværdigt. Ideel til hjemmeside, employer branding, salgsarbejde og præsentation af kultur, ydelser eller værdier.",
+    image: "/photos/virksomhedsfilm.jpg",
+  },
+  // { id: "produktvideo", category: "virksomhedsfilm-reklame", title: "Produktvideo", body: "...", image: "/photos/produktfilm.jpg" },
+  // { id: "sociale-medier", category: "sociale-medier", title: "Video til sociale medier", body: "...", image: "/photos/eventfilm.jpg" },
+  {
+    id: "eventvideo",
+    category: "eventvideo-eventteknik",
+    title: "Eventvideo",
+    body: "Visuelle highlights og stemningsvideoer fra events, konferencer og arrangementer. En effektiv måde at forlænge værdien af et event og skabe indhold efterfølgende.",
+    image: "/photos/eventfilm.jpg",
+  },
+  {
+    id: "eventteknik",
+    category: "eventvideo-eventteknik",
+    title: "Lyd, lys & eventteknik",
+    body: "Vi planlægger og leverer teknisk afvikling til events, talks og fester. Lyd, lys og AV sat op til formålet — så I har tryghed i afviklingen og kan fokusere på selve arrangementet.",
+    image: "/photos/lys_lyd_pre.jpg",
+  },
+  // { id: "drone", category: "foto-drone", title: "Dronevideo & dronebilleder", body: "...", image: "/photos/sports_pre.jpg" },
+  // { id: "stillfoto", category: "foto-drone", title: "Stillfoto & billedredigering", body: "...", image: "/photos/produktfilm.jpg" },
 ];
 
 function labelFor(cat: CategoryId) {
@@ -30,251 +80,81 @@ function labelFor(cat: CategoryId) {
 }
 
 export default function CasesPage() {
-  const allCases: CaseItem[] = useMemo(
-    () => [
-      {
-        id: "livestream",
-        category: "live-broadcast",
-        title: "Livestream",
-        body:
-          "Stabil livestream med professionel afvikling til events, oplæg og digitale produktioner. Vi sikrer et roligt setup, god lyd og en udsendelse, der fungerer fra start til slut.",
-        image: "/photos/Livestream.jpg",
-      },
-      {
-        id: "sportsbroadcast",
-        category: "live-broadcast",
-        title: "Sportsbroadcast",
-        body:
-          "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
-        image: "/photos/sportsbroadcast.jpg",
-      },
-      {
-        id: "webinar-studieproduktion",
-        category: "live-broadcast",
-        title: "Webinar & studieproduktion",
-        body:
-          "Webinarer og studieopsætninger i kontrollerede rammer, hvor teknik, framing og lyd går op i en højere enhed. Velegnet til præsentationer, undervisning og intern kommunikation.",
-        image: "/photos/studie_pre.jpg",
-      },
-      // {
-      //   id: "reklamefilm",
-      //   category: "virksomhedsfilm-reklame",
-      //   title: "Reklamefilm",
-      //   body:
-      //     "Reklamefilm med et skarpt visuelt udtryk og et klart budskab. Produceret til kampagner, lanceringer og branding, hvor kvalitet og genkendelighed er afgørende.",
-      //   image: "/photos/virksomhedsfilm.jpg",
-      // },
-      {
-        id: "virksomhedsvideo",
-        category: "virksomhedsfilm-reklame",
-        title: "Virksomhedsvideo",
-        body:
-          "Video, der præsenterer virksomheden professionelt og troværdigt. Ideel til hjemmeside, employer branding, salgsarbejde og præsentation af kultur, ydelser eller værdier.",
-        image: "/photos/virksomhedsfilm.jpg",
-      },
-      // {
-      //   id: "produktvideo",
-      //   category: "virksomhedsfilm-reklame",
-      //   title: "Produktvideo",
-      //   body:
-      //     "Produktvideoer, der gør komplekse produkter lettere at forstå og mere attraktive at se på. Velegnet til lanceringer, annoncer, webshop og præsentationer.",
-      //   image: "/photos/produktfilm.jpg",
-      // },
-      // {
-      //   id: "sociale-medier",
-      //   category: "sociale-medier",
-      //   title: "Video til sociale medier",
-      //   body:
-      //     "Korte, målrettede videoer til LinkedIn, Instagram, Facebook og andre platforme. Formateret og produceret til hurtigt at fange opmærksomheden og være nemme at bruge i kampagner.",
-      //   image: "/photos/eventfilm.jpg",
-      // },
-      {
-        id: "eventvideo",
-        category: "eventvideo-eventteknik",
-        title: "Eventvideo",
-        body:
-          "Visuelle highlights og stemningsvideoer fra events, konferencer og arrangementer. En effektiv måde at forlænge værdien af et event og skabe indhold efterfølgende.",
-        image: "/photos/eventfilm.jpg",
-      },
-      {
-        id: "eventteknik",
-        category: "eventvideo-eventteknik",
-        title: "Lyd, lys & eventteknik",
-        body:
-          "Vi planlægger og leverer teknisk afvikling til events, talks og fester. Lyd, lys og AV sat op til formålet — så I har tryghed i afviklingen og kan fokusere på selve arrangementet.",
-        image: "/photos/lys_lyd_pre.jpg",
-      },
-      // {
-      //   id: "drone",
-      //   category: "foto-drone",
-      //   title: "Dronevideo & dronebilleder",
-      //   body:
-      //     "Luftoptagelser og dronebilleder, der skaber overblik, dybde og stærke vinkler. Perfekt til events, lokationer, ejendomme og visuelle præsentationer.",
-      //   image: "/photos/sports_pre.jpg",
-      // },
-      // {
-      //   id: "stillfoto",
-      //   category: "foto-drone",
-      //   title: "Stillfoto & billedredigering",
-      //   body:
-      //     "Stillbilleder og efterbehandling til virksomheder, events og kampagner. Et stærkt supplement til video, når du også skal bruge skarpt visuelt materiale i høj kvalitet.",
-      //   image: "/photos/produktfilm.jpg",
-      // },
-    ],
-    []
-  );
+  const [openCat, setOpenCat] = useState<CategoryId | null>(null);
 
-  const [activeCat, setActiveCat] = useState<CategoryId>("live-broadcast");
-
-  const centerCaseById = (id: string, behavior: ScrollBehavior = "smooth") => {
-    const el = document.getElementById(`case-${id}`);
-    if (!el) return false;
-
-    const rect = el.getBoundingClientRect();
-    const absoluteTop = rect.top + window.scrollY;
-    const targetTop = Math.max(
-      0,
-      absoluteTop - (window.innerHeight / 2 - rect.height / 2)
-    );
-
-    window.scrollTo({
-      top: targetTop,
-      behavior,
-    });
-
-    return true;
-  };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const params = new URLSearchParams(window.location.search);
-    const cat = params.get("cat") as CategoryId | null;
-    const caseId = params.get("case");
-
-    if (cat && categories.some((c) => c.id === cat)) {
-      setActiveCat(cat);
-    }
-
-    if (!caseId) return;
-
-    let raf1 = 0;
-    let raf2 = 0;
-    let timeout = 0;
-
-    raf1 = window.requestAnimationFrame(() => {
-      raf2 = window.requestAnimationFrame(() => {
-        timeout = window.setTimeout(() => {
-          centerCaseById(caseId, "smooth");
-        }, 80);
-      });
-    });
-
-    return () => {
-      window.cancelAnimationFrame(raf1);
-      window.cancelAnimationFrame(raf2);
-      window.clearTimeout(timeout);
-    };
-  }, []);
-
-  const titlesForActive = useMemo(
-    () => allCases.filter((c) => c.category === activeCat),
-    [allCases, activeCat]
-  );
-
-  const scrollToCase = (id: string, category: CategoryId) => {
-    setActiveCat(category);
-
-    const nextUrl = `/cases?cat=${category}&case=${id}`;
-    window.history.replaceState(null, "", nextUrl);
-
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        centerCaseById(id, "smooth");
-      });
-    });
+  const scrollTo = (id: string) => {
+    setTimeout(() => {
+      document.getElementById(`case-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
   };
 
   return (
     <main className="casesPage" aria-label="Eksempler">
       <style>{css}</style>
 
-      <section className="explore" aria-label="Udforsk" style={{ padding: 0 }}>
-        <div className="container" style={{ padding: "96px 0 48px" }}>
-          <h1 className="exploreTitle">Vores produktioner</h1>
-          <p className="exploreHint">Et udvalg af projekter vi har arbejdet på.</p>
+      {/* Top section */}
+      <section className="explore">
+        <div className="container topBar">
+          <h1 className="pageTitle">Vores produktioner</h1>
+          <p className="pageHint">Et udvalg af projekter vi har arbejdet på.</p>
 
-          <div className="exploreGrid">
-            <aside className="cats" aria-label="Kategorier">
-              <nav className="catNav">
-                {categories.map((c) => {
-                  const isActive = c.id === activeCat;
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      className={`catLink ${isActive ? "isActive" : ""}`}
-                      onClick={() => {
-                        setActiveCat(c.id);
-                        window.history.replaceState(null, "", `/cases?cat=${c.id}`);
-                      }}
-                    >
-                      {c.label}
-                    </button>
-                  );
-                })}
-              </nav>
-            </aside>
-
-            <div className="divider" aria-hidden />
-
-            <section className="list" aria-label="Produktioner">
-              <div className="listHeader">
-                <div className="listKicker">{labelFor(activeCat)}</div>
-              </div>
-
-              <div className="rows" role="list">
-                {titlesForActive.map((it) => (
+          <div className="catList">
+            {categories.map((cat) => {
+              const items = allCases.filter((c) => c.category === cat.id);
+              if (items.length === 0) return null;
+              const isOpen = openCat === cat.id;
+              return (
+                <div key={cat.id} className={`catRow ${isOpen ? "isOpen" : ""}`}>
                   <button
-                    key={it.id}
                     type="button"
-                    role="listitem"
-                    className="row"
-                    onClick={() => scrollToCase(it.id, it.category)}
+                    className="catBtn"
+                    onClick={() => setOpenCat(isOpen ? null : cat.id)}
+                    aria-expanded={isOpen}
                   >
-                    <div className="rowText">{it.title}</div>
-                    <div className="rowIcon" aria-hidden>
-                      +
-                    </div>
-                    <div className="rowLine" aria-hidden />
+                    <span className="catBtnLabel">{cat.label}</span>
+                    <span className="catBtnChevron" aria-hidden>{isOpen ? "−" : "+"}</span>
                   </button>
-                ))}
-              </div>
-            </section>
+
+                  <div className="catSub">
+                    <div className="catSubInner">
+                      {items.map((it) => (
+                        <button
+                          key={it.id}
+                          type="button"
+                          className="subLink"
+                          onClick={() => scrollTo(it.id)}
+                        >
+                          {it.title}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section className="examples" aria-label="Eksempler">
-        <div className="container">
-          <div className="examplesGrid">
-            {allCases.map((it) => (
-              <article key={it.id} id={`case-${it.id}`} className="exRow">
-                <div className="exMedia" aria-hidden>
-                  <div
-                    className="exImg"
-                    style={{ backgroundImage: `url(${it.image})` }}
-                  />
-                </div>
-
-                <div className="exCopy">
-                  <div className="exKicker">{labelFor(it.category)}</div>
-                  <h2 className="exTitle">{it.title}</h2>
-                  <p className="exBody">{it.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+      {/* Examples — full-width alternating rows */}
+      <section className="examples">
+        <div className="examplesGrid">
+          {allCases.map((it, idx) => (
+            <article
+              key={it.id}
+              id={`case-${it.id}`}
+              className={`exRow ${idx % 2 === 1 ? "exRowAlt" : ""}`}
+            >
+              <div className="exMedia">
+                <div className="exImg" style={{ backgroundImage: `url(${it.image})` }} />
+              </div>
+              <div className="exCopy">
+                <div className="exKicker">{labelFor(it.category)}</div>
+                <h2 className="exTitle">{it.title}</h2>
+                <p className="exBody">{it.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </main>
@@ -283,20 +163,24 @@ export default function CasesPage() {
 
 const css = `
 .casesPage{
-  background: transparent;
+  padding-bottom: clamp(80px, 10vw, 140px);
 }
 
-.exploreHint{
-  margin: 16px 0 0;
-  font-family: var(--font-body);
-  font-size: clamp(14px, 1.2vw, 17px);
-  line-height: 1.7;
-  color: color-mix(in srgb, var(--color-text) 68%, transparent);
-  max-width: 56ch;
+.explore{
+  padding: 0;
+  min-height: calc(100svh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.exploreTitle{
-  margin: 0 0 0;
+.topBar{
+  padding-top: 96px;
+  padding-bottom: clamp(32px, 4vw, 52px);
+}
+
+.pageTitle{
+  margin: 0;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: clamp(44px, 6.5vw, 88px);
@@ -305,137 +189,102 @@ const css = `
   color: var(--color-primary);
 }
 
-.explore{
-  background: transparent;
-}
-
-.exploreGrid{
-  margin-top: clamp(32px, 4.6vw, 56px);
-  padding-bottom: clamp(40px, 5vw, 58px);
-  display: grid;
-  grid-template-columns: 260px 1px 1fr;
-  gap: clamp(26px, 4vw, 56px);
-  align-items: start;
-}
-
-.catNav{
-  display: grid;
-  gap: 18px;
-  padding-top: 8px;
-}
-
-.catLink{
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-
+.pageHint{
+  margin: 16px 0 0;
   font-family: var(--font-body);
-  font-size: var(--t14);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.35;
-
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.7;
   color: color-mix(in srgb, var(--color-text) 62%, transparent);
-  width: fit-content;
-
-  border-bottom: 1px solid transparent;
-  padding-bottom: 8px;
-  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  max-width: 52ch;
 }
 
-.catLink:hover{
-  color: var(--color-accent);
-  border-bottom-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
-  transform: translateY(-1px);
+/* Category list */
+.catList{
+  margin-top: clamp(36px, 5vw, 56px);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
-.catLink.isActive{
-  color: var(--color-accent);
-  font-weight: 700;
-  border-bottom-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+.catRow{
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
-.divider{
-  width: 1px;
-  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
-  height: 100%;
-  min-height: 240px;
-  margin-top: 8px;
-}
-
-.listHeader{
+.catBtn{
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 4px;
-}
-
-.listKicker{
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-secondary);
-}
-
-.rows{
-  margin-top: 8px;
-  display: grid;
-}
-
-.row{
-  position: relative;
-  width: 100%;
-  appearance: none;
-  border: 0;
+  gap: 16px;
+  padding: clamp(14px, 1.8vw, 22px) 0;
   background: transparent;
-  padding: 22px 0 22px;
+  border: 0;
   cursor: pointer;
-
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 14px;
   text-align: left;
 }
 
-.rowText{
+.catBtnLabel{
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 2.2vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+  transition: color 140ms ease;
+}
+.catBtn:hover .catBtnLabel,
+.catRow.isOpen .catBtnLabel{
+  color: var(--color-accent);
+}
+
+.catBtnChevron{
+  font-size: 20px;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  transition: color 140ms ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.catBtn:hover .catBtnChevron,
+.catRow.isOpen .catBtnChevron{
+  color: var(--color-accent);
+}
+
+/* Sub-items slide */
+.catSub{
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+}
+.catRow.isOpen .catSub{
+  grid-template-rows: 1fr;
+}
+
+.catSubInner{
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: clamp(10px, 1.4vw, 18px);
+}
+
+.subLink{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  padding: 8px 0 8px 20px;
   font-family: var(--font-body);
-  font-size: var(--t16);
+  font-size: clamp(13px, 1.1vw, 15px);
   font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.45;
-  color: var(--color-text);
-  transition: color 160ms ease;
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  transition: color 140ms ease, border-color 140ms ease;
 }
-
-.rowIcon{
-  font-size: 18px;
-  font-weight: 500;
-  color: color-mix(in srgb, var(--color-text) 40%, transparent);
-  transition: color 160ms ease, transform 160ms ease;
-}
-
-.rowLine{
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: color-mix(in srgb, var(--color-secondary) 42%, transparent);
-}
-
-.row:hover .rowText{
+.subLink:hover{
   color: var(--color-accent);
-}
-.row:hover .rowIcon{
-  color: var(--color-accent);
-  transform: translateX(3px);
+  border-left-color: var(--color-accent);
 }
 
+/* Examples */
 .examples{
   padding: 0;
 }
@@ -453,55 +302,48 @@ const css = `
   padding: clamp(22px, 4vw, 40px);
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-}
-
-.exRow:nth-child(odd){
-  grid-template-columns: 1.35fr 1fr;
   background: var(--color-bg);
 }
 
-.exRow:nth-child(odd) .exKicker{
+.exRowAlt{
+  grid-template-columns: 1fr 1.35fr;
+  background: var(--color-secondary);
+}
+.exRowAlt .exMedia{ order: 2; }
+.exRowAlt .exCopy{ order: 1; }
+
+.exKicker{
+  font-family: var(--font-body);
+  font-size: var(--t11);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: color-mix(in srgb, var(--color-primary) 45%, transparent);
 }
-.exRow:nth-child(odd) .exTitle{
+
+.exTitle{
+  margin: 12px 0 0;
+  font-family: var(--font-heading);
+  font-weight: 350;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-size: clamp(24px, 3.2vw, 44px);
   color: var(--color-primary);
 }
-.exRow:nth-child(odd) .exBody{
+
+.exBody{
+  margin: 14px 0 0;
+  font-family: var(--font-body);
+  font-size: var(--t16);
+  line-height: 1.8;
+  max-width: 64ch;
   color: var(--color-text);
-}
-.exRow:nth-child(odd) .exMedia{
-  border-color: color-mix(in srgb, var(--color-secondary) 45%, transparent);
-}
-
-.exRow:nth-child(even){
-  grid-template-columns: 1fr 1.35fr;
-  background: var(--color-primary);
-}
-.exRow:nth-child(even) .exMedia{ order: 2; }
-.exRow:nth-child(even) .exCopy{ order: 1; }
-
-.exRow:nth-child(even) .exKicker{
-  color: var(--color-secondary);
-}
-.exRow:nth-child(even) .exTitle{
-  color: var(--color-bg);
-}
-.exRow:nth-child(even) .exBody{
-  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
-}
-.exRow:nth-child(even) .exMedia{
-  border-color: color-mix(in srgb, var(--color-secondary) 55%, transparent);
-}
-
-.exRow:nth-child(even) .exKicker{
-  color: var(--color-secondary);
-  font-size: var(--t11);
 }
 
 .exMedia{
   position: relative;
   border-radius: 0;
-  border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
   overflow: hidden;
   background: color-mix(in srgb, var(--color-secondary) 8%, var(--color-bg));
   min-height: clamp(260px, 32vw, 430px);
@@ -522,60 +364,18 @@ const css = `
   align-content: start;
 }
 
-.exKicker{
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.exTitle{
-  margin: 12px 0 0;
-  font-family: var(--font-heading);
-  font-weight: 350;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  font-size: clamp(24px, 3.2vw, 44px);
-}
-
-.exBody{
-  margin: 14px 0 0;
-  font-size: var(--t16);
-  line-height: 1.8;
-  max-width: 64ch;
-}
-
 @media (max-width: 980px){
-  .exploreGrid{
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .divider{ display: none; }
-  .catNav{
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding-top: 0;
-  }
-  .catLink{ padding-bottom: 6px; }
-
   .exRow,
-  .exRow:nth-child(even),
-  .exRow:nth-child(odd){
+  .exRowAlt{
     grid-template-columns: 1fr;
     gap: 16px;
     padding: 24px 16px;
   }
-
-  .exRow .exMedia{ order: 1 !important; min-height: 220px; }
-  .exRow .exCopy{ order: 2 !important; }
-
-  .exRow:nth-child(odd) .exTitle,
-  .exRow:nth-child(even) .exTitle{
-    font-size: clamp(22px, 7vw, 30px);
-  }
-  .exRow:nth-child(odd) .exBody,
-  .exRow:nth-child(even) .exBody{
-    line-height: 1.65;
-  }
+  .exRow .exMedia,
+  .exRowAlt .exMedia{ order: 1 !important; min-height: 220px; }
+  .exRow .exCopy,
+  .exRowAlt .exCopy{ order: 2 !important; }
+  .exTitle{ font-size: clamp(22px, 7vw, 30px) !important; }
+  .exBody{ line-height: 1.65; }
 }
 `;

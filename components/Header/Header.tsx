@@ -102,17 +102,21 @@ function readCurrentColors(): Record<string, string> {
 function ThemePanel({ onClose }: { onClose: () => void }) {
   const [colors, setColors]     = useState(readCurrentColors);
   const [hexInputs, setHexInputs] = useState(readCurrentColors);
-  const [activeFont, setActiveFont] = useState(FONT_OPTIONS[0].value); // Josefin Sans
+  const [activeFont, setActiveFont]         = useState(FONT_OPTIONS[0].value);
+  const [activeBodyFont, setActiveBodyFont] = useState(FONT_OPTIONS[0].value);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const c = readCurrentColors();
     setColors(c);
     setHexInputs(c);
-    const current = getComputedStyle(document.documentElement)
-      .getPropertyValue("--font-body").trim();
-    const match = FONT_OPTIONS.find(f => f.value === current);
-    if (match) setActiveFont(match.value);
+    const s = getComputedStyle(document.documentElement);
+    const h = s.getPropertyValue("--font-heading").trim();
+    const b = s.getPropertyValue("--font-text").trim();
+    const mh = FONT_OPTIONS.find(f => f.value === h);
+    const mb = FONT_OPTIONS.find(f => f.value === b);
+    if (mh) setActiveFont(mh.value);
+    if (mb) setActiveBodyFont(mb.value);
   }, []);
 
   // Luk ved klik udenfor
@@ -137,19 +141,28 @@ function ThemePanel({ onClose }: { onClose: () => void }) {
     if (/^#[0-9a-fA-F]{6}$/.test(raw.trim())) applyColor(key, raw.trim());
   };
 
-  const applyFont = (opt: typeof FONT_OPTIONS[0]) => {
-    // Indsæt Google Fonts link dynamisk hvis ikke allerede der
+  const loadFont = (opt: typeof FONT_OPTIONS[0]) => {
     const id = `gf-${opt.label.replace(/\s/g, "-")}`;
     if (!document.getElementById(id)) {
       const link = document.createElement("link");
-      link.id   = id;
-      link.rel  = "stylesheet";
+      link.id  = id;
+      link.rel = "stylesheet";
       link.href = opt.import;
       document.head.appendChild(link);
     }
+  };
+
+  const applyFont = (opt: typeof FONT_OPTIONS[0]) => {
+    loadFont(opt);
     document.documentElement.style.setProperty("--font-heading", opt.value);
     document.documentElement.style.setProperty("--font-body",    opt.value);
     setActiveFont(opt.value);
+  };
+
+  const applyBodyFont = (opt: typeof FONT_OPTIONS[0]) => {
+    loadFont(opt);
+    document.documentElement.style.setProperty("--font-text", opt.value);
+    setActiveBodyFont(opt.value);
   };
 
   return (
@@ -187,15 +200,32 @@ function ThemePanel({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
-      {/* Font */}
+      {/* Overskrift-font */}
       <div className={styles.pickerSection}>
-        <span className={styles.pickerSectionLabel}>Font</span>
+        <span className={styles.pickerSectionLabel}>Overskrift-font</span>
         <div className={styles.fontGrid}>
           {FONT_OPTIONS.map(opt => (
             <button
               key={opt.label}
               className={`${styles.fontBtn} ${activeFont === opt.value ? styles.fontBtnActive : ""}`}
               onClick={() => applyFont(opt)}
+              type="button"
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Brødtekst-font */}
+      <div className={styles.pickerSection}>
+        <span className={styles.pickerSectionLabel}>Brødtekst-font</span>
+        <div className={styles.fontGrid}>
+          {FONT_OPTIONS.map(opt => (
+            <button
+              key={opt.label}
+              className={`${styles.fontBtn} ${activeBodyFont === opt.value ? styles.fontBtnActive : ""}`}
+              onClick={() => applyBodyFont(opt)}
               type="button"
             >
               {opt.label}

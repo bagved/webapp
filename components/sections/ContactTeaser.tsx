@@ -52,7 +52,7 @@ export default function ContactTeaserSection() {
         </div>
 
         <div className="ctFooterRow">
-          <Link className="cta" href="/contact">FORTÆL OS MERE OM DIG</Link>
+          <Link className="cta" href="/contact">UDDYB DIN EFTERSPØRGSEL HER</Link>
         </div>
       </div>
     </section>
@@ -217,8 +217,8 @@ const css = `
 .ctMetaLine:hover{ color: var(--color-accent); }
 
 .ctPanel{
-  background: color-mix(in srgb, var(--color-secondary) 52%, var(--color-bg));
-  border: 1px solid color-mix(in srgb, var(--color-secondary) 100%, transparent);
+  background: var(--color-bg);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
   padding: clamp(22px, 3.6vw, 40px);
 }
 
@@ -319,18 +319,24 @@ const css = `
 }
 
 .ctFooterRow .cta{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 8px;
   font-family: var(--font-body);
-  font-size: var(--t14);
-  font-weight: 400;
-  letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-text) 65%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
-  padding-bottom: 4px;
-  transition: color 150ms ease, border-color 150ms ease;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  border: 1.5px solid transparent;
+  transition: color 150ms ease, transform 120ms ease;
 }
 .ctFooterRow .cta:hover{
   color: var(--color-accent);
-  border-bottom-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 860px){

@@ -184,7 +184,7 @@ const css = `
 .darkLayer{
   position: fixed;
   inset: 0;
-  background: color-mix(in srgb, var(--color-primary) 92%, black);
+  background: var(--color-secondary);
   z-index: 5;
   pointer-events: none;
   will-change: clip-path;
@@ -284,8 +284,8 @@ a.infoValue:hover{
 .darkSpacer{ min-height: 1px; }
 
 .ctPanel{
-  background: color-mix(in srgb, var(--color-secondary) 22%, var(--color-bg));
-  border: 1px solid color-mix(in srgb, var(--color-secondary) 65%, transparent);
+  background: var(--color-bg);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
   border-radius: 0;
   padding: clamp(22px, 3.6vw, 40px);
 }

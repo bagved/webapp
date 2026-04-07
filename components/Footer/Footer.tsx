@@ -80,8 +80,8 @@ const css = `
 .ft{
   width: 100%;
   padding: 34px 0;
-  background: var(--color-primary);
-  border-top: 1px solid color-mix(in srgb, var(--color-primary) 100%, transparent);
+  background: var(--color-bg);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
   font-family: var(--font-body);
 }
 
@@ -92,7 +92,7 @@ const css = `
   line-height: 1.55;
   font-weight: 400;
   letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-bg) 62%, transparent);
+  color: color-mix(in srgb, var(--color-text) 52%, transparent);
 }
 
 .ftLink{
@@ -107,7 +107,7 @@ const css = `
   transition: color 140ms ease;
 }
 .ftLink:hover{
-  color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 .ftRows{ display: grid; gap: 2px; }
@@ -136,12 +136,12 @@ const css = `
     font-size: 11px;
     line-height: 1.55;
     font-weight: 400;
-    color: color-mix(in srgb, var(--color-bg) 62%, transparent);
+    color: color-mix(in srgb, var(--color-text) 52%, transparent);
   }
 
   .ftDivider{
     height: 1px;
-    background: color-mix(in srgb, var(--color-bg) 14%, transparent);
+    background: color-mix(in srgb, var(--color-text) 14%, transparent);
   }
 }
 `;

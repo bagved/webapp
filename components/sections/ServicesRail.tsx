@@ -241,7 +241,7 @@ export default function ServicesRail() {
 
 const css = `
 .fullBleed{
-  background: var(--color-primary);
+  background: var(--color-secondary);
 }
 
 .wrap{
@@ -257,7 +257,7 @@ const css = `
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-bg) 38%, transparent);
+  color: color-mix(in srgb, var(--color-text) 42%, transparent);
 }
 
 .rail{
@@ -294,8 +294,8 @@ const css = `
   color: inherit;
 
   border-radius: 0;
-  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-primary));
-  border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 18%, var(--color-secondary));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
 
   transition:
     transform 320ms cubic-bezier(.18,1,.22,1),
@@ -307,27 +307,21 @@ const css = `
 .idle{
   opacity: 0.45;
   transform: scale(0.94);
-  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-primary));
-  border-color: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-secondary));
+  border-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
 }
 
 .active{
   opacity: 1;
   transform: scale(1);
-  border-color: var(--color-secondary);
-  background: color-mix(in srgb, var(--color-secondary) 38%, var(--color-primary));
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary));
 }
 .active .t1{
-  color: var(--color-secondary);
+  color: var(--color-bg);
 }
 .active .t2{
-  color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
-}
-.active .t1{
-  color: var(--color-accent);
-}
-.active .t2{
-  color: color-mix(in srgb, var(--color-accent) 72%, transparent);
+  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
 }
 
 .media{
@@ -353,8 +347,8 @@ const css = `
     180deg,
     transparent 0%,
     transparent 38%,
-    color-mix(in srgb, var(--color-primary) 55%, transparent) 72%,
-    color-mix(in srgb, var(--color-primary) 90%, transparent) 100%
+    color-mix(in srgb, var(--color-secondary) 55%, transparent) 72%,
+    color-mix(in srgb, var(--color-secondary) 90%, transparent) 100%
   );
   pointer-events: none;
 }
@@ -364,8 +358,8 @@ const css = `
     180deg,
     transparent 0%,
     transparent 36%,
-    color-mix(in srgb, var(--color-secondary) 28%, var(--color-primary) 55%) 70%,
-    color-mix(in srgb, var(--color-secondary) 44%, var(--color-primary) 88%) 100%
+    color-mix(in srgb, var(--color-primary) 62%, transparent) 70%,
+    color-mix(in srgb, var(--color-primary) 92%, transparent) 100%
   );
 }
 
@@ -383,7 +377,7 @@ const css = `
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
   transition: color 220ms ease;
 }
 
@@ -393,20 +387,20 @@ const css = `
   font-weight: 800;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-bg) 52%, transparent);
+  color: color-mix(in srgb, var(--color-text) 48%, transparent);
   transition: color 220ms ease;
 }
 
 @media (hover:hover){
   .tile:hover{
-    border-color: var(--color-secondary);
-    background: color-mix(in srgb, var(--color-secondary) 38%, var(--color-primary));
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary));
   }
   .tile:hover .t1{
-    color: var(--color-secondary);
+    color: var(--color-bg);
   }
   .tile:hover .t2{
-    color: color-mix(in srgb, var(--color-secondary) 70%, transparent);
+    color: color-mix(in srgb, var(--color-bg) 70%, transparent);
   }
 }
 
@@ -421,7 +415,7 @@ const css = `
 
 .track{
   height: 1px;
-  background: color-mix(in srgb, var(--color-secondary) 35%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 25%, transparent);
   position: relative;
   overflow: hidden;
 }
@@ -429,14 +423,14 @@ const css = `
 .fill{
   position: absolute;
   inset: 0;
-  background: var(--color-secondary);
+  background: var(--color-primary);
   transform-origin: left center;
 }
 
 .hint{
   font-size: 14px;
   font-weight: 900;
-  color: var(--color-secondary);
+  color: var(--color-primary);
   opacity: 0;
   transition: opacity 160ms ease;
   text-align: center;
@@ -450,18 +444,24 @@ const css = `
   padding-right: clamp(18px, 3.2vw, 44px);
 }
 .srvCta{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 22px;
   font-family: var(--font-body);
-  font-size: var(--t14);
-  font-weight: 400;
-  letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-bg) 18%, transparent);
-  padding-bottom: 4px;
-  transition: color 150ms ease, border-color 150ms ease;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
+  transition: border-color 150ms ease, transform 120ms ease;
 }
 .srvCta:hover{
-  color: var(--color-secondary);
-  border-bottom-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 780px){
