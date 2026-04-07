@@ -51,9 +51,9 @@ a:hover{
   border-color: var(--color-accent);
 }
 
-/* keep main empty for now */
 .pageMain{
   min-height: calc(100vh - 120px);
+  padding-top: 56px;
 }
 
 /* Typography helpers (global) */
