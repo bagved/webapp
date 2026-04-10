@@ -253,7 +253,7 @@ export default function Header() {
           <div className={styles.left}>
             <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
               <Image
-                src="/Logo_try_sort_300x.png"
+                src="/Logo_try_kejle_1_300x.png"
                 alt="Bagved"
                 height={36}
                 width={120}
