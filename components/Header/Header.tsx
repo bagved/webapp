@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
@@ -251,7 +252,14 @@ export default function Header() {
           {/* Logo */}
           <div className={styles.left}>
             <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-              <span className={styles.logoWordmark}>Bagved</span>
+              <Image
+                src="/Logo_try_sort_300x.png"
+                alt="Bagved"
+                height={36}
+                width={120}
+                style={{ objectFit: "contain", objectPosition: "left" }}
+                priority
+              />
             </Link>
           </div>
 
