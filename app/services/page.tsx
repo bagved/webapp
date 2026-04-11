@@ -203,7 +203,6 @@ const css = `
 }
 
 .srvCard.idle{
-  opacity: 0.52;
   transform: scale(1);
   border-left-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
 }
