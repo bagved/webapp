@@ -5,8 +5,8 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
 export const metadata = {
-  title: "BAGVED",
-  description: "BAGVED",
+  title: "Bagved",
+  description: "Bagved",
   icons: {
     icon: '/Favicon Transparent.ico',
   },
