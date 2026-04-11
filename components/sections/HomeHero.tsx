@@ -180,10 +180,10 @@ const css = `
     margin: 24px 0;
   }
 
-  /* Hide the section margin/padding from VideoPeek when embedded */
-  .heroMobileVideo .videoPeek{
-    padding: 0;
-  }
+  .heroMobileVideo .videoPeek{ padding: 0; }
+  .heroMobileVideo .videoOuter{ padding: 0; }
+  .heroMobileVideo .videoFrame{ background: transparent; }
+  .heroMobileVideo .vpCtaRow{ display: none; }
 
   .heroBottom{
     grid-template-columns: 1fr;
