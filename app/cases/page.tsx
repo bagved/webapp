@@ -181,10 +181,10 @@ const css = `
 
 .pageTitle{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: 800;
   font-size: clamp(44px, 6.5vw, 88px);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 0.96;
   color: var(--color-primary);
 }
@@ -222,7 +222,7 @@ const css = `
 }
 
 .catBtnLabel{
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: clamp(18px, 2.2vw, 30px);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -328,8 +328,8 @@ const css = `
 
 .exTitle{
   margin: 12px 0 0;
-  font-family: var(--font-heading);
-  font-weight: 350;
+  font-family: var(--font-body);
+  font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.12;
   font-size: clamp(24px, 3.2vw, 44px);

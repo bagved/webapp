@@ -128,7 +128,7 @@ const css = `
 
 .mpTitle{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: 800;
   font-size: clamp(48px, 7.5vw, 100px);
   letter-spacing: -0.04em;
@@ -196,7 +196,7 @@ const css = `
 }
 
 .mpBlockNum{
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: clamp(11px, 1vw, 13px);
   font-weight: 300;
   letter-spacing: 0.12em;
@@ -214,7 +214,7 @@ const css = `
 
 .mpBlockTitle{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: clamp(20px, 2.2vw, 30px);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -245,7 +245,7 @@ const css = `
 
 .mpQuoteText{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: clamp(18px, 2.4vw, 32px);
   font-weight: 300;
   font-style: italic;

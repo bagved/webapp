@@ -250,7 +250,7 @@ const css = `
 
 .contactTitle{
   margin: 0 0 20px;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.96;

@@ -7,7 +7,10 @@ export default function Page() {
   return (
     <>
       <HomeHero />
-      <VideoPeek />
+      <div className="desktopVideo">
+        <style>{`@media(max-width:720px){.desktopVideo{display:none;}}`}</style>
+        <VideoPeek />
+      </div>
       <ServicesRail />
       <ContactTeaserSection />
     </>

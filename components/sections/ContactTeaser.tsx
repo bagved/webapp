@@ -149,7 +149,7 @@ const css = `
 
 .ctTitle{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.08;

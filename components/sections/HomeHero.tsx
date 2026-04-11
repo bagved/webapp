@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import VideoPeek from "./VideoPeek";
 
 export default function HomeHero() {
   return (
@@ -15,6 +16,10 @@ export default function HomeHero() {
             <em className="heroAccent">gode oplevelse.</em>
           </span>
         </h1>
+
+        <div className="heroMobileVideo" aria-hidden="true">
+          <VideoPeek />
+        </div>
 
         <div className="heroBottom">
           <p className="heroSub">
@@ -156,9 +161,28 @@ const css = `
   transform: translateY(-2px);
 }
 
+.heroMobileVideo{
+  display: none;
+}
+
 @media (max-width: 720px){
   .homeHero{
-    min-height: calc(100svh - 56px - 56px);
+    min-height: unset;
+  }
+
+  .heroInner{
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .heroMobileVideo{
+    display: block;
+    margin: 24px 0;
+  }
+
+  /* Hide the section margin/padding from VideoPeek when embedded */
+  .heroMobileVideo .videoPeek{
+    padding: 0;
   }
 
   .heroBottom{

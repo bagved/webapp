@@ -255,8 +255,8 @@ export default function Header() {
               <Image
                 src="/Logo_try_kasse_bo_300x.png"
                 alt="Bagved"
-                height={36}
-                width={120}
+                height={54}
+                width={180}
                 style={{ objectFit: "contain", objectPosition: "left" }}
                 priority
               />
@@ -301,35 +301,55 @@ export default function Header() {
           <button
             type="button"
             className={styles.menuButton}
-            aria-label={navOpen ? "Luk menu" : "Åbn menu"}
+            aria-label="Åbn menu"
             aria-expanded={navOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setNavOpen(v => !v)}
+            onClick={() => setNavOpen(true)}
           >
             <span className={styles.menuIcon} aria-hidden>
-              <span className={`${styles.line} ${navOpen ? styles.lineTopOpen : ""}`} />
-              <span className={`${styles.line} ${navOpen ? styles.lineMidOpen : ""}`} />
-              <span className={`${styles.line} ${navOpen ? styles.lineBotOpen : ""}`} />
+              <span className={styles.line} />
+              <span className={styles.line} />
+              <span className={styles.line} />
             </span>
           </button>
 
         </div>
-
-        {/* Mobil dropdown */}
-        <div
-          id="mobile-nav"
-          className={`${styles.mobileNav} ${navOpen ? styles.mobileNavOpen : ""}`}
-          aria-hidden={!navOpen}
-        >
-          <div className={styles.mobileNavInner}>
-            {navLink("/", "FORSIDE")}
-            {navLink("/services", "YDELSER")}
-            {navLink("/cases", "EKSEMPLER")}
-            {navLink("/mission", "MISSION")}
-            {navLink("/contact", "KONTAKT")}
-          </div>
-        </div>
       </Container>
+
+      {/* Fullscreen mobile overlay */}
+      <div
+        className={`${styles.mobileNavOverlay} ${navOpen ? styles.mobileNavOverlayOpen : ""}`}
+        aria-hidden={!navOpen}
+        id="mobile-nav"
+      >
+        <div className={styles.mobileNavTop}>
+          <button
+            type="button"
+            className={styles.mobileNavClose}
+            onClick={() => setNavOpen(false)}
+            aria-label="Luk menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="4" y1="4" x2="20" y2="20" />
+              <line x1="20" y1="4" x2="4" y2="20" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className={styles.mobileNavLinks} aria-label="Mobile navigation">
+          {navLink("/", "Forside")}
+          {navLink("/services", "Ydelser")}
+          {navLink("/cases", "Eksempler")}
+          {navLink("/mission", "Mission")}
+          {navLink("/contact", "Kontakt")}
+        </nav>
+
+        <div className={styles.mobileNavFooter}>
+          <Link href="/privacy"  onClick={closeAll}>Privacy Policy</Link>
+          <Link href="/cookies"  onClick={closeAll}>Cookie Policy</Link>
+          <Link href="/terms"    onClick={closeAll}>Terms and Conditions</Link>
+        </div>
+      </div>
+
     </header>
   );
 }

@@ -166,10 +166,10 @@ const css = `
 
 .srvPageTitle{
   margin: 0 0 20px;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-weight: 800;
   font-size: clamp(44px, 6.5vw, 88px);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 0.96;
   color: var(--color-primary);
 }
@@ -236,8 +236,8 @@ const css = `
 }
 
 .srvTitle{
-  font-family: var(--font-heading);
-  font-weight: 350;
+  font-family: var(--font-body);
+  font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.12;
   font-size: clamp(22px, 2.2vw, 34px);
