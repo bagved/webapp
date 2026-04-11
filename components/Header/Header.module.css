@@ -134,10 +134,10 @@
 
 /* ── Color picker panel ───────────────────────────────── */
 .pickerPanel{
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  z-index: 200;
+  position: fixed;
+  top: 60px;
+  right: 24px;
+  z-index: 300;
   width: 240px;
 
   background: var(--color-bg);

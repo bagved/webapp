@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
 
@@ -66,7 +67,10 @@ function readCurrentColors(): Record<string, string> {
 }
 
 // ── Theme-panel (farver + font) ───────────────────────────────────────
-function ThemePanel({ onClose }: { onClose: () => void }) {
+function ThemePanel({ onClose, buttonRef }: {
+  onClose: () => void;
+  buttonRef: React.RefObject<HTMLButtonElement | null>;
+}) {
   const [colors, setColors]     = useState(readCurrentColors);
   const [hexInputs, setHexInputs] = useState(readCurrentColors);
   const [activeFont, setActiveFont]         = useState(FONT_OPTIONS[0].value);
@@ -87,14 +91,17 @@ function ThemePanel({ onClose }: { onClose: () => void }) {
     if (mb) setActiveBodyFont(mb.value);
   }, []);
 
-  // Luk ved klik udenfor
+  // Luk ved klik udenfor (ekskl. toggle-knappen)
   useEffect(() => {
     const h = (e: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) onClose();
+      if (
+        panelRef.current && !panelRef.current.contains(e.target as Node) &&
+        !(buttonRef.current && buttonRef.current.contains(e.target as Node))
+      ) onClose();
     };
     document.addEventListener("mousedown", h);
     return () => document.removeEventListener("mousedown", h);
-  }, [onClose]);
+  }, [onClose, buttonRef]);
 
   const applyColor = (key: string, value: string) => {
     const cssVar = COLOR_VARS.find(t => t.key === key)?.cssVar;
@@ -133,7 +140,7 @@ function ThemePanel({ onClose }: { onClose: () => void }) {
     setActiveBodyFont(opt.value);
   };
 
-  return (
+  const panel = (
     <div ref={panelRef} className={styles.pickerPanel} role="dialog" aria-label="Tema-indstillinger">
       <div className={styles.pickerHeader}>
         <span className={styles.pickerTitle}>Tema</span>
@@ -207,12 +214,15 @@ function ThemePanel({ onClose }: { onClose: () => void }) {
       </p>
     </div>
   );
+
+  return createPortal(panel, document.body);
 }
 
 // ── Hoved-header ──────────────────────────────────────────────────────
 export default function Header() {
   const [navOpen,    setNavOpen]    = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const pickerButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const h = () => { if (window.innerWidth > 820) setNavOpen(false); };
@@ -245,77 +255,82 @@ export default function Header() {
   };
 
   return (
-    <header className={styles.wrap}>
-      <Container>
-        <div className={styles.bar}>
+    <>
+      <header className={styles.wrap}>
+        <Container>
+          <div className={styles.bar}>
 
-          {/* Logo */}
-          <div className={styles.left}>
-            <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-              <Image
-                src="/Logo_try_kasse_bo_300x.png"
-                alt="Bagved"
-                height={54}
-                width={180}
-                style={{ objectFit: "contain", objectPosition: "left" }}
-                priority
-              />
-            </Link>
-          </div>
-
-          {/* Desktop nav */}
-          <nav className={styles.nav} aria-label="Primary">
-            {navLink("/", "FORSIDE")}
-            {navLink("/services", "YDELSER")}
-            {navLink("/cases", "EKSEMPLER")}
-            {navLink("/mission", "MISSION")}
-            {navLink("/contact", "KONTAKT")}
-          </nav>
-
-          {/* Højre: tema-knap + sprog */}
-          <div className={styles.right}>
-            <div className={styles.pickerWrap}>
-              <button
-                type="button"
-                className={styles.pickerToggle}
-                onClick={() => setPickerOpen(v => !v)}
-                aria-label="Åbn tema-indstillinger"
-                aria-expanded={pickerOpen}
-                title="Skift tema"
-              >
-                <span className={styles.swatchBar}>
-                  <span className={styles.swatchDot} style={{ background: "var(--color-bg)",        outline: "1.5px solid var(--color-text)", outlineOffset: "1px" }} />
-                  <span className={styles.swatchDot} style={{ background: "var(--color-text)"      }} />
-                  <span className={styles.swatchDot} style={{ background: "var(--color-primary)"   }} />
-                  <span className={styles.swatchDot} style={{ background: "var(--color-secondary)" }} />
-                  <span className={styles.swatchDot} style={{ background: "var(--color-accent)"    }} />
-                </span>
-              </button>
-              {pickerOpen && <ThemePanel onClose={() => setPickerOpen(false)} />}
+            {/* Logo */}
+            <div className={styles.left}>
+              <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
+                <Image
+                  src="/Logo_try_kasse_bo_300x.png"
+                  alt="Bagved"
+                  height={54}
+                  width={180}
+                  style={{ objectFit: "contain", objectPosition: "left" }}
+                  priority
+                />
+              </Link>
             </div>
 
-            <span className={styles.langStatic} aria-label="Language">DA</span>
+            {/* Desktop nav */}
+            <nav className={styles.nav} aria-label="Primary">
+              {navLink("/", "FORSIDE")}
+              {navLink("/services", "YDELSER")}
+              {navLink("/cases", "EKSEMPLER")}
+              {navLink("/mission", "MISSION")}
+              {navLink("/contact", "KONTAKT")}
+            </nav>
+
+            {/* Højre: tema-knap + sprog */}
+            <div className={styles.right}>
+              <div className={styles.pickerWrap}>
+                <button
+                  ref={pickerButtonRef}
+                  type="button"
+                  className={styles.pickerToggle}
+                  onClick={() => setPickerOpen(v => !v)}
+                  aria-label="Åbn tema-indstillinger"
+                  aria-expanded={pickerOpen}
+                  title="Skift tema"
+                >
+                  <span className={styles.swatchBar}>
+                    <span className={styles.swatchDot} style={{ background: "var(--color-bg)",        outline: "1.5px solid var(--color-text)", outlineOffset: "1px" }} />
+                    <span className={styles.swatchDot} style={{ background: "var(--color-text)"      }} />
+                    <span className={styles.swatchDot} style={{ background: "var(--color-primary)"   }} />
+                    <span className={styles.swatchDot} style={{ background: "var(--color-secondary)" }} />
+                    <span className={styles.swatchDot} style={{ background: "var(--color-accent)"    }} />
+                  </span>
+                </button>
+              </div>
+
+              <span className={styles.langStatic} aria-label="Language">DA</span>
+            </div>
+
+            {/* Mobil hamburger */}
+            <button
+              type="button"
+              className={styles.menuButton}
+              aria-label="Åbn menu"
+              aria-expanded={navOpen}
+              onClick={() => setNavOpen(true)}
+            >
+              <span className={styles.menuIcon} aria-hidden>
+                <span className={styles.line} />
+                <span className={styles.line} />
+                <span className={styles.line} />
+              </span>
+            </button>
+
           </div>
+        </Container>
+      </header>
 
-          {/* Mobil hamburger */}
-          <button
-            type="button"
-            className={styles.menuButton}
-            aria-label="Åbn menu"
-            aria-expanded={navOpen}
-            onClick={() => setNavOpen(true)}
-          >
-            <span className={styles.menuIcon} aria-hidden>
-              <span className={styles.line} />
-              <span className={styles.line} />
-              <span className={styles.line} />
-            </span>
-          </button>
+      {/* Tema-panel — uden for <header> så backdrop-filter ikke begrænser fixed positioning */}
+      {pickerOpen && <ThemePanel onClose={() => setPickerOpen(false)} buttonRef={pickerButtonRef} />}
 
-        </div>
-      </Container>
-
-      {/* Fullscreen mobile overlay */}
+      {/* Fullscreen mobil nav — uden for <header> af samme grund */}
       <div
         className={`${styles.mobileNavOverlay} ${navOpen ? styles.mobileNavOverlayOpen : ""}`}
         aria-hidden={!navOpen}
@@ -349,7 +364,6 @@ export default function Header() {
           <Link href="/terms"    onClick={closeAll}>Terms and Conditions</Link>
         </div>
       </div>
-
-    </header>
+    </>
   );
 }
