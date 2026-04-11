@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type CategoryId =
   | "live-broadcast"
@@ -82,11 +82,34 @@ function labelFor(cat: CategoryId) {
 export default function CasesPage() {
   const [openCat, setOpenCat] = useState<CategoryId | null>(null);
 
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: string, delay = 50) => {
     setTimeout(() => {
       document.getElementById(`case-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
+    }, delay);
   };
+
+  const scrollToCat = (catId: string, delay = 380) => {
+    setTimeout(() => {
+      document.getElementById(`cat-${catId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, delay);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("cat") as CategoryId | null;
+    const caseId = params.get("case");
+
+    if (caseId) {
+      const hit = allCases.find(c => c.id === caseId);
+      if (hit) {
+        setOpenCat(hit.category);
+        scrollTo(caseId, 380);
+      }
+    } else if (cat) {
+      setOpenCat(cat);
+      scrollToCat(cat);
+    }
+  }, []);
 
   return (
     <main className="casesPage" aria-label="Eksempler">
@@ -104,7 +127,7 @@ export default function CasesPage() {
               if (items.length === 0) return null;
               const isOpen = openCat === cat.id;
               return (
-                <div key={cat.id} className={`catRow ${isOpen ? "isOpen" : ""}`}>
+                <div key={cat.id} id={`cat-${cat.id}`} className={`catRow ${isOpen ? "isOpen" : ""}`}>
                   <button
                     type="button"
                     className="catBtn"

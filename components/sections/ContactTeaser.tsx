@@ -52,7 +52,7 @@ export default function ContactTeaserSection() {
         </div>
 
         <div className="ctFooterRow">
-          <Link className="cta" href="/contact">UDDYB DIN EFTERSPØRGSEL HER</Link>
+          <Link className="cta" href="/contact#kontaktformular">UDDYB DIN EFTERSPØRGSEL HER</Link>
         </div>
       </div>
     </section>

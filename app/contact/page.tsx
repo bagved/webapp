@@ -93,7 +93,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="contactFormWrap">
+      <section className="contactFormWrap" id="kontaktformular">
         <div ref={startMarkerRef} className="marker markerStart" aria-hidden />
 
         <div className="contactContainer contentLayer">
@@ -102,6 +102,10 @@ export default function ContactPage() {
               <form className="ctForm" onSubmit={(e) => e.preventDefault()}>
                 <div className="row">
                   <LinedInput label="Navn" name="name" autoComplete="name" />
+                </div>
+
+                <div className="row">
+                  <LinedInput label="Virksomhedsnavn" name="company" autoComplete="organization" />
                 </div>
 
                 <div className="row two">

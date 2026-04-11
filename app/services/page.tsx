@@ -109,9 +109,10 @@ export default function ServicesPage() {
               const isIdle = !!active && !isActive;
 
               return (
-                <article
+                <Link
                   key={s.id}
                   id={s.id}
+                  href={s.examplesHref}
                   className={`srvCard ${isActive ? "isHot" : ""} ${
                     isIdle ? "idle" : ""
                   }`}
@@ -124,26 +125,13 @@ export default function ServicesPage() {
                       aria-hidden
                       style={{ backgroundImage: `url(${s.iconPng})` }}
                     />
-                    <span
-                      className="srvTitle"
-                      tabIndex={0}
-                      onFocus={() => setHover(s.id)}
-                      onBlur={() => setHover(null)}
-                    >
-                      {s.title}
-                    </span>
+                    <span className="srvTitle">{s.title}</span>
                   </div>
 
                   <div className="srvBody">
                     <p className="srvText">{s.body}</p>
-
-                    <div className="srvActions">
-                      <Link className="srvBtn" href={s.examplesHref}>
-                        Se eksempler →
-                      </Link>
-                    </div>
                   </div>
-                </article>
+                </Link>
               );
             })}
           </div>
@@ -194,11 +182,14 @@ const css = `
 }
 
 .srvCard{
+  display: block;
+  text-decoration: none;
   border: 0;
   background: transparent;
   padding: clamp(18px, 2.4vw, 28px);
   border-left: 2px solid color-mix(in srgb, var(--color-secondary) 60%, transparent);
   min-height: 220px;
+  cursor: pointer;
   transition: opacity 200ms ease, transform 260ms cubic-bezier(.18,1,.22,1), border-color 200ms ease;
 }
 
@@ -259,28 +250,6 @@ const css = `
   max-width: 62ch;
 }
 
-.srvActions{
-  margin-top: 18px;
-}
-
-.srvBtn{
-  display: inline-block;
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-text) 60%, transparent);
-  opacity: 1;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
-  padding-bottom: 8px;
-  transition: color 160ms ease, border-color 160ms ease, transform 160ms ease, opacity 160ms ease;
-}
-.srvBtn:hover{
-  color: var(--c3);
-  border-bottom-color: color-mix(in srgb, var(--c3) 22%, transparent);
-  transform: translateY(-1px);
-  opacity: 1;
-}
 
 .srvCard.isHot .srvTitle{
   color: var(--color-accent);
