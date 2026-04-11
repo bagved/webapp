@@ -330,7 +330,7 @@ const css = `
     grid-template-columns: 1fr;
   }
   .ctTitle{
-    min-height: 0;
+    min-height: 3.5em;
   }
   .ctFormTwo{
     grid-template-columns: 1fr;

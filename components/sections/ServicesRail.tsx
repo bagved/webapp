@@ -305,7 +305,6 @@ const css = `
 }
 
 .idle{
-  opacity: 0.45;
   transform: scale(0.94);
   background: color-mix(in srgb, var(--color-primary) 10%, var(--color-secondary));
   border-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
