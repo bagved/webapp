@@ -2,19 +2,54 @@
 
 import Link from "next/link";
 import VideoPeek from "./VideoPeek";
+import { useEffect, useRef } from "react";
 
 export default function HomeHero() {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const el = headingRef.current;
+    if (!el) return;
+
+    const fit = () => {
+      const parent = el.parentElement;
+      if (!parent) return;
+
+      // Available height = heroInner content height minus siblings and a safety gap
+      const style = getComputedStyle(parent);
+      const padV = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+      const siblings = Array.from(parent.children).filter(c => c !== el) as HTMLElement[];
+      const siblingsH = siblings.reduce((sum, s) => sum + s.offsetHeight, 0);
+      const maxH = parent.clientHeight - padV - siblingsH - 24;
+      const maxW = parent.clientWidth;
+
+      // Binary search: largest font where wrapped text fits height and width
+      let lo = 12, hi = 90;
+      while (hi - lo > 0.5) {
+        const mid = (lo + hi) / 2;
+        el.style.fontSize = `${mid}px`;
+        if (el.scrollHeight <= maxH && el.scrollWidth <= maxW) lo = mid;
+        else hi = mid;
+      }
+      el.style.fontSize = `${Math.floor(lo)}px`;
+    };
+
+    const ro = new ResizeObserver(fit);
+    ro.observe(el.parentElement!);
+    fit();
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <section className="homeHero" aria-label="Home hero">
       <style>{css}</style>
 
       <div className="container heroInner">
 
-        <h1 className="heroBig">
-          <span className="heroLine1">Bagved den</span>
-          <span className="heroLine2">
-            <em className="heroAccent">gode oplevelse.</em>
-          </span>
+        <h1 ref={headingRef} className="heroBig">
+          Bagved den gode{" "}
+          <em className="heroAccent">oplevelse</em>.{" "}
+          Bag enhver god produktion.
         </h1>
 
         <div className="heroMobileVideo" aria-hidden="true">
@@ -42,9 +77,11 @@ export default function HomeHero() {
 
 const css = `
 .homeHero{
-  min-height: calc(100svh - 56px - 88px);
+  height: calc(82svh - 56px);
+  min-height: 420px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .heroInner{
@@ -52,6 +89,8 @@ const css = `
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  text-align: center;
   padding-top: clamp(40px, 5.5vh, 80px);
   padding-bottom: clamp(28px, 3.5vh, 48px);
   gap: 0;
@@ -59,37 +98,26 @@ const css = `
 
 .heroBig{
   margin: 0;
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-style: normal;
-  line-height: 0.93;
-  letter-spacing: -0.04em;
-  display: flex;
-  flex-direction: column;
-}
-
-.heroLine1{
-  font-size: clamp(52px, 10vw, 138px);
   font-weight: 800;
-  color: var(--color-primary);
-  display: block;
-}
-
-.heroLine2{
-  display: block;
-  font-size: clamp(52px, 10vw, 138px);
+  font-size: clamp(28px, 8vw, 140px); /* fallback — JS overrides */
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
 }
 
 .heroAccent{
   font-style: italic;
-  font-weight: 700;
+  font-family: var(--font-heading);
   color: var(--color-accent);
 }
 
 .heroBottom{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: clamp(24px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3vh, 32px);
 }
 
 .heroSub{
@@ -100,6 +128,7 @@ const css = `
   line-height: 1.75;
   color: color-mix(in srgb, var(--color-text) 72%, transparent);
   max-width: 46ch;
+  text-align: center;
 }
 
 .heroCtas{
@@ -107,7 +136,7 @@ const css = `
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -186,12 +215,7 @@ const css = `
   .heroMobileVideo .vpCtaRow{ display: none; }
 
   .heroBottom{
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .heroCtas{
-    justify-content: flex-start;
+    gap: 16px;
   }
 }
 `;

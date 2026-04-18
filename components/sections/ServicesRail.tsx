@@ -205,7 +205,6 @@ export default function ServicesRail() {
                 >
                   <div className="media" aria-hidden>
                     <div className="img" style={{ backgroundImage: `url(${it.img})` }} />
-                    <div className="fade" />
                   </div>
 
                   <div className="meta">
@@ -241,7 +240,7 @@ export default function ServicesRail() {
 
 const css = `
 .fullBleed{
-  background: var(--color-secondary);
+  background: var(--color-primary);
 }
 
 .wrap{
@@ -293,41 +292,31 @@ const css = `
   text-decoration: none;
   color: inherit;
 
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--color-primary) 18%, var(--color-secondary));
-  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--color-primary) 60%, black);
+  border: 1px solid color-mix(in srgb, white 18%, transparent);
 
   transition:
     transform 320ms cubic-bezier(.18,1,.22,1),
-    opacity 200ms ease,
-    border-color 220ms ease,
-    background 220ms ease;
+    border-color 220ms ease;
+  overflow: hidden;
 }
 
 .idle{
   transform: scale(0.94);
-  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-secondary));
-  border-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border-color: color-mix(in srgb, white 10%, transparent);
 }
 
 .active{
-  opacity: 1;
   transform: scale(1);
-  border-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary));
-}
-.active .t1{
-  color: var(--color-bg);
-}
-.active .t2{
-  color: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  border-color: color-mix(in srgb, white 36%, transparent);
 }
 
 .media{
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: transparent;
+  border-radius: 0;
 }
 
 .img{
@@ -336,30 +325,6 @@ const css = `
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  filter: saturate(1.02) contrast(1.04);
-}
-
-.fade{
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 38%,
-    color-mix(in srgb, var(--color-secondary) 55%, transparent) 72%,
-    color-mix(in srgb, var(--color-secondary) 90%, transparent) 100%
-  );
-  pointer-events: none;
-}
-
-.active .fade{
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 36%,
-    color-mix(in srgb, var(--color-primary) 62%, transparent) 70%,
-    color-mix(in srgb, var(--color-primary) 92%, transparent) 100%
-  );
 }
 
 .meta{
@@ -376,8 +341,7 @@ const css = `
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: color-mix(in srgb, var(--color-text) 82%, transparent);
-  transition: color 220ms ease;
+  color: white;
 }
 
 .t2{
@@ -386,20 +350,12 @@ const css = `
   font-weight: 800;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-text) 48%, transparent);
-  transition: color 220ms ease;
+  color: color-mix(in srgb, white 65%, transparent);
 }
 
 @media (hover:hover){
   .tile:hover{
-    border-color: var(--color-primary);
-    background: color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary));
-  }
-  .tile:hover .t1{
-    color: var(--color-bg);
-  }
-  .tile:hover .t2{
-    color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+    border-color: color-mix(in srgb, white 50%, transparent);
   }
 }
 

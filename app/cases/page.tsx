@@ -335,10 +335,13 @@ const css = `
 
 .exRowAlt{
   grid-template-columns: 1fr 1.35fr;
-  background: var(--color-secondary);
+  background: var(--color-primary);
 }
 .exRowAlt .exMedia{ order: 2; }
 .exRowAlt .exCopy{ order: 1; }
+.exRowAlt .exKicker{ color: color-mix(in srgb, white 52%, transparent); }
+.exRowAlt .exTitle{ color: white; }
+.exRowAlt .exBody{ color: color-mix(in srgb, white 82%, transparent); }
 
 .exKicker{
   font-family: var(--font-body);

@@ -11,9 +11,9 @@
   /* Farver — to neutrale + primær + sekundær + accent */
   --color-bg:        #fafafa;   /* Baggrund (neutral lys)       */
   --color-text:      #000000;   /* Tekst    (neutral mørk)      */
-  --color-primary:   #5b4bb7;   /* Primær   (CTAs, sektioner)   */
-  --color-secondary: #eed2e7;   /* Sekundær (cards, info)       */
-  --color-accent:    #fa3b51;   /* Accent   (links, highlights) */
+  --color-primary:   #571B14;   /* Primær   (CTAs, sektioner)   */
+  --color-secondary: #BFB48F;   /* Sekundær (cards, info)       */
+  --color-accent:    #B90E0A;   /* Accent   (links, highlights) */
 }
 
 

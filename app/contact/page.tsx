@@ -228,7 +228,7 @@ const css = `
 .darkLayer{
   position: fixed;
   inset: 0;
-  background: var(--color-secondary);
+  background: var(--color-primary);
   z-index: 5;
   pointer-events: none;
   will-change: clip-path;
