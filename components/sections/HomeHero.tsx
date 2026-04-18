@@ -196,7 +196,9 @@ const css = `
 
 @media (max-width: 720px){
   .homeHero{
+    height: auto;
     min-height: unset;
+    overflow: visible;
   }
 
   .heroInner{
