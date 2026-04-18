@@ -46,15 +46,15 @@ export default function HomeHero() {
 
       <div className="container heroInner">
 
+        <div className="heroMobileVideo" aria-hidden="true">
+          <VideoPeek />
+        </div>
+
         <h1 ref={headingRef} className="heroBig">
           Bagved den gode{" "}
           <em className="heroAccent">oplevelse</em>.{" "}
           Bag enhver god produktion.
         </h1>
-
-        <div className="heroMobileVideo" aria-hidden="true">
-          <VideoPeek />
-        </div>
 
         <div className="heroBottom">
           <p className="heroSub">
