@@ -208,6 +208,8 @@ const css = `
 
   .heroMobileVideo{
     display: block;
+    width: 100%;
+    align-self: stretch;
     margin: 24px 0;
   }
 

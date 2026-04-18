@@ -8,7 +8,7 @@ export default function Page() {
     <>
       <HomeHero />
       <div className="desktopVideo">
-        <style>{`@media(max-width:720px){.desktopVideo{display:none;}}`}</style>
+        <style>{`@media(max-width:720px){.desktopVideo{display:none !important;visibility:hidden;pointer-events:none;}}`}</style>
         <VideoPeek />
       </div>
       <ServicesRail />
