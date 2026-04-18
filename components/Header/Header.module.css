@@ -49,6 +49,19 @@
   color: var(--color-primary);
 }
 
+.logoImg{
+  display: block;
+  width: 90px;
+  height: 29px;
+  background-image: url('/Logo_Text.png');
+  background-color: var(--color-primary);
+  background-blend-mode: screen;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+  transition: background-color 160ms ease;
+}
+
 /* CENTER: desktop nav */
 .nav{
   justify-self: center;

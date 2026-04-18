@@ -217,12 +217,13 @@ const css = `
   width: 54px;
   height: 54px;
   justify-self: start;
+  background-color: var(--color-primary);
+  background-blend-mode: screen;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-  filter: saturate(0.98) contrast(1.04);
-  opacity: 0.92;
-  transition: opacity 200ms ease;
+  opacity: 0.82;
+  transition: opacity 200ms ease, background-color 200ms ease;
 }
 
 .srvTitle{

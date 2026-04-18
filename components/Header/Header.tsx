@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Header.module.css";
@@ -263,14 +262,7 @@ export default function Header() {
             {/* Logo */}
             <div className={styles.left}>
               <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-                <Image
-                  src="/Logo_Text.png"
-                  alt="Bagved"
-                  height={29}
-                  width={90}
-                  style={{ objectFit: "contain", objectPosition: "left" }}
-                  priority
-                />
+                <span className={styles.logoImg} aria-hidden />
               </Link>
             </div>
 
