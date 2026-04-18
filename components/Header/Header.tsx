@@ -264,10 +264,10 @@ export default function Header() {
             <div className={styles.left}>
               <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
                 <Image
-                  src="/Logo_try_kasse_bo_300x.png"
+                  src="/Logo_Text.png"
                   alt="Bagved"
-                  height={54}
-                  width={180}
+                  height={29}
+                  width={90}
                   style={{ objectFit: "contain", objectPosition: "left" }}
                   priority
                 />
