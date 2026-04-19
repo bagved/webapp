@@ -15,6 +15,7 @@ type CaseItem = {
   title: string;
   body: string;
   image: string;
+  contactSubject: string;
 };
 
 const categories: { id: CategoryId; label: string }[] = [
@@ -32,6 +33,7 @@ const allCases: CaseItem[] = [
     title: "Livestream",
     body: "Stabil livestream med professionel afvikling til events, oplæg og digitale produktioner. Vi sikrer et roligt setup, god lyd og en udsendelse, der fungerer fra start til slut.",
     image: "/photos/Livestream.jpg",
+    contactSubject: "Livestream",
   },
   {
     id: "sportsbroadcast",
@@ -39,6 +41,7 @@ const allCases: CaseItem[] = [
     title: "Sportsbroadcast",
     body: "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
     image: "/photos/sportsbroadcast.jpg",
+    contactSubject: "Sportsbroadcast",
   },
   {
     id: "webinar-studieproduktion",
@@ -46,6 +49,7 @@ const allCases: CaseItem[] = [
     title: "Webinar & studieproduktion",
     body: "Webinarer og studieopsætninger i kontrollerede rammer, hvor teknik, framing og lyd går op i en højere enhed. Velegnet til præsentationer, undervisning og intern kommunikation.",
     image: "/photos/studie_pre.jpg",
+    contactSubject: "Livestream",
   },
   // { id: "reklamefilm", category: "virksomhedsfilm-reklame", title: "Reklamefilm", body: "...", image: "/photos/virksomhedsfilm.jpg" },
   {
@@ -54,6 +58,7 @@ const allCases: CaseItem[] = [
     title: "Virksomhedsvideo",
     body: "Video, der præsenterer virksomheden professionelt og troværdigt. Ideel til hjemmeside, employer branding, salgsarbejde og præsentation af kultur, ydelser eller værdier.",
     image: "/photos/virksomhedsfilm.jpg",
+    contactSubject: "Virksomhedsvideo",
   },
   // { id: "produktvideo", category: "virksomhedsfilm-reklame", title: "Produktvideo", body: "...", image: "/photos/produktfilm.jpg" },
   // { id: "sociale-medier", category: "sociale-medier", title: "Video til sociale medier", body: "...", image: "/photos/eventfilm.jpg" },
@@ -63,6 +68,7 @@ const allCases: CaseItem[] = [
     title: "Eventvideo",
     body: "Visuelle highlights og stemningsvideoer fra events, konferencer og arrangementer. En effektiv måde at forlænge værdien af et event og skabe indhold efterfølgende.",
     image: "/photos/eventfilm.jpg",
+    contactSubject: "Eventvideo",
   },
   {
     id: "eventteknik",
@@ -70,6 +76,7 @@ const allCases: CaseItem[] = [
     title: "Lyd, lys & eventteknik",
     body: "Vi planlægger og leverer teknisk afvikling til events, talks og fester. Lyd, lys og AV sat op til formålet — så I har tryghed i afviklingen og kan fokusere på selve arrangementet.",
     image: "/photos/lys_lyd_pre.jpg",
+    contactSubject: "Eventteknik",
   },
   // { id: "drone", category: "foto-drone", title: "Dronevideo & dronebilleder", body: "...", image: "/photos/sports_pre.jpg" },
   // { id: "stillfoto", category: "foto-drone", title: "Stillfoto & billedredigering", body: "...", image: "/photos/produktfilm.jpg" },
@@ -159,35 +166,32 @@ export default function CasesPage() {
         </div>
       </section>
 
-      {/* Examples — full-width alternating rows */}
+      {/* Examples */}
       <section className="examples">
-        <div className="examplesGrid">
-          {allCases.map((it, idx) => (
-            <article
-              key={it.id}
-              id={`case-${it.id}`}
-              className={`exRow ${idx % 2 === 1 ? "exRowAlt" : ""}`}
-            >
-              <div className="exMedia">
-                <div className="exImg" style={{ backgroundImage: `url(${it.image})` }} />
-              </div>
-              <div className="exCopy">
-                <div className="exKicker">{labelFor(it.category)}</div>
-                <h2 className="exTitle">{it.title}</h2>
-                <p className="exBody">{it.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        {allCases.map((it, idx) => (
+          <article
+            key={it.id}
+            id={`case-${it.id}`}
+            className={`exRow ${idx % 2 === 1 ? "exRowAlt" : ""}`}
+          >
+            <div className="exMedia">
+              <div className="exImg" style={{ backgroundImage: `url(${it.image})` }} />
+            </div>
+            <div className="exCopy">
+              <div className="exKicker">{labelFor(it.category)}</div>
+              <h2 className="exTitle">{it.title}</h2>
+              <p className="exBody">{it.body}</p>
+              <a className="exBtn" href={`/contact?subject=${encodeURIComponent(it.contactSubject)}#kontaktformular`}>Tag kontakt nu</a>
+            </div>
+          </article>
+        ))}
       </section>
     </main>
   );
 }
 
 const css = `
-.casesPage{
-  padding-bottom: clamp(80px, 10vw, 140px);
-}
+.casesPage{}
 
 .explore{
   padding: 0;
@@ -246,9 +250,10 @@ const css = `
 
 .catBtnLabel{
   font-family: var(--font-body);
-  font-size: clamp(18px, 2.2vw, 30px);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--color-primary);
   transition: color 140ms ease;
 }
@@ -312,72 +317,27 @@ const css = `
   border-left-color: var(--color-accent);
 }
 
-/* Examples */
+/* Examples — full-width split screen, image and text meet at center */
 .examples{
-  padding: 0;
-}
-
-.examplesGrid{
-  display: grid;
-  gap: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+  padding-bottom: clamp(80px, 10vw, 140px);
 }
 
 .exRow{
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: clamp(22px, 4vw, 54px);
-  align-items: stretch;
-  padding: clamp(22px, 4vw, 40px);
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  background: var(--color-bg);
+  grid-template-columns: 1fr 1fr;
+  min-height: clamp(380px, 46vw, 620px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
 }
 
-.exRowAlt{
-  grid-template-columns: 1fr 1.35fr;
-  background: var(--color-primary);
-}
 .exRowAlt .exMedia{ order: 2; }
 .exRowAlt .exCopy{ order: 1; }
-.exRowAlt .exKicker{ color: color-mix(in srgb, white 52%, transparent); }
-.exRowAlt .exTitle{ color: white; }
-.exRowAlt .exBody{ color: color-mix(in srgb, white 82%, transparent); }
 
-.exKicker{
-  font-family: var(--font-body);
-  font-size: var(--t11);
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 45%, transparent);
-}
-
-.exTitle{
-  margin: 12px 0 0;
-  font-family: var(--font-body);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  font-size: clamp(24px, 3.2vw, 44px);
-  color: var(--color-primary);
-}
-
-.exBody{
-  margin: 14px 0 0;
-  font-family: var(--font-body);
-  font-size: var(--t16);
-  line-height: 1.8;
-  max-width: 64ch;
-  color: var(--color-text);
-}
-
+/* Image fills its half completely — no gaps, no borders */
 .exMedia{
   position: relative;
-  border-radius: 0;
-  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
   overflow: hidden;
   background: color-mix(in srgb, var(--color-secondary) 8%, var(--color-bg));
-  min-height: clamp(260px, 32vw, 430px);
 }
 
 .exImg{
@@ -386,27 +346,90 @@ const css = `
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  filter: saturate(1.02) contrast(1.02);
 }
 
+/* Text sits in its half, padded inward from the center and from the viewport edge */
 .exCopy{
-  padding: clamp(10px, 2vw, 22px) 0;
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 5vw, 72px) clamp(28px, 4.5vw, 64px);
 }
 
-@media (max-width: 980px){
-  .exRow,
-  .exRowAlt{
+/* For normal rows (image left), text padding pushes away from center (left) */
+.exRow:not(.exRowAlt) .exCopy{
+  padding-left: clamp(36px, 5vw, 72px);
+}
+
+/* For alt rows (image right), text padding pushes away from center (right) */
+.exRowAlt .exCopy{
+  padding-right: clamp(36px, 5vw, 72px);
+}
+
+.exKicker{
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.exTitle{
+  margin: 14px 0 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(28px, 3.4vw, 52px);
+  color: var(--color-primary);
+}
+
+.exBody{
+  margin: 18px 0 0;
+  font-family: var(--font-body);
+  font-size: var(--t16);
+  line-height: 1.8;
+  max-width: 52ch;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
+.exBtn{
+  display: inline-flex;
+  align-items: center;
+  margin-top: 32px;
+  align-self: flex-start;
+  padding: 11px 24px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
+  transition: border-color 150ms ease, color 150ms ease, transform 120ms ease;
+}
+.exBtn:hover{
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 780px){
+  .exRow{
     grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 24px 16px;
+    min-height: unset;
   }
   .exRow .exMedia,
-  .exRowAlt .exMedia{ order: 1 !important; min-height: 220px; }
+  .exRowAlt .exMedia{ order: 1 !important; min-height: 56vw; }
   .exRow .exCopy,
-  .exRowAlt .exCopy{ order: 2 !important; }
-  .exTitle{ font-size: clamp(22px, 7vw, 30px) !important; }
-  .exBody{ line-height: 1.65; }
+  .exRowAlt .exCopy{
+    order: 2 !important;
+    padding: 28px 20px 36px !important;
+  }
+  .exTitle{ font-size: clamp(22px, 7vw, 32px) !important; }
+  .exBtn{ margin-top: 22px; }
 }
 `;

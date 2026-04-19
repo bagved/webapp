@@ -1,12 +1,39 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+// app/contact/page.tsx — KONTAKTSIDEN
+//
+// HVAD DU KAN ÆNDRE:
+//   Overskrift       → <h1 className="contactTitle">Kontakt</h1>
+//   Indledningstekst → <p className="contactLead"> herunder
+//   Kontaktinfo      → telefon, email og adresse i .contactInfo
+//   Formularfelter   → tilføj/fjern <LinedInput>, <LinedSelect> eller <LinedTextarea>
+//   Dropdown-valg    → `options`-arrayet i <LinedSelect>
+//   Mørk-sektion     → CSS .darkLayer { background: var(--color-primary) }
+//                       Den mørke sektion bag formularen bruger --color-primary
+//
+// TEKNISK NOTE om den mørke sektion:
+//   .darkLayer er et fastgjort overlay der klippes til det synlige vinduesudsnit
+//   via clipPath. Det giver effekten af at scrolle ind i en mørk sektion.
+
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ContactPage() {
   const startMarkerRef = useRef<HTMLDivElement | null>(null);
   const endMarkerRef = useRef<HTMLDivElement | null>(null);
-
   const darkLayerRef = useRef<HTMLDivElement | null>(null);
+  const [preselectedSubject, setPreselectedSubject] = useState<string>("General");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sub = params.get("subject");
+    if (sub) setPreselectedSubject(sub);
+
+    if (window.location.hash === "#kontaktformular") {
+      setTimeout(() => {
+        document.getElementById("kontaktformular")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 200);
+    }
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -68,18 +95,19 @@ export default function ContactPage() {
             </p>
           </div>
 
+          {/* Kontaktinfo-grid — tilføj et nyt <div className="infoItem"> for flere felter */}
           <div className="contactInfo">
               <div className="infoItem">
                 <div className="infoLabel">Telefon</div>
                 <a className="infoValue" href="tel:+4561746416">
-                  +45 61 74 64 16
+                  +45 61 74 64 16   {/* skift nummeret her og i href="tel:..." */}
                 </a>
               </div>
 
               <div className="infoItem">
                 <div className="infoLabel">Email</div>
                 <a className="infoValue" href="mailto:info@bagved.com">
-                  info@bagved.com
+                  info@bagved.com   {/* skift email her og i href="mailto:..." */}
                 </a>
               </div>
 
@@ -98,7 +126,21 @@ export default function ContactPage() {
 
         <div className="contactContainer contentLayer">
           <div className="darkGrid">
+            <div className="darkSide" aria-hidden="false">
+              <p className="darkEyebrow">Lad os snakke</p>
+              <h2 className="darkHeading">Et godt samarbejde starter med en samtale.</h2>
+              <p className="darkBody">
+                Uanset om du har et konkret projekt, en løs idé eller bare vil høre mere om hvad vi laver — så skriv til os. Vi svarer hurtigt og uden forpligtelser.
+              </p>
+              <div className="darkMeta">
+                <a href="tel:+4561746416" className="darkMetaLine">+45 61 74 64 16</a>
+                <a href="mailto:info@bagved.com" className="darkMetaLine">info@bagved.com</a>
+              </div>
+            </div>
+
             <div className="ctPanel" aria-label="Kontaktformular">
+              {/* Formular — tilføj/fjern felter efter behov */}
+              {/* LinedInput = tekstfelt, LinedSelect = dropdown, LinedTextarea = stor tekstboks */}
               <form className="ctForm" onSubmit={(e) => e.preventDefault()}>
                 <div className="row">
                   <LinedInput label="Navn" name="name" autoComplete="name" />
@@ -108,15 +150,18 @@ export default function ContactPage() {
                   <LinedInput label="Virksomhedsnavn" name="company" autoComplete="organization" />
                 </div>
 
+                {/* "row two" = to felter side om side */}
                 <div className="row two">
                   <LinedInput label="Email" name="email" type="email" autoComplete="email" />
                   <LinedInput label="Telefonnummer" name="phone" type="tel" autoComplete="tel" />
                 </div>
 
                 <div className="row">
+                  {/* Dropdown — tilføj/fjern emner i `options`-arrayet */}
                   <LinedSelect
                     label="Emne"
                     name="subject"
+                    value={preselectedSubject}
                     options={[
                       "General",
                       "Livestream",
@@ -132,6 +177,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="row">
+                  {/* rows={6} = højden på tekstboksen — skru op for en højere boks */}
                   <LinedTextarea label="Besked" name="message" rows={6} />
                 </div>
 
@@ -143,7 +189,6 @@ export default function ContactPage() {
               </form>
             </div>
 
-            <div className="darkSpacer" aria-hidden />
           </div>
         </div>
 
@@ -177,15 +222,19 @@ function LinedSelect({
   label,
   name,
   options,
+  value,
 }: {
   label: string;
   name: string;
   options: string[];
+  value?: string;
 }) {
+  const [val, setVal] = React.useState(value ?? options[0] ?? "");
+  React.useEffect(() => { if (value) setVal(value); }, [value]);
   return (
     <label className="field">
       <span className="lab">{label}</span>
-      <select className="inp sel" name={name}>
+      <select className="inp sel" name={name} value={val} onChange={e => setVal(e.target.value)}>
         {options.map((o) => (
           <option key={o} value={o}>{o}</option>
         ))}
@@ -215,7 +264,7 @@ function LinedTextarea({
 
 const css = `
 .contactContainer{
-  width: min(1100px, calc(100% - 48px));
+  width: min(1100px, calc(100% - 48px)); /* max-bredde på indhold */
   margin: 0 auto;
 }
 
@@ -225,10 +274,12 @@ const css = `
   background: transparent;
 }
 
+/* Det mørke overlay der dækker skærmen når man scroller ned til formularen */
+/* background: var(--color-primary) — farven fra theme.css styrer den mørke sektion */
 .darkLayer{
   position: fixed;
   inset: 0;
-  background: var(--color-primary);
+  background: var(--color-primary);  /* skift til en anden CSS-variabel eller farve */
   z-index: 5;
   pointer-events: none;
   will-change: clip-path;
@@ -321,16 +372,68 @@ a.infoValue:hover{
 
 .darkGrid{
   display: grid;
-  grid-template-columns: minmax(420px, 560px) 1fr;
-  gap: clamp(26px, 5vw, 70px);
+  grid-template-columns: 1fr minmax(0, 640px);
+  gap: clamp(40px, 6vw, 80px);
   align-items: start;
 }
-.darkSpacer{ min-height: 1px; }
+
+.darkSide{
+  padding-top: clamp(8px, 2vw, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.5vw, 28px);
+}
+
+.darkEyebrow{
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.darkHeading{
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: white;
+}
+
+.darkBody{
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.8;
+  color: rgba(255,255,255,0.62);
+  max-width: 42ch;
+}
+
+.darkMeta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.darkMetaLine{
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  transition: color 140ms ease;
+}
+.darkMetaLine:hover{ color: white; }
 
 .ctPanel{
-  background: var(--color-bg);
-  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
-  border-radius: 0;
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-text) 7%, transparent);
+  border-radius: 12px;
   padding: clamp(22px, 3.6vw, 40px);
 }
 
@@ -417,6 +520,7 @@ a.infoValue:hover{
 
 @media (max-width: 980px){
   .darkGrid{ grid-template-columns: 1fr; }
+  .darkSide{ padding-top: 0; }
   .row.two{ grid-template-columns: 1fr; gap: 18px; }
 }
 `;

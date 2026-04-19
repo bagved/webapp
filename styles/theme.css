@@ -1,15 +1,43 @@
-/* Skift farver og fonte her — ændringer slår igennem på hele siden */
+/*
+ * ════════════════════════════════════════════════════════
+ *  styles/theme.css  —  DET VIGTIGSTE FIL PÅ HELE SIDEN
+ *  Ændringer her slår igennem overalt med det samme.
+ * ════════════════════════════════════════════════════════
+ *
+ *  FONTE
+ *  ─────
+ *  --font-heading  bruges til accent-ord (f.eks. "oplevelse" i hero)
+ *  --font-body     bruges til alt andet: brødtekst, knapper, menupunkter
+ *
+ *  For at skifte font permanent:
+ *    1. Find fontens Google Fonts URL
+ *    2. Erstat @import-linjen herunder
+ *    3. Opdater --font-heading eller --font-body med det nye fontnavn
+ *
+ *  FARVER
+ *  ──────
+ *  --color-bg        Sidens lyse baggrund
+ *  --color-text      Normal tekst
+ *  --color-primary   Mørkere mørkerød — header, CTA-knapper, ServicesRail,
+ *                    kontaktsektionens mørke del, logo-farve
+ *  --color-secondary Beige/tan — mobil-menubaggrund, tema-panel baggrund
+ *  --color-accent    Lyserød/klarrød — hover-farve på knapper, cursoren
+ *                    i typewriter, "oplevelse"-ordet i hero
+ *
+ *  Du kan også ændre farverne live med tema-knappen i headeren
+ *  (de tre prikker). Kopier hex-koden herfra bagefter for at gemme.
+ */
 
 @import url('https://fonts.googleapis.com/css2?family=Genos:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&display=swap');
 
 :root {
-  /* Font */
-  --font-heading: 'Genos', sans-serif;
-  --font-body:    'Rubik', sans-serif;
-  --font-text:    'Rubik', sans-serif;
+  /* Font — skift værdierne herunder for at ændre fonte */
+  --font-heading: 'Genos', sans-serif;   /* accent-ord og overskrift-font */
+  --font-body:    'Rubik', sans-serif;   /* brødtekst og næsten alt andet */
+  --font-text:    'Rubik', sans-serif;   /* alias for font-body */
 
-  /* Farver — to neutrale + primær + sekundær + accent */
-  --color-bg:        #fafafa;   /* Baggrund (neutral lys)       */
+  /* Farver — skift hex-koderne for at ændre hele sidens farvetema */
+  --color-bg:        #FAF7F3;   /* Baggrund (varm hvid)         */
   --color-text:      #000000;   /* Tekst    (neutral mørk)      */
   --color-primary:   #571B14;   /* Primær   (CTAs, sektioner)   */
   --color-secondary: #BFB48F;   /* Sekundær (cards, info)       */
@@ -49,14 +77,18 @@
 }
 
 
-/* GRAIN-TEKSTUR */
+/*
+ * GRAIN-TEKSTUR
+ * Tilføjer et meget subtilt kornlaget over hele siden for et analogt look.
+ * Skru opacity op (fx 0.07) for mere korn, ned mod 0 for at slå det fra.
+ */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.028;
+  opacity: 0.028; /* 0 = ingen tekstur, 0.1 = tydeligt korn */
 
   background-image:
     radial-gradient(rgba(0, 0, 0, 0.24) 0.5px, transparent 0.7px),
@@ -75,7 +107,13 @@ body::before {
 }
 
 
-/* AMBIENT GLØ */
+/*
+ * AMBIENT GLØ
+ * Et meget svagt farve-glow øverst til højre på siden.
+ * Skru opacity op for et tydeligere glow, eller slet hele blokken for ingen glow.
+ * Skift "88% 12%" for at flytte glowets position.
+ * Skift "color-accent" til "color-primary" for en anden glowfarve.
+ */
 body::after {
   content: "";
   position: fixed;
@@ -84,14 +122,13 @@ body::after {
   z-index: 0;
 
   background:
-    /* Meget subtil accent-toning øverst til højre */
     radial-gradient(
-      560px 420px at 88% 12%,
+      560px 420px at 88% 12%,   /* størrelse og position — "88% 12%" = højre øverst */
       color-mix(in srgb, var(--color-accent) 5%, transparent),
       transparent 56%
     );
 
-  opacity: 0.6;
+  opacity: 0.6;  /* 0 = usynlig, 1 = fuldt synlig */
 }
 
 

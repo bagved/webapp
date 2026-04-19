@@ -1,13 +1,28 @@
+/*
+ * Header.module.css — HEADER-STILARTER
+ *
+ * HVAD DU KAN ÆNDRE:
+ *   Headerens baggrundsopacitet → background: color-mix(..., 62%, ...)
+ *                                  Skru 62% op til 100% for helt uigennemsigtig header
+ *   Blur/glaseffekt             → backdrop-filter: blur(20px) — 0px = ingen blur
+ *   Logo-fil                   → .logoImg { background-image: url(...) }
+ *   Logo-bredde/højde           → .logoImg { width: 90px; height: 29px }
+ *   Nav-afstand mellem links    → .nav { gap }
+ *   Mobil breakpoint            → @media (max-width: 820px) — skift 820px
+ *   Mobil nav-font-størrelse    → .mobileNavLinks a { font-size }
+ *   Mobil overlay-baggrund      → .mobileNavOverlay { background: var(--color-secondary) }
+ */
+
+/* Fast header øverst — z-index: 200 sikrer at den er over alt andet indhold */
 .wrap{
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 200;
-  background: color-mix(in srgb, var(--color-bg) 62%, transparent);
-  backdrop-filter: blur(20px) saturate(1.5);
+  background: color-mix(in srgb, var(--color-bg) 62%, transparent); /* 62% opacitet = let gennemsigtig */
+  backdrop-filter: blur(20px) saturate(1.5);       /* glaseffekt — blur(0px) for at slå fra */
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  /* Ingen border — headeren smelter naturligt ind i siden */
 }
 
 /* Desktop grid */
@@ -49,17 +64,20 @@
   color: var(--color-primary);
 }
 
+/*
+ * Logo — billedet farves via background-blend-mode: screen
+ * Det kræver at logo-PNG'en har SORT tekst på HVID baggrund.
+ * Farven følger automatisk --color-primary fra theme.css.
+ *
+ * Vil du skifte logo? Læg ny PNG i /public og opdater background-image URL.
+ * Vil du skifte størrelse? Ændr width og height.
+ */
 .logoImg{
   display: block;
-  width: 90px;
-  height: 29px;
-  background-image: url('/Logo_Text.png');
-  background-color: var(--color-primary);
-  background-blend-mode: screen;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: left center;
-  transition: background-color 160ms ease;
+  width: 120px;
+  height: 36px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 /* CENTER: desktop nav */
@@ -355,8 +373,10 @@
   display: none;
 }
 
-/* ✅ Mobile layout */
+/* ── MOBIL LAYOUT (maks. 820px bredde) ─────────────────────────────── */
+/* Skift 820px for at ændre hvornår mobil-layoutet aktiveres            */
 @media (max-width: 820px){
+  /* Mobil header: flex i stedet for grid */
   .bar{
     display: flex;
     align-items: center;
@@ -365,19 +385,20 @@
     padding: 14px 0;
   }
 
-  /* Flatten .right so its children (langStatic, pickerWrap) become direct flex items */
+  /* display:contents "opløser" .right — dens børn bliver direkte flex-elementer */
+  /* Det giver mulighed for at styre rækkefølgen med `order` */
   .right{
     display: contents;
   }
 
-  /* Language: leftmost */
+  /* DA-sprogmærke: vises yderst til venstre (order: 1) */
   .langStatic{
     order: 1;
     display: inline-flex;
     flex-shrink: 0;
   }
 
-  /* Logo: absolute center, doesn't affect flex flow */
+  /* Logo: absolut centreret — påvirker ikke flex-rækkefølgen */
   .left{
     order: 2;
     position: absolute;
@@ -385,34 +406,16 @@
     transform: translateX(-50%);
   }
 
-  /* Hide desktop nav */
+  /* Desktop-nav skjules på mobil — burger-menuen bruges i stedet */
   .nav{
     display: none;
   }
 
-  /* Theme picker: pushed to right via margin-left auto */
-  .pickerWrap{
-    order: 5;
-    margin-left: auto;
-  }
-
-  /* Smaller toggle on mobile */
-  .pickerToggle{
-    padding: 4px 6px;
-  }
-
-  /* Smaller dots on mobile */
-  .swatchDot,
-  .swatchBg{
-    width: 7px;
-    height: 7px;
-  }
-
-  /* Hamburger: right of picker toggle */
+  /* Burger-knap: sidst til højre */
   .menuButton{
     order: 6;
     display: inline-flex;
-    margin-left: 0;
+    margin-left: auto;
   }
 
   .mobileNav{
@@ -441,19 +444,22 @@
   }
 }
 
-/* ── Fullscreen mobile nav overlay ─────────────────────── */
+/* ── Fullscreen mobil nav-overlay (burger-menu) ─────────── */
+/* Skjult på desktop — kun synlig når burger-knappen trykkes */
 .mobileNavOverlay{
   display: none;
 }
 
 @media (max-width: 820px){
+  /* Fullscreen overlay der åbner sig som en menu */
+  /* background: var(--color-secondary) — baggrunden bruger sekundærfarven fra theme.css */
   .mobileNavOverlay{
     display: flex;
     position: fixed;
     inset: 0;
     z-index: 201;
     flex-direction: column;
-    background: var(--color-secondary);
+    background: var(--color-secondary); /* baggrundsfarve — se theme.css --color-secondary */
 
     opacity: 0;
     pointer-events: none;
@@ -493,9 +499,12 @@
     gap: 4px;
   }
 
+  /* Navigationstekst i mobil-menuen */
+  /* font-size: clamp(36px, 10vw, 56px) — skalerer fra 36px til 56px */
+  /* color: var(--color-primary) — farven fra theme.css */
   .mobileNavLinks a{
     font-family: var(--font-body);
-    font-size: clamp(36px, 10vw, 56px);
+    font-size: clamp(36px, 10vw, 56px); /* stor tekst — skru ned for et mere dæmpet udtryk */
     font-weight: 700;
     color: var(--color-primary);
     text-decoration: none;

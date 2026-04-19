@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 type ServiceId =
   | "live-broadcast"
   | "virksomhedsfilm-reklame"
   | "sociale-medier"
   | "eventvideo-eventteknik"
-  | "foto-drone";
+  | "foto-drone"
+  | "konceptudvikling-eventkoordinering";
 
 type Service = {
   id: ServiceId;
   title: string;
   body: string;
-  iconPng: string;
+  icon: React.ReactNode;
   examplesHref: string;
 };
 
@@ -26,7 +27,15 @@ export default function ServicesPage() {
         title: "Live & broadcast",
         body:
           "Professionelle liveproduktioner til sport, koncerter, events og webinarer. Vi planlægger produktionen grundigt og håndterer flerkamera, streamingflow og teknisk afvikling, så I kan fokusere på indholdet og føle jer trygge hele vejen igennem.",
-        iconPng: "/services/livestream.png",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="2.5" />
+            <path d="M8.5 8.5a5 5 0 0 0 0 7" />
+            <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+            <path d="M5.5 5.5a9.5 9.5 0 0 0 0 13" />
+            <path d="M18.5 5.5a9.5 9.5 0 0 1 0 13" />
+          </svg>
+        ),
         examplesHref: "/cases?cat=live-broadcast",
       },
       {
@@ -34,7 +43,16 @@ export default function ServicesPage() {
         title: "Virksomhedsfilm & reklame",
         body:
           "Video, der styrker dit brand og gør dit budskab klart. Fra reklamefilm og virksomhedsvideoer til produktvideoer, der præsenterer dine ydelser professionelt.",
-        iconPng: "/services/reklamefilm.png",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="7" width="15" height="12" rx="1.5" />
+            <path d="M17 10l4-2v8l-4-2V10z" />
+            <line x1="2" y1="11" x2="17" y2="11" />
+            <line x1="7" y1="7" x2="7" y2="4" />
+            <line x1="12" y1="7" x2="12" y2="4" />
+            <line x1="2" y1="4" x2="17" y2="4" />
+          </svg>
+        ),
         examplesHref: "/cases?cat=virksomhedsfilm-reklame",
       },
       {
@@ -42,7 +60,15 @@ export default function ServicesPage() {
         title: "Sociale medier",
         body:
           "Korte, skarpe videoer til LinkedIn, Instagram, Facebook og andre platforme. Vi producerer indhold, der er tilpasset formatet og nemt at bruge i kampagner og løbende kommunikation.",
-        iconPng: "/services/content.png",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="18" cy="5" r="2.5" />
+            <circle cx="6" cy="12" r="2.5" />
+            <circle cx="18" cy="19" r="2.5" />
+            <line x1="8.4" y1="10.9" x2="15.6" y2="6.1" />
+            <line x1="8.4" y1="13.1" x2="15.6" y2="17.9" />
+          </svg>
+        ),
         examplesHref: "/cases?cat=sociale-medier",
       },
       {
@@ -50,7 +76,11 @@ export default function ServicesPage() {
         title: "Eventvideo & eventteknik",
         body:
           "Vi planlægger og afvikler events fra idé til slut — både video og den nødvendige lyd, lys og teknik. Vores tilgang er at tage ansvar for den tekniske del, så I kan fokusere på arrangementet og have tryghed i, at det kører professionelt.",
-        iconPng: "/services/planlaegning.png",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+        ),
         examplesHref: "/cases?cat=eventvideo-eventteknik",
       },
       {
@@ -58,8 +88,29 @@ export default function ServicesPage() {
         title: "Foto & drone",
         body:
           "Stillfoto, billedredigering og droneoptagelser til virksomheder, events og lokationer. Et stærkt supplement til video, når du også vil have skarpe billeder og visuelt overblik.",
-        iconPng: "/services/droneoptagelser-og-billeder.png",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="13" r="2.5" />
+            <path d="M5 8h2l1-2h8l1 2h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+            <line x1="3" y1="5" x2="6" y2="5" />
+            <line x1="18" y1="5" x2="21" y2="5" />
+          </svg>
+        ),
         examplesHref: "/cases?cat=foto-drone",
+      },
+      {
+        id: "konceptudvikling-eventkoordinering",
+        title: "Konceptudvikling & eventkoordinering",
+        body:
+          "Fra idé til gennemført event. Vi hjælper med at udvikle konceptet, planlægge forløbet og koordinere alle detaljer — så I kan stå trygt bag et arrangement, der hænger sammen fra start til slut.",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18h6" />
+            <path d="M10 21h4" />
+            <path d="M12 2a7 7 0 0 1 4 12.9V17H8v-2.1A7 7 0 0 1 12 2z" />
+          </svg>
+        ),
+        examplesHref: "/cases",
       },
     ],
     []
@@ -120,11 +171,7 @@ export default function ServicesPage() {
                   onMouseLeave={() => setHover(null)}
                 >
                   <div className="srvHead">
-                    <span
-                      className="srvIcon"
-                      aria-hidden
-                      style={{ backgroundImage: `url(${s.iconPng})` }}
-                    />
+                    <span className="srvIcon" aria-hidden>{s.icon}</span>
                     <span className="srvTitle">{s.title}</span>
                   </div>
 
@@ -214,24 +261,28 @@ const css = `
 }
 
 .srvIcon{
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   justify-self: start;
-  background-color: var(--color-primary);
-  background-blend-mode: screen;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.82;
-  transition: opacity 200ms ease, background-color 200ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  opacity: 0.7;
+  transition: opacity 200ms ease, color 200ms ease;
+}
+.srvIcon svg{
+  width: 100%;
+  height: 100%;
 }
 
 .srvTitle{
   font-family: var(--font-body);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  font-size: 10px;
+  text-transform: uppercase;
   color: var(--color-primary);
   outline: none;
   transition: color 200ms ease;
@@ -257,10 +308,7 @@ const css = `
 }
 .srvCard.isHot .srvIcon{
   opacity: 1;
-}
-.srvCard.isHot .srvBtn{
   color: var(--color-accent);
-  border-bottom-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 
 .srvBottomSpace{
@@ -275,12 +323,12 @@ const css = `
     padding-left: 0;
   }
   .srvHead{
-    grid-template-columns: 64px 1fr;
+    grid-template-columns: 52px 1fr;
     gap: 16px;
   }
   .srvIcon{
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
   }
 }
 `;

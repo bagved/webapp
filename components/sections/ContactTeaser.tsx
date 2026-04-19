@@ -1,5 +1,15 @@
 "use client";
 
+// components/sections/ContactTeaser.tsx — KONTAKT-TEASER (forsiden)
+//
+// HVAD DU KAN ÆNDRE:
+//   Typewriter-sætninger → find `phrases`-arrayet herunder og rediger tekster
+//                          Tilføj en ny streng for endnu en sætning
+//   "Skriv til os"       → statisk tekst — rediger direkte i <span className="ctTitleStatic">
+//   Kontaktinfo          → rediger tel:-link og mailto:-link
+//   CTA-knap nederst     → skift tekst eller href på <Link className="cta">
+//   Formular-felter      → LinedInput/LinedTextarea-elementerne i <form>
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -15,13 +25,22 @@ export default function ContactTeaserSection() {
           {/* LEFT */}
           <div className="ctLeft">
             <h2 className="ctTitle">
+              {/* Statisk del af overskriften */}
               <span className="ctTitleStatic">Skriv til os</span>
+              {/* Typewriter: skifter automatisk mellem sætningerne i `phrases` */}
               <TypeLine phrases={[
                 "her, eller ring på +45 61 74 64 16",
                 "på info@bagved.com",
                 "hvor end du foretrækker det!",
               ]} />
             </h2>
+
+            {/* Korte sætninger under overskriften */}
+            <div className="ctSubLines">
+              <p className="ctSubLine">Vi svarer inden for 24 timer.</p>
+              <p className="ctSubLine">Intet projekt er for stort eller for lille.</p>
+              <p className="ctSubLine">Bare en god snak — ingen forpligtelser.</p>
+            </div>
 
             <div className="ctMeta">
               <a href="tel:+4561746416"      className="ctMetaLine">+45 61 74 64 16</a>
@@ -59,6 +78,12 @@ export default function ContactTeaserSection() {
   );
 }
 
+// TypeLine: typewriter-komponent der skriver/sletter sætninger i rækkefølge
+// Hastigheder (i millisekunder):
+//   44ms  = typing-hastighed per bogstav (lavere = hurtigere)
+//   18ms  = slette-hastighed per bogstav (lavere = hurtigere)
+//   2600ms = pause efter en sætning er skrevet færdig
+//   900ms  = ekstra pause inden sletning begynder
 function TypeLine({ phrases }: { phrases: string[] }) {
   const [i, setI]         = useState(0);
   const [txt, setTxt]     = useState("");
@@ -69,15 +94,15 @@ function TypeLine({ phrases }: { phrases: string[] }) {
     let t = 0;
     if (phase === "typing") {
       if (txt.length < phrase.length)
-        t = window.setTimeout(() => setTxt(phrase.slice(0, txt.length + 1)), 44);
+        t = window.setTimeout(() => setTxt(phrase.slice(0, txt.length + 1)), 44); /* skrivehastighed */
       else
-        t = window.setTimeout(() => setPhase("hold"), 2600);
+        t = window.setTimeout(() => setPhase("hold"), 2600); /* pause når sætning er færdig */
     }
     if (phase === "hold")
-      t = window.setTimeout(() => setPhase("deleting"), 900);
+      t = window.setTimeout(() => setPhase("deleting"), 900); /* ventetid inden sletning */
     if (phase === "deleting") {
       if (txt.length > 0)
-        t = window.setTimeout(() => setTxt(txt.slice(0, -1)), 18);
+        t = window.setTimeout(() => setTxt(txt.slice(0, -1)), 18); /* slettehastighed */
       else
         t = window.setTimeout(() => { setI(v => (v+1) % phrases.length); setPhase("typing"); }, 520);
     }
@@ -134,7 +159,7 @@ const css = `
 
 .ctGrid{
   display: grid;
-  grid-template-columns: 1fr minmax(460px, 1fr);
+  grid-template-columns: 1fr minmax(0, 640px);
   gap: clamp(28px, 5vw, 70px);
   align-items: start;
 }
@@ -150,12 +175,12 @@ const css = `
 .ctTitle{
   margin: 0;
   font-family: var(--font-body);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  font-size: clamp(28px, 3.2vw, 46px);
-  color: var(--color-primary);
-  min-height: 5em;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  font-size: clamp(32px, 4vw, 56px);
+  color: var(--color-text);
+  min-height: 3.8em;
 }
 
 .ctTitleStatic{
@@ -165,7 +190,7 @@ const css = `
 .tw{ display: inline; }
 .twText{
   display: inline;
-  color: var(--color-primary);
+  color: var(--color-text);
   white-space: normal;
   overflow-wrap: anywhere;
 }
@@ -186,6 +211,21 @@ const css = `
   0%,49%{ opacity:1; } 50%,100%{ opacity:0; }
 }
 
+.ctSubLines{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ctSubLine{
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
 .ctMeta{
   display: flex;
   flex-direction: column;
@@ -203,8 +243,9 @@ const css = `
 }
 
 .ctPanel{
-  background: var(--color-bg);
-  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-text) 7%, transparent);
+  border-radius: 12px;
   padding: clamp(22px, 3.6vw, 40px);
 }
 
@@ -330,7 +371,7 @@ const css = `
     grid-template-columns: 1fr;
   }
   .ctTitle{
-    min-height: 3.5em;
+    min-height: 3em;
   }
   .ctFormTwo{
     grid-template-columns: 1fr;

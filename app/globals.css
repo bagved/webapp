@@ -1,3 +1,14 @@
+/*
+ * app/globals.css — Globale grundstile
+ *
+ * HVAD DET ER: Basale stilarter der gælder for hele siden.
+ * Farver og fonte styres i styles/theme.css — skift dem dér.
+ *
+ * HVAD DU KAN ÆNDRE HER:
+ *   line-height          — afstand mellem linjer i brødtekst (1.65 = luftig)
+ *   .container width     — max-bredde på indhold (pt. 1120px)
+ *   .pageMain padding-top — skal matche header-højden (pt. 56px)
+ */
 @import "../styles/theme.css";
 
 *{ box-sizing: border-box; }
@@ -8,7 +19,7 @@ body{
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--t16);
-  line-height: 1.65;
+  line-height: 1.65;       /* afstand mellem tekstlinjer — skru op for mere luft */
   color: var(--text);
 
   -webkit-font-smoothing: antialiased;
@@ -20,17 +31,18 @@ body{
 
 
 a{
-  color: var(--link);
+  color: var(--link);         /* link-farve = --color-primary fra theme.css */
   text-decoration: none;
   transition: color 160ms ease, opacity 160ms ease, transform 160ms ease;
 }
 a:hover{
-  color: var(--link-hover);
+  color: var(--link-hover);   /* hover link-farve = --color-accent fra theme.css */
   transform: translateY(-1px);
 }
 
+/* Centreret indholdsbeholder brugt på de fleste sider */
 .container{
-  width: min(1120px, calc(100% - 40px));
+  width: min(1120px, calc(100% - 40px)); /* 1120px = max-bredde; 40px = sidemargen */
   margin-inline: auto;
 }
 
@@ -53,7 +65,7 @@ a:hover{
 
 .pageMain{
   min-height: calc(100vh - 120px);
-  padding-top: 56px;
+  padding-top: 56px;  /* VIGTIGT: skal svare til headerens højde — ændr kun begge steder */
 }
 
 /* Typography helpers (global) */

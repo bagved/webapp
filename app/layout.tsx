@@ -1,4 +1,14 @@
 // app/layout.tsx
+//
+// HVAD DET ER: Den yderste skabelon der omgiver alle sider.
+// Alt herinde vises på ALLE sider (header, footer, fonte).
+//
+// HVAD DU KAN ÆNDRE HER:
+//   title       — det der vises i fanen i browseren
+//   description — bruges af søgemaskiner (SEO)
+//   icon        — favicon-filen i /public-mappen
+//   <link> tags — skifter Google Fonts (opdater også styles/theme.css)
+
 import "./globals.css";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
@@ -8,7 +18,14 @@ export const metadata = {
   title: "Bagved",
   description: "Bagved",
   icons: {
-    icon: '/Favicon Transparent.ico',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
 };
 

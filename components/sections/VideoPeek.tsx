@@ -1,3 +1,13 @@
+// components/sections/VideoPeek.tsx — VIDEOAFSPILLER
+//
+// HVAD DU KAN ÆNDRE:
+//   Video-ID  → skift "1180113395" i src-URL'en til et andet Vimeo video-ID
+//               (find ID'et i Vimeo-URL'en: vimeo.com/XXXXXX)
+//   Knap-tekst → skift "Se alle ydelser →" herunder
+//   Knap-link  → skift href="/services"
+//   Sideafstand → CSS .videoPeek { padding-bottom } — afstand under videoen
+//   Sidepadding → CSS .videoOuter { padding } — afstand til siden af skærmen
+
 import Link from "next/link";
 import Script from "next/script";
 
@@ -9,6 +19,8 @@ export default function VideoPeek() {
 
       <div className="videoOuter">
         <div className="videoFrame">
+          {/* src: skift video-ID (tallet efter /video/) for at vise en anden video */}
+          {/* autoplay=1&muted=1&loop=1 — starter automatisk, lydløs og looper */}
           <iframe
             className="video"
             src="https://player.vimeo.com/video/1180113395?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
@@ -19,6 +31,7 @@ export default function VideoPeek() {
           />
         </div>
 
+        {/* Knap under videoen — på mobil er denne skjult via CSS i HomeHero */}
         <div className="vpCtaRow">
           <Link className="vpBtn" href="/services">Se alle ydelser →</Link>
         </div>
@@ -28,14 +41,18 @@ export default function VideoPeek() {
 }
 
 const css = `
+/* Afstand under videoen — skalerer fra 72px (mobil) til 140px (stor skærm) */
 .videoPeek{
   padding-bottom: clamp(72px, 9vw, 140px);
 }
 
+/* Vandret afstand til skærmkanten — giver videoens "indpakket" look */
 .videoOuter{
   padding: 0 clamp(14px, 2.6vw, 26px);
 }
 
+/* Videoens beholder — aspect-ratio styrer format (16:9 = standard widescreen) */
+/* Skift til 4/3 for et mere firkantet format, 21/9 for ultrawide */
 .videoFrame{
   position: relative;
   width: 100%;
