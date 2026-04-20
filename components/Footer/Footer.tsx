@@ -80,8 +80,8 @@ const css = `
 .ft{
   width: 100%;
   padding: 34px 0;
-  background: var(--color-bg);
-  border-top: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  background: var(--color-secondary);
+  border-top: none;
   font-family: var(--font-body);
 }
 

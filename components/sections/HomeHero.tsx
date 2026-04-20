@@ -31,17 +31,17 @@ export default function HomeHero() {
       const parent = el.parentElement;
       if (!parent) return;
 
-      // Beregn tilgængelig højde: forælder minus padding og søskende-elementer
+      // Tilgængelig højde baseret på viewport — ikke container — så hero tilpasser sig teksten
       const style = getComputedStyle(parent);
       const padV = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
       const siblings = Array.from(parent.children).filter(c => c !== el) as HTMLElement[];
       const siblingsH = siblings.reduce((sum, s) => sum + s.offsetHeight, 0);
-      const maxH = parent.clientHeight - padV - siblingsH - 24; // 24px sikkerhedsmargen
+      const maxH = window.innerHeight * 0.62 - padV - siblingsH - 24;
       const maxW = parent.clientWidth;
 
       // Binary search: find den største skriftstørrelse der passer i boksen
       // hi = 90 er maksimum — sæt lavere for et mere dæmpet udtryk
-      let lo = 12, hi = 70;
+      let lo = 12, hi = 110;
       while (hi - lo > 0.5) {
         const mid = (lo + hi) / 2;
         el.style.fontSize = `${mid}px`;
@@ -63,34 +63,28 @@ export default function HomeHero() {
 
       <div className="container heroInner">
 
-        {/* Mobil-video — kun synlig på skærme <= 720px (se CSS .heroMobileVideo) */}
-        <div className="heroMobileVideo" aria-hidden="true">
-          <VideoPeek />
+        {/* Venstre kolonne: overskrift + undertekst */}
+        <div className="heroLeft">
+          <div className="heroMobileVideo" aria-hidden="true">
+            <VideoPeek />
+          </div>
+          <h1 ref={headingRef} className="heroBig">
+            Bagved den<br />
+            gode <em className="heroAccent">oplevelse</em>.
+          </h1>
+          <p className="heroSub">
+            Pålidelig video- og eventproduktion med fokus på kvalitet og detalje. Vi laver reklamefilm, livestream, konceptudvikling og mere til virksomheder og foreninger der vil ses, høres og huskes.
+          </p>
         </div>
 
-        {/* Stor overskrift — teksten herunder kan frit redigeres */}
-        {/* <em className="heroAccent"> giver accent-farve + overskrift-font */}
-        <h1 ref={headingRef} className="heroBig">
-          Bagved den gode{" "}
-          <em className="heroAccent">oplevelse</em>.{" "}
-          Bag enhver god produktion og event. Vi skaber tryghed igennem hele processen. 
-        </h1>
-
-        <div className="heroBottom">
-          {/* Kort undertekst — rediger frit */}
-          <p className="heroSub">
-            Video- og eventproduktion der skaber følelser. Reklamefilm,
-            livestream, events og fester til virksomheden eller foreningen, der ønsker at sige noget.
-          </p>
-
-          {/* CTA-knapper — btnPrimary=fyldt, btnOutline=ramme, btnGhost=usynlig ramme */}
+        {/* Højre kolonne: knapper — flugter med bunden af venstre tekst */}
+        <div className="heroRight">
           <div className="heroCtas">
             <Link href="/cases"    className="btnPrimary">Se eksempler</Link>
-            <Link href="/services" className="btnOutline"> Vores ydelser</Link>
+            <Link href="/services" className="btnOutline">Vores ydelser</Link>
             <Link href="/contact"  className="btnGhost">Kontakt</Link>
           </div>
         </div>
-
 
       </div>
     </section>
@@ -103,49 +97,49 @@ const css = `
 /* Skru 82 op mod 100 for en højere hero; ned mod 60 for en lavere.     */
 /* Videoen starter under hero — jo højere hero, jo længere nede videoen */
 .homeHero{
-  height: calc(82svh - 56px);   /* 82% af synlig skærmhøjde */
-  min-height: 420px;             /* minimum — forhindrer for lille hero */
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 .heroInner{
-  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding-top: clamp(52px, 8svh, 110px);
+  padding-bottom: clamp(36px, 5svh, 72px);
+  gap: clamp(32px, 5vw, 80px);
+}
+
+.heroLeft{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding-top: clamp(40px, 5.5vh, 80px);
-  padding-bottom: clamp(28px, 3.5vh, 48px);
-  gap: 0;
+  gap: clamp(14px, 2svh, 24px);
+  min-width: 0;
+}
+
+.heroRight{
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
 }
 
 .heroBig{
   margin: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-style: normal;
   font-weight: 700;
   font-size: clamp(28px, 8vw, 140px); /* fallback — JS overrides */
-  line-height: 1.05;
+  line-height: 0.85;
   letter-spacing: -0.03em;
-  color: var(--color-text);
+  color: var(--color-primary);
 }
 
-/* "oplevelse" — accent-ord: kursiv, overskrift-font og accent-farve */
-/* Skift color til var(--color-primary) for mørkerødt i stedet */
 .heroAccent{
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-style: normal;
+  font-weight: 700;
   color: var(--color-accent);
-}
-
-.heroBottom{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(20px, 3vh, 32px);
 }
 
 .heroSub{
@@ -156,15 +150,14 @@ const css = `
   line-height: 1.75;
   color: color-mix(in srgb, var(--color-text) 72%, transparent);
   max-width: 46ch;
-  text-align: center;
+  text-align: left;
 }
 
 .heroCtas{
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -225,16 +218,16 @@ const css = `
 
 /* ─── MOBIL (maks. 720px bredde) ──────────────────────────────────── */
 @media (max-width: 720px){
-  /* Hero vokser frit i højden på mobil i stedet for fixed 82svh */
-  .homeHero{
-    height: auto;
-    min-height: unset;
-    overflow: visible;
-  }
-
   .heroInner{
-    justify-content: flex-start;
-    gap: 0;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 16px;
+  }
+  .heroSub{ text-align: left; }
+  .heroCtas{
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   /* Mobil-video: vises som en blok med fuld bredde */

@@ -29,19 +29,16 @@ export default function ContactTeaserSection() {
               <span className="ctTitleStatic">Skriv til os</span>
               {/* Typewriter: skifter automatisk mellem sætningerne i `phrases` */}
               <TypeLine phrases={[
-                "her, eller ring på +45 61 74 64 16",
+                "her, eller ring på +45 61 74 64 16.",
                 "på info@bagved.com",
-                "hvor end du foretrækker det!",
               ]} />
             </h2>
 
             {/* Korte sætninger under overskriften */}
             <div className="ctSubLines">
-              <p className="ctSubLine">Vi svarer inden for 24 timer.</p>
-              <p className="ctSubLine">Intet projekt er for stort eller for lille.</p>
-              <p className="ctSubLine">Bare en god snak — ingen forpligtelser.</p>
+              <p className="ctSubLine">Intet projekt er for stort eller for småt</p>
+              <p className="ctSubLine">og vi svarer inden for 24 timer.</p>
             </div>
-
             <div className="ctMeta">
               <a href="tel:+4561746416"      className="ctMetaLine">+45 61 74 64 16</a>
               <a href="mailto:info@bagved.com" className="ctMetaLine">info@bagved.com</a>

@@ -22,7 +22,9 @@ export default function ServicesRail() {
   ], []);
 
   const railRef = useRef<HTMLDivElement | null>(null);
-  const [active, setActive]     = useState(2);
+  const [scrollActive, setScrollActive] = useState(2);
+  const [hoverActive, setHoverActive]   = useState<number | null>(null);
+  const active = hoverActive ?? scrollActive;
   const [canLeft, setCanLeft]   = useState(false);
   const [canRight, setCanRight] = useState(false);
 
@@ -55,7 +57,7 @@ export default function ServicesRail() {
         const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < bestDist) { bestDist = d; bestIdx = Number(card.dataset.idx ?? "0"); }
       }
-      setActive(bestIdx);
+      setScrollActive(bestIdx);
     };
     const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pickCentered); };
     pickCentered();
@@ -115,6 +117,8 @@ export default function ServicesRail() {
               role="listitem"
               data-card
               data-idx={i}
+              onMouseEnter={() => setHoverActive(i)}
+              onMouseLeave={() => setHoverActive(null)}
             >
               <div className="img" style={{ backgroundImage: `url(${it.img})` }} aria-hidden />
               <div className="meta">
