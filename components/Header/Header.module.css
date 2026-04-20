@@ -20,9 +20,14 @@
   left: 0;
   right: 0;
   z-index: 200;
-  background: color-mix(in srgb, var(--color-bg) 62%, transparent); /* 62% opacitet = let gennemsigtig */
+  background: color-mix(in srgb, var(--color-secondary) 55%, color-mix(in srgb, var(--color-bg) 62%, transparent));
   backdrop-filter: blur(20px) saturate(1.5);       /* glaseffekt — blur(0px) for at slå fra */
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  transition: background 500ms ease;
+}
+
+.wrapScrolled{
+  background: color-mix(in srgb, var(--color-bg) 48%, transparent);
 }
 
 /* Desktop grid */

@@ -302,7 +302,7 @@ const css = `
 
 .contactFormWrap{
   position: relative;
-  padding: clamp(72px, 9vw, 140px) 0 clamp(200px, 18vw, 300px);
+  padding: clamp(72px, 9vw, 140px) 0 clamp(80px, 8vw, 140px);
   background: transparent;
 }
 

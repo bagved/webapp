@@ -114,7 +114,7 @@ const css = `
 .heroLeft{
   display: flex;
   flex-direction: column;
-  gap: clamp(14px, 2svh, 24px);
+  gap: clamp(20px, 3svh, 36px);
   min-width: 0;
 }
 
@@ -145,11 +145,11 @@ const css = `
 .heroSub{
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(14px, 1.25vw, 17px);
+  font-size: clamp(14px, 1.4vw, 19px);
   font-weight: 400;
   line-height: 1.75;
   color: color-mix(in srgb, var(--color-text) 72%, transparent);
-  max-width: 46ch;
+  max-width: 100%;
   text-align: left;
 }
 

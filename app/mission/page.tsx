@@ -168,7 +168,6 @@ export default function MissionPage() {
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="mpHero">
         <div className="container">
-          <p className="mpEyebrow">Om Bagved</p>
           <h1 className="mpHeroTitle">
             Vi elsker<br />vores arbejde.
           </h1>
@@ -336,7 +335,7 @@ const css = `
 
 /* ── Hero ── */
 .mpHero{
-  padding-top: clamp(90px, 11vw, 148px);
+  padding-top: 96px;
   padding-bottom: 0;
 }
 .mpEyebrow{
@@ -352,9 +351,9 @@ const css = `
   margin: 0 0 24px;
   font-family: var(--font-body);
   font-weight: 800;
-  font-size: clamp(52px, 8vw, 110px);
-  letter-spacing: -0.04em;
-  line-height: 0.92;
+  font-size: clamp(44px, 6.5vw, 88px);
+  letter-spacing: -0.03em;
+  line-height: 0.96;
   color: var(--color-primary);
 }
 .mpHeroSub{

@@ -29,7 +29,15 @@ const BRAND = "BAGVED";
 
 // ── Hoved-header ──────────────────────────────────────────────────────
 export default function Header() {
-  const [navOpen, setNavOpen] = useState(false);
+  const [navOpen, setNavOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const h = () => { if (window.innerWidth > 820) setNavOpen(false); };
@@ -63,7 +71,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={styles.wrap}>
+      <header className={`${styles.wrap} ${scrolled ? styles.wrapScrolled : ""}`}>
         <Container>
           <div className={styles.bar}>
 
