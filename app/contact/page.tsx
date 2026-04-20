@@ -95,29 +95,6 @@ export default function ContactPage() {
             </p>
           </div>
 
-          {/* Kontaktinfo-grid — tilføj et nyt <div className="infoItem"> for flere felter */}
-          <div className="contactInfo">
-              <div className="infoItem">
-                <div className="infoLabel">Telefon</div>
-                <a className="infoValue" href="tel:+4561746416">
-                  +45 61 74 64 16   {/* skift nummeret her og i href="tel:..." */}
-                </a>
-              </div>
-
-              <div className="infoItem">
-                <div className="infoLabel">Email</div>
-                <a className="infoValue" href="mailto:info@bagved.com">
-                  info@bagved.com   {/* skift email her og i href="mailto:..." */}
-                </a>
-              </div>
-
-              <div className="infoItem">
-                <div className="infoLabel">Adresse</div>
-                <div className="infoValue">
-                  Frederiksvej 32, st. th., 2000 Frederiksberg
-                </div>
-              </div>
-            </div>
         </div>
       </section>
 
@@ -322,37 +299,6 @@ const css = `
   color: color-mix(in srgb, var(--color-text) 70%, transparent);
 }
 
-.contactInfo{
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: start;
-  gap: 0 clamp(32px, 5vw, 64px);
-  max-width: 680px;
-}
-
-.infoItem{ display: grid; gap: 6px; }
-
-.infoLabel{
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-text) 42%, transparent);
-}
-
-.infoValue{
-  font-family: var(--font-body);
-  font-size: clamp(13px, 1.15vw, 15px);
-  line-height: 1.45;
-  color: var(--color-text);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 140ms ease;
-}
-a.infoValue:hover{
-  color: inherit;
-}
 
 .contactFormWrap{
   position: relative;

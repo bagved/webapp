@@ -21,7 +21,7 @@ export default function ServicesRail() {
     { id: "eventteknik",              img: "/photos/lys_lyd_pre.jpg",     title: "Lyd, lys & eventteknik",     subtitle: "Eventvideo & eventteknik",  href: "/cases?cat=eventvideo-eventteknik&case=eventteknik" },
   ], []);
 
-  const railRef  = useRef<HTMLDivElement | null>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive]     = useState(2);
   const [canLeft, setCanLeft]   = useState(false);
   const [canRight, setCanRight] = useState(false);
@@ -65,14 +65,11 @@ export default function ServicesRail() {
   }, []);
 
   useEffect(() => {
-    const el = railRef.current;
-    if (!el) return;
-    const center = () => {
-      const card = el.querySelector<HTMLElement>('[data-idx="2"]');
-      if (!card) return;
-      el.scrollLeft = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
-    };
-    requestAnimationFrame(() => requestAnimationFrame(center));
+    const card = railRef.current?.querySelector<HTMLElement>('[data-idx="2"]');
+    if (!card) return;
+    const y = window.scrollY;
+    card.scrollIntoView({ inline: "center", block: "nearest" });
+    window.scrollTo({ top: y, behavior: "instant" } as ScrollToOptions);
   }, []);
 
   const scrollTo = (idx: number) => {
@@ -80,15 +77,22 @@ export default function ServicesRail() {
     if (!el) return;
     const card = el.querySelector<HTMLElement>(`[data-idx="${idx}"]`);
     if (!card) return;
-    el.scrollTo({ left: card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
+    const railRect = el.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const cardPosInScroll = el.scrollLeft + (cardRect.left - railRect.left);
+    el.scrollTo({ left: cardPosInScroll - (el.clientWidth - cardRect.width) / 2, behavior: "smooth" });
   };
 
   return (
     <section className="srv" id="services" aria-label="Services">
       <style>{css}</style>
 
-      <div className="srvTop">
-        <p className="srvLabel">Et udpluk af vores produktioner</p>
+      <div className="container srvTop">
+        <h2 className="srvHeading">Et udpluk af vores produktioner</h2>
+        <p className="srvSub">
+          Reklamefilm, livestream, events og fester til virksomheden
+          eller foreningen, der ønsker at sige noget.
+        </p>
       </div>
 
       <div className="railWrap">
@@ -104,20 +108,20 @@ export default function ServicesRail() {
 
         <div ref={railRef} className="rail" role="list" aria-label="Service tiles">
           {items.map((it, i) => (
-              <Link
-                key={it.id}
-                href={it.href}
-                className="tile"
-                role="listitem"
-                data-card
-                data-idx={i}
-              >
-                <div className="img" style={{ backgroundImage: `url(${it.img})` }} aria-hidden />
-                <div className="meta">
-                  <span className="t2">{it.subtitle}</span>
-                  <span className="t1">{it.title}</span>
-                </div>
-              </Link>
+            <Link
+              key={it.id}
+              href={it.href}
+              className="tile"
+              role="listitem"
+              data-card
+              data-idx={i}
+            >
+              <div className="img" style={{ backgroundImage: `url(${it.img})` }} aria-hidden />
+              <div className="meta">
+                <span className="t2">{it.subtitle}</span>
+                <span className="t1">{it.title}</span>
+              </div>
+            </Link>
           ))}
         </div>
 
@@ -132,13 +136,16 @@ export default function ServicesRail() {
         </button>
       </div>
 
-      <div className="srvFooter">
-        <div className="dots" aria-hidden>
-          {items.map((_, i) => (
-            <button key={i} className={`dot ${i === active ? "dotOn" : ""}`} onClick={() => scrollTo(i)} />
-          ))}
-        </div>
-        <Link className="srvCta" href="/cases">Se alle eksempler</Link>
+      {/* Dots — centered */}
+      <div className="srvDots" aria-hidden>
+        {items.map((_, i) => (
+          <button key={i} className={`dot ${i === active ? "dotOn" : ""}`} onClick={() => scrollTo(i)} />
+        ))}
+      </div>
+
+      {/* CTA — right-aligned in container, same x as vpBtn / ctFooterRow */}
+      <div className="container srvCtaRow">
+        <Link className="srvCta" href="/cases">Se alle eksempler →</Link>
       </div>
 
     </section>
@@ -147,36 +154,47 @@ export default function ServicesRail() {
 
 const css = `
 .srv{
-  padding: clamp(56px, 7vw, 96px) 0 clamp(48px, 6vw, 80px);
+  padding: clamp(24px, 3vw, 40px) 0 clamp(40px, 5vw, 64px);
   background: var(--color-bg);
   overflow: hidden;
 }
 
 .srvTop{
-  text-align: center;
-  margin-bottom: clamp(28px, 4vw, 48px);
+  text-align: left;
+  margin-bottom: clamp(20px, 3vw, 36px);
 }
 
-.srvLabel{
+.srvHeading{
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(22px, 2.6vw, 36px);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--color-primary);
+}
+
+.srvSub{
   margin: 0;
   font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 38%, transparent);
+  font-size: clamp(14px, 1.25vw, 17px);
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  max-width: 46ch;
+  text-align: left;
 }
 
-/* Rail wrapper — positions nav arrows */
+/* Rail wrapper */
 .railWrap{
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Scrollable rail */
+/* Scrollable rail — tileW sized so 3 full + ~¼ tile visible on each side */
 .rail{
-  --tileW: clamp(220px, 24vw, 320px);
+  --tileW: clamp(240px, 27vw, 400px);
   --tileH: clamp(300px, 34vw, 460px);
   --edgePad: clamp(48px, 8vw, 120px);
   --gap: clamp(12px, 1.6vw, 20px);
@@ -187,8 +205,6 @@ const css = `
   overflow-x: auto;
   overflow-y: visible;
   padding: 24px var(--edgePad) 32px;
-  scroll-padding-left: var(--edgePad);
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   flex: 1;
@@ -197,7 +213,6 @@ const css = `
 
 /* Card */
 .tile{
-  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   height: var(--tileH);
@@ -209,18 +224,11 @@ const css = `
 }
 
 @media (hover:hover){
-  .tile:hover{
-    transform: scale(1.04);
-  }
-  .tile:hover .t1{
-    color: var(--color-accent);
-  }
-  .tile:hover .t2{
-    color: var(--color-accent);
-  }
+  .tile:hover{ transform: scale(1.04); }
+  .tile:hover .t1{ color: var(--color-accent); }
+  .tile:hover .t2{ color: var(--color-accent); }
 }
 
-/* Image */
 .img{
   flex: 1;
   background-size: cover;
@@ -229,7 +237,6 @@ const css = `
   background-color: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
 }
 
-/* Text panel */
 .meta{
   flex: 0 0 auto;
   padding: clamp(14px, 2vw, 20px) 0 0;
@@ -237,7 +244,6 @@ const css = `
   flex-direction: column;
   gap: 5px;
   text-align: center;
-  background: transparent;
 }
 
 .t2{
@@ -279,32 +285,18 @@ const css = `
   pointer-events: none;
   transition: opacity 200ms ease, border-color 150ms ease, transform 130ms ease;
 }
-.navVisible{
-  opacity: 0.72;
-  pointer-events: auto;
-}
-.navBtn:hover{
-  opacity: 1;
-  border-color: var(--color-primary);
-  transform: scale(1.08);
-}
+.navVisible{ opacity: 0.72; pointer-events: auto; }
+.navBtn:hover{ opacity: 1; border-color: var(--color-primary); transform: scale(1.08); }
 .navPrev{ left: clamp(8px, 1.5vw, 24px); }
 .navNext{ right: clamp(8px, 1.5vw, 24px); }
 
-/* Footer row: dots + cta */
-.srvFooter{
+/* Dots row — centered */
+.srvDots{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-  margin-top: clamp(8px, 1.5vw, 16px);
-  padding: 0 clamp(18px,3.2vw,44px);
-}
-
-.dots{
-  display: flex;
-  align-items: center;
   gap: 7px;
+  margin-top: clamp(6px, 1vw, 12px);
 }
 
 .dot{
@@ -322,21 +314,33 @@ const css = `
   transform: scale(1.35);
 }
 
+/* CTA row — right-aligned in container, matches vpBtn / ctFooterRow x-position */
+.srvCtaRow{
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+
 .srvCta{
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 22px;
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  color: color-mix(in srgb, var(--color-primary) 50%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-  padding-bottom: 2px;
-  transition: color 150ms ease, border-color 150ms ease;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
+  transition: border-color 150ms ease, color 150ms ease, transform 120ms ease;
 }
 .srvCta:hover{
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 780px){
