@@ -75,7 +75,7 @@ export default function ServicesPage() {
         id: "eventvideo-eventteknik",
         title: "Eventvideo & eventteknik",
         body:
-          "Vi planlægger og afvikler events fra idé til slut — både video og den nødvendige lyd, lys og teknik. Vores tilgang er at tage ansvar for den tekniske del, så I kan fokusere på arrangementet og have tryghed i, at det kører professionelt.",
+          "Vi planlægger og afvikler events fra idé til afslutning – med ansvar for både video og den nødvendige lyd, lys og teknik. Vi tager hånd om det tekniske setup, så I i stedet kan koncentrere jer om at være fuldt til stede i arrangementet. ",
         icon: (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -102,7 +102,7 @@ export default function ServicesPage() {
         id: "konceptudvikling-eventkoordinering",
         title: "Konceptudvikling & eventkoordinering",
         body:
-          "Fra idé til gennemført event. Vi hjælper med at udvikle konceptet, planlægge forløbet og koordinere alle detaljer — så I kan stå trygt bag et arrangement, der hænger sammen fra start til slut.",
+          "Fra idé til gennemført event. Sammen udvikler vi konceptet, og vi sørger for, at alle detaljer falder på plads i en samlet helhed, der giver jer plads til det vigtigste: oplevelsen.",
         icon: (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 18h6" />
@@ -145,9 +145,9 @@ export default function ServicesPage() {
 
       <section className="srvTop" aria-label="Intro" style={{ padding: 0 }}>
         <div className="container" style={{ padding: "96px 0 48px" }}>
-          <h1 className="srvPageTitle">Ydelser vi tilbyder</h1>
+          <h1 className="srvPageTitle">Vores ydelser</h1>
           <p className="srvHint">
-            Med specialister i eventplanlægning, video afvikling og kreativt indhold, tilbyder vi en bred vifte af ydelser, der kan tilpasses dine behov. Uanset om du har brug for en enkelt reklamefilm, løbende indhold til sociale medier eller en komplet eventproduktion, har vi ekspertisen og erfaringen til at levere resultater, der skaber værdi for din virksomhed.
+            Med stærke kompetencer inden for eventplanlægning, videoafvikling og kreativt indhold tilbyder vi fleksible løsninger, tilpasset jeres behov. Fra enkeltstående reklamefilm til løbende content og komplette eventproduktioner. Uanset omfanget arbejder vi med nærvær, overblik og en sikker fornemmelse for det, der løfter helheden og skaber varig værdi.
           </p>
         </div>
       </section>
