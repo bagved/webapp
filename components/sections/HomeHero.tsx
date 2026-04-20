@@ -65,9 +65,6 @@ export default function HomeHero() {
 
         {/* Venstre kolonne: overskrift + undertekst */}
         <div className="heroLeft">
-          <div className="heroMobileVideo" aria-hidden="true">
-            <VideoPeek />
-          </div>
           <h1 ref={headingRef} className="heroBig">
             Bagved den<br />
             gode <em className="heroAccent">oplevelse</em>.
@@ -84,6 +81,11 @@ export default function HomeHero() {
             <Link href="/services" className="btnOutline">Vores ydelser</Link>
             <Link href="/contact"  className="btnGhost">Kontakt</Link>
           </div>
+        </div>
+
+        {/* Mobil-video: vises under knapper på mobil, skjult på desktop */}
+        <div className="heroMobileVideo" aria-hidden="true">
+          <VideoPeek />
         </div>
 
       </div>
@@ -107,7 +109,7 @@ const css = `
   grid-template-columns: 1fr auto;
   align-items: end;
   padding-top: clamp(52px, 8svh, 110px);
-  padding-bottom: clamp(36px, 5svh, 72px);
+  padding-bottom: clamp(8px, 1.5svh, 20px);
   gap: clamp(32px, 5vw, 80px);
 }
 
@@ -214,6 +216,7 @@ const css = `
 /* Desktop: mobil-videobeholderen er usynlig (videoen er i app/page.tsx i stedet) */
 .heroMobileVideo{
   display: none;
+  grid-column: 1 / -1;
 }
 
 /* ─── MOBIL (maks. 720px bredde) ──────────────────────────────────── */
@@ -230,13 +233,11 @@ const css = `
     align-items: center;
   }
 
-  /* Mobil-video: vises som en blok med fuld bredde */
-  /* margin: 24px 0 — lodret afstand over/under videoen på mobil */
+  /* Mobil-video: vises som en blok med fuld bredde under knapper */
   .heroMobileVideo{
     display: block;
     width: 100%;
-    align-self: stretch;
-    margin: 24px 0;
+    margin-top: 8px;
   }
 
   /* Fjern padding og CTA-knap fra videopecket på mobil */

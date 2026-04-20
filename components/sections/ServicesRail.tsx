@@ -92,8 +92,7 @@ export default function ServicesRail() {
       <div className="container srvTop">
         <h2 className="srvHeading">Et udpluk af vores produktioner</h2>
         <p className="srvSub">
-          Reklamefilm, livestream, events og fester til virksomheden
-          eller foreningen, der ønsker at sige noget.
+          Reklamefilm, livestream, og events, der skaber opmærksomhed og gør indtryk.
         </p>
       </div>
 
@@ -158,8 +157,8 @@ export default function ServicesRail() {
 
 const css = `
 .srv{
-  padding: clamp(24px, 3vw, 40px) 0 clamp(40px, 5vw, 64px);
-  background: var(--color-bg);
+  padding: clamp(32px, 4vw, 56px) 0 clamp(24px, 3vw, 40px);
+  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-bg));
   overflow: hidden;
 }
 

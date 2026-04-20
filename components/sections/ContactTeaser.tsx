@@ -144,7 +144,7 @@ function LinedTextarea({ label, name, rows = 5 }: {
 const css = `
 .ct{
   position: relative;
-  padding: clamp(86px, 9vw, 132px) 0;
+  padding: clamp(52px, 6vw, 80px) 0;
   overflow: hidden;
 }
 
@@ -165,8 +165,7 @@ const css = `
   padding-top: 4px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(16px, 2vw, 24px);
+  gap: clamp(8px, 1vw, 12px);
 }
 
 .ctTitle{
@@ -177,7 +176,7 @@ const css = `
   line-height: 1.12;
   font-size: clamp(32px, 4vw, 56px);
   color: var(--color-text);
-  min-height: 3.8em;
+  min-height: 3.6em;
 }
 
 .ctTitleStatic{
@@ -227,7 +226,7 @@ const css = `
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: auto;
+  margin-top: 0;
 }
 
 .ctMetaLine{

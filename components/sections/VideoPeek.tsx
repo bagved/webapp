@@ -43,7 +43,8 @@ export default function VideoPeek() {
 const css = `
 /* Afstand under videoen — skalerer fra 72px (mobil) til 140px (stor skærm) */
 .videoPeek{
-  padding-bottom: clamp(72px, 9vw, 140px);
+  padding-top: clamp(32px, 4vw, 56px);
+  padding-bottom: clamp(36px, 4.5vw, 64px);
 }
 
 /* Vandret afstand til skærmkanten — giver videoens "indpakket" look */
