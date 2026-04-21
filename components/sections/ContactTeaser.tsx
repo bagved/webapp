@@ -171,7 +171,7 @@ const css = `
 .ctTitle{
   margin: 0;
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: -0.02em;
   line-height: 1.12;
   font-size: clamp(32px, 4vw, 56px);
