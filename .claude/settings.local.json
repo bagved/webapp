@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.fday.dk)"
+      "WebFetch(domain:www.fday.dk)",
+      "Bash(npm install *)"
     ]
   }
 }

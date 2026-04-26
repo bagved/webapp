@@ -16,18 +16,66 @@
 //   via clipPath. Det giver effekten af at scrolle ind i en mørk sektion.
 
 import React, { useEffect, useRef, useState } from "react";
+import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 
 export default function ContactPage() {
   const startMarkerRef = useRef<HTMLDivElement | null>(null);
   const endMarkerRef = useRef<HTMLDivElement | null>(null);
   const darkLayerRef = useRef<HTMLDivElement | null>(null);
-  const [preselectedSubject, setPreselectedSubject] = useState<string>("General");
+  const [subject, setSubject]     = useState("General");
+  const [draft,   setDraft]       = useState<Draft>(EMPTY);
+  const [status,  setStatus]      = useState<"idle"|"sending"|"sent"|"error">("idle");
+  const [sent,    setSent]        = useState(false);
+  const [errors,  setErrors]      = useState<Record<string,string>>({});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sub = params.get("subject");
-    if (sub) setPreselectedSubject(sub);
+    if (sub) setSubject(sub);
+    setDraft(loadDraft());
+  }, []);
 
+  const update = (key: keyof Draft) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const next = { ...draft, [key]: e.target.value };
+    setDraft(next);
+    saveDraft(next);
+  };
+
+  function validate() {
+    const e: Record<string,string> = {};
+    if (!draft.name.trim())    e.name = "Skriv dit navn";
+    if (!draft.message.trim()) e.message = "Skriv en besked";
+    if (!draft.email.trim() && !draft.phone.trim())
+      e.contact = "Skriv en email eller et telefonnummer";
+    return e;
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
+    setStatus("sending");
+    const fd = new FormData(e.currentTarget);
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...draft, subject, company: fd.get("company") }),
+    });
+    if (res.ok) {
+      clearDraft();
+      setDraft(EMPTY);
+      setSent(true);
+      setStatus("idle");
+      setTimeout(() => setSent(false), 4000);
+    } else {
+      const body = await res.json().catch(() => ({}));
+      console.error("Kontaktformular fejl:", body.detail ?? body.error);
+      setStatus("error");
+    }
+  }
+
+  useEffect(() => {
     if (window.location.hash === "#kontaktformular") {
       setTimeout(() => {
         document.getElementById("kontaktformular")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -116,54 +164,46 @@ export default function ContactPage() {
             </div>
 
             <div className="ctPanel" aria-label="Kontaktformular">
-              {/* Formular — tilføj/fjern felter efter behov */}
-              {/* LinedInput = tekstfelt, LinedSelect = dropdown, LinedTextarea = stor tekstboks */}
-              <form className="ctForm" onSubmit={(e) => e.preventDefault()}>
-                <div className="row">
-                  <LinedInput label="Navn" name="name" autoComplete="name" />
+              <div className="panelWrap">
+
+                {/* Thank you — absolute overlay, only visible when sent */}
+                <div className="thankYou" aria-hidden={!sent} style={{ opacity: sent ? 1 : 0, pointerEvents: sent ? "auto" : "none" }}>
+                  <p className="thankYouText">Tak for din henvendelse.</p>
                 </div>
 
-                <div className="row">
-                  <LinedInput label="Virksomhedsnavn" name="company" autoComplete="organization" />
-                </div>
+                {/* Form — always in DOM to hold panel height */}
+                <form className="ctForm" onSubmit={handleSubmit} style={{ visibility: sent ? "hidden" : "visible" }}>
+                  <div className="row">
+                    <LinedInput label="Navn" name="name" autoComplete="name"
+                      value={draft.name} onChange={update("name")} error={errors.name} />
+                  </div>
+                  <div className="row">
+                    <LinedInput label="Virksomhedsnavn" name="company" autoComplete="organization" />
+                  </div>
+                  <div className="row two">
+                    <LinedInput label="Email" name="email" type="email" autoComplete="email"
+                      value={draft.email} onChange={update("email")} error={errors.contact} />
+                    <LinedInput label="Telefonnummer" name="phone" type="tel" autoComplete="tel"
+                      value={draft.phone} onChange={update("phone")} />
+                  </div>
+                  <div className="row">
+                    <LinedSelect label="Emne" name="subject" value={subject}
+                      onChange={e => setSubject(e.target.value)}
+                      options={["General","Livestream","Sportsbroadcast","Virksomhedsvideo","Eventvideo","Eventteknik","Samarbejde","Tilbud","Job"]} />
+                  </div>
+                  <div className="row">
+                    <LinedTextarea label="Besked" name="message" rows={6}
+                      value={draft.message} onChange={update("message")} error={errors.message} />
+                  </div>
+                  <div className="ctaRow">
+                    <button className="send" type="submit" disabled={status === "sending"}>
+                      {status === "sending" ? "Sender…" : "Send besked"}
+                    </button>
+                    {status === "error" && <span className="sendError">Noget gik galt — prøv igen.</span>}
+                  </div>
+                </form>
 
-                {/* "row two" = to felter side om side */}
-                <div className="row two">
-                  <LinedInput label="Email" name="email" type="email" autoComplete="email" />
-                  <LinedInput label="Telefonnummer" name="phone" type="tel" autoComplete="tel" />
-                </div>
-
-                <div className="row">
-                  {/* Dropdown — tilføj/fjern emner i `options`-arrayet */}
-                  <LinedSelect
-                    label="Emne"
-                    name="subject"
-                    value={preselectedSubject}
-                    options={[
-                      "General",
-                      "Livestream",
-                      "Sportsbroadcast",
-                      "Virksomhedsvideo",
-                      "Eventvideo",
-                      "Eventteknik",
-                      "Samarbejde",
-                      "Tilbud",
-                      "Job",
-                    ]}
-                  />
-                </div>
-
-                <div className="row">
-                  {/* rows={6} = højden på tekstboksen — skru op for en højere boks */}
-                  <LinedTextarea label="Besked" name="message" rows={6} />
-                </div>
-
-                <div className="ctaRow">
-                  <button className="send" type="submit">
-                    Send besked
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
 
           </div>
@@ -175,66 +215,46 @@ export default function ContactPage() {
   );
 }
 
-function LinedInput({
-  label,
-  name,
-  type = "text",
-  autoComplete,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  autoComplete?: string;
+function LinedInput({ label, name, type = "text", autoComplete, value, onChange, error }: {
+  label: string; name: string; type?: string; autoComplete?: string;
+  value?: string; onChange?: React.ChangeEventHandler<HTMLInputElement>; error?: string;
 }) {
   return (
     <label className="field">
       <span className="lab">{label}</span>
-      <input className="inp" name={name} type={type} autoComplete={autoComplete} />
+      <input className="inp" name={name} type={type} autoComplete={autoComplete}
+        value={value} onChange={onChange} />
       <span className="line" aria-hidden />
+      {error && <span className="fieldErr">{error}</span>}
     </label>
   );
 }
 
-function LinedSelect({
-  label,
-  name,
-  options,
-  value,
-}: {
-  label: string;
-  name: string;
-  options: string[];
-  value?: string;
+function LinedSelect({ label, name, options, value, onChange }: {
+  label: string; name: string; options: string[];
+  value?: string; onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }) {
-  const [val, setVal] = React.useState(value ?? options[0] ?? "");
-  React.useEffect(() => { if (value) setVal(value); }, [value]);
   return (
     <label className="field">
       <span className="lab">{label}</span>
-      <select className="inp sel" name={name} value={val} onChange={e => setVal(e.target.value)}>
-        {options.map((o) => (
-          <option key={o} value={o}>{o}</option>
-        ))}
+      <select className="inp sel" name={name} value={value} onChange={onChange}>
+        {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
       <span className="line" aria-hidden />
     </label>
   );
 }
 
-function LinedTextarea({
-  label,
-  name,
-  rows = 6,
-}: {
-  label: string;
-  name: string;
-  rows?: number;
+function LinedTextarea({ label, name, rows = 6, value, onChange, error }: {
+  label: string; name: string; rows?: number;
+  value?: string; onChange?: React.ChangeEventHandler<HTMLTextAreaElement>; error?: string;
 }) {
   return (
     <label className="field">
       <span className="lab">{label}</span>
-      <textarea className="inp ta" name={name} rows={rows} />
+      <textarea className="inp ta" name={name} rows={rows} value={value} onChange={onChange} />
       <span className="line" aria-hidden />
+      {error && <span className="fieldErr">{error}</span>}
     </label>
   );
 }
@@ -462,6 +482,51 @@ const css = `
   background: var(--color-accent);
   border-color: var(--color-accent);
   transform: translateY(-2px);
+}
+.send:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sendError{
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  margin-left: 12px;
+}
+
+.panelWrap{
+  position: relative;
+}
+
+.thankYou{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  transition: opacity 350ms ease;
+}
+
+.thankYouText{
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-primary);
+}
+
+.fieldErr{
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  margin-top: 2px;
 }
 
 @media (max-width: 980px){

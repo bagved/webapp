@@ -12,8 +12,53 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 
 export default function ContactTeaserSection() {
+  const [draft,  setDraft]  = useState<Draft>(EMPTY);
+  const [status, setStatus] = useState<"idle"|"sending"|"sent"|"error">("idle");
+  const [sent,   setSent]   = useState(false);
+  const [errors, setErrors] = useState<Record<string,string>>({});
+
+  useEffect(() => { setDraft(loadDraft()); }, []);
+
+  const update = (key: keyof Draft) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const next = { ...draft, [key]: e.target.value };
+    setDraft(next);
+    saveDraft(next);
+  };
+
+  function validate() {
+    const e: Record<string,string> = {};
+    if (!draft.name.trim())    e.name = "Skriv dit navn";
+    if (!draft.message.trim()) e.message = "Skriv en besked";
+    if (!draft.email.trim() && !draft.phone.trim())
+      e.contact = "Skriv en email eller et telefonnummer";
+    return e;
+  }
+
+  async function handleSubmit(e: { preventDefault(): void; currentTarget: HTMLFormElement }) {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
+    setStatus("sending");
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(draft),
+    });
+    if (res.ok) {
+      clearDraft();
+      setDraft(EMPTY);
+      setSent(true);
+      setStatus("idle");
+      setTimeout(() => setSent(false), 4000);
+    } else {
+      setStatus("error");
+    }
+  }
+
   return (
     <section className="ct" id="contact-teaser" aria-label="Kontakt">
       <style>{css}</style>
@@ -47,22 +92,37 @@ export default function ContactTeaserSection() {
 
           {/* RIGHT: formular-panel */}
           <div className="ctPanel" aria-label="Kontaktformular">
-            <form className="ctForm" onSubmit={e => e.preventDefault()}>
+            <div className="ctPanelWrap">
 
-              <LinedInput label="Navn" name="name" autoComplete="name" />
-
-              <div className="ctFormTwo">
-                <LinedInput label="Email"    name="email" type="email" autoComplete="email" />
-                <LinedInput label="Telefon"  name="phone" type="tel"   autoComplete="tel" />
+              {/* Thank you overlay */}
+              <div className="ctDone" aria-hidden={!sent} style={{ opacity: sent ? 1 : 0, pointerEvents: sent ? "auto" : "none" }}>
+                <p className="ctDoneText">Tak for din henvendelse.</p>
               </div>
 
-              <LinedTextarea label="Besked" name="message" rows={5} />
+              {/* Form — always in DOM to hold panel height */}
+              <form className="ctForm" onSubmit={handleSubmit} style={{ visibility: sent ? "hidden" : "visible" }}>
+                <LinedInput label="Navn" name="name" autoComplete="name"
+                  value={draft.name} onChange={update("name")} error={errors.name} />
 
-              <div className="ctSubmitRow">
-                <button className="ctSubmit" type="submit">Send besked</button>
-              </div>
+                <div className="ctFormTwo">
+                  <LinedInput label="Email" name="email" type="email" autoComplete="email"
+                    value={draft.email} onChange={update("email")} error={errors.contact} />
+                  <LinedInput label="Telefon" name="phone" type="tel" autoComplete="tel"
+                    value={draft.phone} onChange={update("phone")} />
+                </div>
 
-            </form>
+                <LinedTextarea label="Besked" name="message" rows={5}
+                  value={draft.message} onChange={update("message")} error={errors.message} />
+
+                <div className="ctSubmitRow">
+                  <button className="ctSubmit" type="submit" disabled={status === "sending"}>
+                    {status === "sending" ? "Sender…" : "Send besked"}
+                  </button>
+                  {status === "error" && <span className="ctError">Noget gik galt — prøv igen.</span>}
+                </div>
+              </form>
+
+            </div>
           </div>
 
         </div>
@@ -117,26 +177,30 @@ function TypeLine({ phrases }: { phrases: string[] }) {
   );
 }
 
-function LinedInput({ label, name, type = "text", autoComplete }: {
+function LinedInput({ label, name, type = "text", autoComplete, value, onChange, error }: {
   label: string; name: string; type?: string; autoComplete?: string;
+  value?: string; onChange?: React.ChangeEventHandler<HTMLInputElement>; error?: string;
 }) {
   return (
     <label className="field">
       <span className="fieldLab">{label}</span>
-      <input className="fieldInp" name={name} type={type} autoComplete={autoComplete} />
+      <input className="fieldInp" name={name} type={type} autoComplete={autoComplete} value={value} onChange={onChange} />
       <span className="fieldLine" aria-hidden />
+      {error && <span className="fieldErr">{error}</span>}
     </label>
   );
 }
 
-function LinedTextarea({ label, name, rows = 5 }: {
+function LinedTextarea({ label, name, rows = 5, value, onChange, error }: {
   label: string; name: string; rows?: number;
+  value?: string; onChange?: React.ChangeEventHandler<HTMLTextAreaElement>; error?: string;
 }) {
   return (
     <label className="field">
       <span className="fieldLab">{label}</span>
-      <textarea className="fieldInp fieldTa" name={name} rows={rows} />
+      <textarea className="fieldInp fieldTa" name={name} rows={rows} value={value} onChange={onChange} />
       <span className="fieldLine" aria-hidden />
+      {error && <span className="fieldErr">{error}</span>}
     </label>
   );
 }
@@ -333,6 +397,50 @@ const css = `
   background: var(--color-accent);
   border-color: var(--color-accent);
   transform: translateY(-2px);
+}
+.ctSubmit:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ctPanelWrap{
+  position: relative;
+}
+
+.ctDone{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  transition: opacity 350ms ease;
+}
+
+.ctDoneText{
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-primary);
+}
+
+.fieldErr{
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
+.ctError{
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  margin-left: 12px;
 }
 
 .ctFooterRow{
