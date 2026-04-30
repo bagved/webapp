@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { SPORTS } from "../../lib/features";
 
 type Item = {
   id: string;
@@ -14,7 +15,7 @@ type Item = {
 export default function ServicesRail() {
   const items: Item[] = useMemo(() => [
     { id: "livestream",               img: "/photos/Livestream.jpg",      title: "Livestream",                subtitle: "Live & broadcast",          href: "/cases?cat=live-broadcast&case=livestream" },
-    { id: "sportsbroadcast",          img: "/photos/sportsbroadcast.jpg", title: "Sportsbroadcast",            subtitle: "Live & broadcast",          href: "/cases?cat=live-broadcast&case=sportsbroadcast" },
+    ...(SPORTS === "yes" ? [{ id: "sportsbroadcast", img: "/photos/sportsbroadcast.jpg", title: "Sportsbroadcast", subtitle: "Live & broadcast", href: "/cases?cat=live-broadcast&case=sportsbroadcast" }] : []),
     { id: "webinar-studieproduktion", img: "/photos/studie_pre.jpg",      title: "Webinar & studieproduktion", subtitle: "Live & broadcast",          href: "/cases?cat=live-broadcast&case=webinar-studieproduktion" },
     { id: "virksomhedsvideo",         img: "/photos/virksomhedsfilm.jpg", title: "Virksomhedsvideo",           subtitle: "Virksomhedsfilm & reklame", href: "/cases?cat=virksomhedsfilm-reklame&case=virksomhedsvideo" },
     { id: "eventvideo",               img: "/photos/eventfilm.jpg",       title: "Eventvideo",                 subtitle: "Eventvideo & eventteknik",  href: "/cases?cat=eventvideo-eventteknik&case=eventvideo" },

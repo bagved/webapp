@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SPORTS } from "../../lib/features";
 
 type CategoryId =
   | "live-broadcast"
@@ -35,14 +36,14 @@ const allCases: CaseItem[] = [
     image: "/photos/Livestream.jpg",
     contactSubject: "Livestream",
   },
-  {
+  ...(SPORTS === "yes" ? [{
     id: "sportsbroadcast",
-    category: "live-broadcast",
+    category: "live-broadcast" as const,
     title: "Sportsbroadcast",
     body: "Flerkameraproduktion til sport med fokus på flow, timing og et klart broadcast-udtryk. En løsning, der gør det let at følge begivenheden – både på location og online.",
     image: "/photos/sportsbroadcast.jpg",
     contactSubject: "Sportsbroadcast",
-  },
+  }] : []),
   {
     id: "webinar-studieproduktion",
     category: "live-broadcast",
