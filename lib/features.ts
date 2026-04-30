@@ -3,4 +3,4 @@
 //
 //   SPORTS  → VideoPeek på forsiden + Sportsbroadcast i ServicesRail + Cases
 
-export const SPORTS: "yes" | "no" = "yes";
+export const SPORTS: "yes" | "no" = "no";
