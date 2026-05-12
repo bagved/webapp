@@ -79,8 +79,8 @@
  */
 .logoImg{
   display: block;
-  width: 120px;
-  height: 36px;
+  width: 150px;
+  height: 44px;
   object-fit: contain;
   object-position: left center;
 }
