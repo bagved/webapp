@@ -82,7 +82,7 @@
   width: 150px;
   height: 44px;
   object-fit: contain;
-  object-position: left center;
+  object-position: center;
 }
 
 /* CENTER: desktop nav */

@@ -18,7 +18,11 @@ export const metadata = {
   title: "Bagved",
   description: "Bagved",
   icons: {
-    icon: [{ url: '/svg/Bagved_favicon_brun_trans.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/svg/Bagved_favicon_brun_trans.svg', type: 'image/svg+xml' },
+      { url: '/png/Bagved_favicon_brun_trans@300x.png', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
 };
 
