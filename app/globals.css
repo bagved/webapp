@@ -77,7 +77,16 @@ a:hover{
 .t14{ font-size: var(--t14); }
 .t16{ font-size: var(--t16); }
 
-/* Reduced motion */
+/* Reduced motion
+ * Brugere der har slået "reducér bevægelse" til i deres styresystem skal se
+ * siden helt uden animation. [data-reveal] er de elementer der glider ind ved
+ * scroll (se components/motion/InView.tsx) — !important overtrumfer den
+ * inline-style som motion-biblioteket sætter, så indholdet vises med det samme.
+ */
 @media (prefers-reduced-motion: reduce){
   *{ transition: none !important; animation: none !important; }
+  [data-reveal]{
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

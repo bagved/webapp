@@ -1,3 +1,5 @@
+"use client";
+
 // components/sections/VideoPeek.tsx — VIDEOAFSPILLER
 //
 // HVAD DU KAN ÆNDRE:
@@ -9,32 +11,38 @@
 //   Sidepadding → CSS .videoOuter { padding } — afstand til siden af skærmen
 
 import Link from "next/link";
-import Script from "next/script";
+import InView from "../motion/InView";
+import { revealFade } from "../motion/reveal";
 
 export default function VideoPeek() {
   return (
     <section className="videoPeek" id="video" aria-label="Video">
       <style>{css}</style>
-      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
 
       <div className="videoOuter">
-        <div className="videoFrame">
+        {/* revealFade = kun ind-toning, ingen bevægelse. En video der glider
+            i position kan flimre, fordi browseren tegner videolaget om. */}
+        <InView className="videoFrame" variants={revealFade}>
           {/* src: skift video-ID (tallet efter /video/) for at vise en anden video */}
           {/* autoplay=1&muted=1&loop=1 — starter automatisk, lydløs og looper */}
           <iframe
             className="video"
             src="https://player.vimeo.com/video/1180113395?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
             title="homepage"
+            /* loading="lazy": Vimeo-afspilleren (~1 MB) hentes først når
+               videoen er tæt på at være synlig, i stedet for ved sideload.
+               Autoplay starter stadig — bare når man faktisk kan se den. */
+            loading="lazy"
             style={{ border: 0 }}
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
           />
-        </div>
+        </InView>
 
         {/* Knap under videoen — på mobil er denne skjult via CSS i HomeHero */}
-        <div className="vpCtaRow">
+        <InView className="vpCtaRow" delay={0.12}>
           <Link className="vpBtn" href="/services">Se alle ydelser →</Link>
-        </div>
+        </InView>
       </div>
     </section>
   );

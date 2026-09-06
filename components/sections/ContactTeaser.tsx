@@ -13,6 +13,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
+import InView from "../motion/InView";
 
 export default function ContactTeaserSection() {
   const [draft,  setDraft]  = useState<Draft>(EMPTY);
@@ -68,7 +69,7 @@ export default function ContactTeaserSection() {
         <div className="ctGrid">
 
           {/* LEFT */}
-          <div className="ctLeft">
+          <InView className="ctLeft">
             <h2 className="ctTitle">
               {/* Statisk del af overskriften */}
               <span className="ctTitleStatic">Skriv til os</span>
@@ -88,10 +89,10 @@ export default function ContactTeaserSection() {
               <a href="tel:+4561746416"      className="ctMetaLine">+45 61 74 64 16</a>
               <a href="mailto:info@bagved.com" className="ctMetaLine">info@bagved.com</a>
             </div>
-          </div>
+          </InView>
 
           {/* RIGHT: formular-panel */}
-          <div className="ctPanel" aria-label="Kontaktformular">
+          <InView className="ctPanel" aria-label="Kontaktformular" delay={0.12}>
             <div className="ctPanelWrap">
 
               {/* Thank you overlay */}
@@ -123,13 +124,13 @@ export default function ContactTeaserSection() {
               </form>
 
             </div>
-          </div>
+          </InView>
 
         </div>
 
-        <div className="ctFooterRow">
+        <InView className="ctFooterRow" delay={0.2}>
           <Link className="cta" href="/contact#kontaktformular">UDDYB DIN EFTERSPØRGSEL HER</Link>
-        </div>
+        </InView>
       </div>
     </section>
   );

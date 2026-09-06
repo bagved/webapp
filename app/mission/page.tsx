@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 // ── FAQ data ──────────────────────────────────────────────────────────
@@ -313,7 +314,14 @@ export default function MissionPage() {
 
         <div className="mpCtaRight">
           <div className="mpCtaImgWrap">
-            <img src="/photos/Livestream.jpg" alt="" className="mpCtaImg" aria-hidden />
+            <Image
+              src="/photos/Livestream.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              className="mpCtaImg"
+              aria-hidden
+            />
           </div>
           {/* Decorative stripe block */}
           <div className="mpCtaDeco" aria-hidden>

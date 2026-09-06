@@ -1,3 +1,20 @@
+// components/sections/LogoWall.tsx — DEKORATIVE BAGGRUNDSLOGOER
+//
+// HVAD DU KAN ÆNDRE:
+//   Placering  → top/left/right på hvert logo i `logos`-arrayet
+//   Størrelse  → size (bredde i px) — højden regnes automatisk ud fra LOGO_RATIO
+//   Synlighed  → opacity (0.12 = svagt synligt, 1 = fuldt synligt)
+//   Hældning   → rotate (grader, negativ = mod uret)
+//
+// TEKNISK NOTE: logo-PNG'erne er 2655×1257px, men vises i 155–220px bredde.
+// next/image nedskalerer dem serverside til den viste størrelse og leverer
+// AVIF/WebP — derfor LOGO_RATIO herunder, så højden altid passer til bredden.
+
+import Image from "next/image";
+
+const LOGO_W = 2655;   // PNG'ernes faktiske bredde i pixels
+const LOGO_H = 1257;   // PNG'ernes faktiske højde i pixels
+
 type Logo = { src: string; top: string; left?: string; right?: string; size: number; opacity: number; rotate: number };
 
 const logos: Logo[] = [
@@ -11,10 +28,13 @@ export default function LogoWall() {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }} aria-hidden>
       {logos.map((l, i) => (
-        <img
+        <Image
           key={i}
           src={l.src}
           alt=""
+          width={l.size}
+          height={Math.round((l.size * LOGO_H) / LOGO_W)}
+          sizes={`${l.size}px`}
           style={{
             position: "absolute",
             top:     l.top,

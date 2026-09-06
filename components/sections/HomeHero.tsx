@@ -18,7 +18,18 @@
 
 import Link from "next/link";
 import VideoPeek from "./VideoPeek";
+import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
+import { revealTransition } from "../motion/reveal";
+
+// Hero'en er øverst på siden, så her venter vi ikke på scroll — indholdet
+// glider ind lige efter sideindlæsning. Overskriften animeres BEVIDST IKKE:
+// den er sidens største element, og Google måler indlæsningshastigheden
+// (LCP) på præcis det element. En ind-toning der ville forsinke målingen.
+const enterFromBelow = {
+  initial: { opacity: 0, y: 14 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export default function HomeHero() {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -69,18 +80,31 @@ export default function HomeHero() {
             Bagved den<br />
             gode <em className="heroAccent">oplevelse</em>.
           </h1>
-          <p className="heroSub">
+          <motion.p
+            className="heroSub"
+            data-reveal
+            {...enterFromBelow}
+            transition={{ ...revealTransition, delay: 0.15 }}
+          >
             Pålidelig video- og eventproduktion med fokus på kvalitet og detalje. Vi laver reklamefilm, livestream, konceptudvikling og mere til virksomheder og foreninger der vil ses, høres og huskes.
-          </p>
+          </motion.p>
         </div>
 
         {/* Højre kolonne: knapper — flugter med bunden af venstre tekst */}
         <div className="heroRight">
-          <div className="heroCtas">
+          {/* Animationen ligger på beholderen, ikke på knapperne selv —
+              knappernes hover-effekt (transform: translateY) bruger CSS, og
+              en inline transform direkte på knappen ville overskrive den. */}
+          <motion.div
+            className="heroCtas"
+            data-reveal
+            {...enterFromBelow}
+            transition={{ ...revealTransition, delay: 0.28 }}
+          >
             <Link href="/cases"    className="btnPrimary">Se eksempler</Link>
             <Link href="/services" className="btnOutline">Vores ydelser</Link>
             <Link href="/contact"  className="btnGhost">Kontakt</Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* Mobil-video: vises under knapper på mobil, skjult på desktop */}

@@ -1,8 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SPORTS } from "../../lib/features";
+import InView from "../motion/InView";
+import { revealFade, staggerContainer } from "../motion/reveal";
+
+// Gør <Link> animérbar. Skal ligge uden for komponenten, ellers bygges den
+// forfra ved hver gentegning og animationen starter om.
+const MotionLink = motion.create(Link);
 
 type Item = {
   id: string;
@@ -90,12 +98,12 @@ export default function ServicesRail() {
     <section className="srv" id="services" aria-label="Services">
       <style>{css}</style>
 
-      <div className="container srvTop">
+      <InView className="container srvTop">
         <h2 className="srvHeading">Et udpluk af vores produktioner</h2>
         <p className="srvSub">
           Reklamefilm, livestream, og events, der skaber opmærksomhed og gør indtryk.
         </p>
-      </div>
+      </InView>
 
       <div className="railWrap">
         <button
@@ -108,26 +116,51 @@ export default function ServicesRail() {
           </svg>
         </button>
 
-        <div ref={railRef} className="rail" role="list" aria-label="Service tiles">
+        {/* staggerContainer: fliserne toner ind én ad gangen, første gang
+            man scroller ned til railen. Rækkefølgen styres i motion/reveal.ts */}
+        <motion.div
+          ref={railRef}
+          className="rail"
+          role="list"
+          aria-label="Service tiles"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={staggerContainer}
+        >
           {items.map((it, i) => (
-            <Link
+            <MotionLink
               key={it.id}
               href={it.href}
               className="tile"
               role="listitem"
               data-card
               data-idx={i}
+              data-reveal
+              /* Kun opacity — ikke transform. Flisernes hover-zoom ligger i
+                 CSS (.tile:hover), og en inline transform ville slå den ud. */
+              variants={revealFade}
               onMouseEnter={() => setHoverActive(i)}
               onMouseLeave={() => setHoverActive(null)}
             >
-              <div className="img" style={{ backgroundImage: `url(${it.img})` }} aria-hidden />
+              <div className="img">
+                {/* next/image: leverer AVIF/WebP i flisens faktiske bredde
+                    i stedet for den rå JPG. `sizes` skal matche --tileW i CSS. */}
+                <Image
+                  src={it.img}
+                  alt=""
+                  fill
+                  sizes="(max-width: 780px) 68vw, (max-width: 1480px) 27vw, 400px"
+                  className="imgEl"
+                />
+              </div>
               <div className="meta">
                 <span className="t2">{it.subtitle}</span>
                 <span className="t1">{it.title}</span>
               </div>
-            </Link>
+            </MotionLink>
           ))}
-        </div>
+        </motion.div>
 
         <button
           className={`navBtn navNext ${canRight ? "navVisible" : ""}`}
@@ -148,9 +181,9 @@ export default function ServicesRail() {
       </div>
 
       {/* CTA — right-aligned in container, same x as vpBtn / ctFooterRow */}
-      <div className="container srvCtaRow">
+      <InView className="container srvCtaRow" delay={0.1}>
         <Link className="srvCta" href="/cases">Se alle eksempler →</Link>
-      </div>
+      </InView>
 
     </section>
   );
@@ -233,12 +266,18 @@ const css = `
   .tile:hover .t2{ color: var(--color-accent); }
 }
 
+/* Billedbeholder — position:relative kræves af <Image fill> */
 .img{
+  position: relative;
   flex: 1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   background-color: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
+}
+
+/* Selve billedet — cover/center giver samme beskæring som background-size: cover */
+.imgEl{
+  object-fit: cover;
+  object-position: center;
 }
 
 .meta{

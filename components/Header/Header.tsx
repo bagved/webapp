@@ -20,6 +20,7 @@
 //   fixed-positionerede elementer i at dække hele skærmen.
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
@@ -78,7 +79,17 @@ export default function Header() {
             {/* Logo */}
             <div className={styles.left}>
               <Link href="/" className={styles.logo} aria-label={BRAND} onClick={closeAll}>
-                <img src="/Logo.png" className={styles.logoImg} alt={BRAND} />
+                {/* width/height = PNG'ens forhold (2655×1257 nedskaleret);
+                    .logoImg i CSS bestemmer den viste 150×44px-boks.
+                    priority: logoet ligger over folden og skal ikke lazy-loades. */}
+                <Image
+                  src="/Logo.png"
+                  className={styles.logoImg}
+                  alt={BRAND}
+                  width={150}
+                  height={71}
+                  priority
+                />
               </Link>
             </div>
 

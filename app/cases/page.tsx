@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { SPORTS } from "../../lib/features";
+import { revealFade, revealTransition } from "../../components/motion/reveal";
 
 type CategoryId =
   | "live-broadcast"
@@ -167,16 +170,33 @@ export default function CasesPage() {
         </div>
       </section>
 
-      {/* Examples */}
+      {/* Examples
+          revealFade = kun ind-toning, ingen bevægelse. Rækkerne er anker-mål
+          for kategori-menuen ovenfor, og en bevægelse på y-aksen ville flytte
+          målet under scroll-hoppet, så man landede lidt forkert. */}
       <section className="examples">
         {allCases.map((it, idx) => (
-          <article
+          <motion.article
             key={it.id}
             id={`case-${it.id}`}
             className={`exRow ${idx % 2 === 1 ? "exRowAlt" : ""}`}
+            data-reveal
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={revealFade}
+            transition={revealTransition}
           >
             <div className="exMedia">
-              <div className="exImg" style={{ backgroundImage: `url(${it.image})` }} />
+              {/* Billedet fylder halv skærmbredde på desktop, fuld på mobil —
+                  `sizes` skal matche @media-grænsen på 780px nederst i css. */}
+              <Image
+                src={it.image}
+                alt=""
+                fill
+                sizes="(max-width: 780px) 100vw, 50vw"
+                className="exImg"
+              />
             </div>
             <div className="exCopy">
               <div className="exKicker">{labelFor(it.category)}</div>
@@ -184,7 +204,7 @@ export default function CasesPage() {
               <p className="exBody">{it.body}</p>
               <a className="exBtn" href={`/contact?subject=${encodeURIComponent(it.contactSubject)}#kontaktformular`}>Tag kontakt nu</a>
             </div>
-          </article>
+          </motion.article>
         ))}
       </section>
     </main>
@@ -342,11 +362,8 @@ const css = `
 }
 
 .exImg{
-  position: absolute;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Text sits in its half, padded inward from the center and from the viewport edge */
