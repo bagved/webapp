@@ -77,10 +77,12 @@ export default function Footer() {
 }
 
 const css = `
+/* Brun bund med beige tekst — farverne kommer fra logoet via theme.css:
+   --color-primary = brun (#571B14), --color-secondary = beige (#BFB48F) */
 .ft{
   width: 100%;
   padding: 34px 0;
-  background: var(--color-secondary);
+  background: var(--color-primary);
   border-top: none;
   font-family: var(--font-body);
 }
@@ -92,7 +94,7 @@ const css = `
   line-height: 1.55;
   font-weight: 400;
   letter-spacing: 0;
-  color: color-mix(in srgb, var(--color-text) 52%, transparent);
+  color: var(--color-secondary);
 }
 
 .ftLink{
@@ -107,7 +109,7 @@ const css = `
   transition: color 140ms ease;
 }
 .ftLink:hover{
-  color: var(--color-primary);
+  color: var(--color-bg);   /* lysner mod den varme hvide på den brune bund */
 }
 
 .ftRows{ display: grid; gap: 2px; }
@@ -136,12 +138,12 @@ const css = `
     font-size: 11px;
     line-height: 1.55;
     font-weight: 400;
-    color: color-mix(in srgb, var(--color-text) 52%, transparent);
+    color: var(--color-secondary);
   }
 
   .ftDivider{
     height: 1px;
-    background: color-mix(in srgb, var(--color-text) 14%, transparent);
+    background: color-mix(in srgb, var(--color-secondary) 30%, transparent);
   }
 }
 `;

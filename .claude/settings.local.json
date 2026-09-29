@@ -4,7 +4,8 @@
       "WebFetch(domain:www.fday.dk)",
       "Bash(npm install *)",
       "Bash(cp \"public/png/bagved_logo_brun_trans@300x.png\" \"public/Logo.png\")",
-      "Bash(cp \"public/png/Bagved_favicon_brun_trans@300x.png\" \"app/favicon.ico\")"
+      "Bash(cp \"public/png/Bagved_favicon_brun_trans@300x.png\" \"app/favicon.ico\")",
+      "WebFetch(domain:80days.dk)"
     ]
   }
 }

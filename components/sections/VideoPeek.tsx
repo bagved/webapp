@@ -2,9 +2,12 @@
 
 // components/sections/VideoPeek.tsx — VIDEOAFSPILLER
 //
+// Videoen hostes hos TwentyThree (mootagency.twentythree.com).
+//
 // HVAD DU KAN ÆNDRE:
-//   Video-ID  → skift "1180113395" i src-URL'en til et andet Vimeo video-ID
-//               (find ID'et i Vimeo-URL'en: vimeo.com/XXXXXX)
+//   Ny video  → hent embed-koden i TwentyThree og indsæt HELE src-URL'en
+//               herunder. Token og photo_id hører sammen — et token fra
+//               én video virker ikke på en anden, så skift dem samlet.
 //   Knap-tekst → skift "Se alle ydelser →" herunder
 //   Knap-link  → skift href="/services"
 //   Sideafstand → CSS .videoPeek { padding-bottom } — afstand under videoen
@@ -23,20 +26,22 @@ export default function VideoPeek() {
         {/* revealFade = kun ind-toning, ingen bevægelse. En video der glider
             i position kan flimre, fordi browseren tegner videolaget om. */}
         <InView className="videoFrame" variants={revealFade}>
-          {/* src: skift video-ID (tallet efter /video/) for at vise en anden video */}
-          {/* autoplay=1&muted=1&loop=1 — starter automatisk, lydløs og looper */}
+          {/* src: hele embed-URL'en fra TwentyThree */}
           <iframe
             className="video"
-            src="https://player.vimeo.com/video/1180113395?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
-            title="homepage"
-            /* loading="lazy": Vimeo-afspilleren (~1 MB) hentes først når
-               videoen er tæt på at være synlig, i stedet for ved sideload.
-               Autoplay starter stadig — bare når man faktisk kan se den. */
+            src="https://mootagency.twentythree.com/v.ihtml/player.html?token=de39eac8c2202dff9f3519e2ddd8b52e&source=embed&photo%5fid=131882502"
+            title="Video Player"
+            /* loading="lazy": afspilleren hentes først når videoen er tæt
+               på at være synlig, i stedet for ved sideload. */
             loading="lazy"
+            frameBorder={0}
+            scrolling="no"
+            allowFullScreen
             style={{ border: 0 }}
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+            allow="autoplay; fullscreen"
+          >
+            <p>Din browser understøtter ikke iframes, så videoen kan ikke afspilles.</p>
+          </iframe>
         </InView>
 
         {/* Knap under videoen — på mobil er denne skjult via CSS i HomeHero */}
