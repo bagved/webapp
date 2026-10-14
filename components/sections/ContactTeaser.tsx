@@ -1,4 +1,5 @@
 "use client";
+import {track} from "@/lib/measurement";
 
 // components/sections/ContactTeaser.tsx — KONTAKT-TEASER (forsiden)
 //
@@ -41,21 +42,24 @@ export default function ContactTeaserSection() {
   async function handleSubmit(e: { preventDefault(): void; currentTarget: HTMLFormElement }) {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) { setErrors(errs); track("form_error","homepage"); return; }
     setErrors({});
     setStatus("sending");
+    track("form_start","homepage");
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(draft),
     });
     if (res.ok) {
+      track("generate_lead","homepage",crypto.randomUUID());
       clearDraft();
       setDraft(EMPTY);
       setSent(true);
       setStatus("idle");
       setTimeout(() => setSent(false), 4000);
     } else {
+      track("form_error","homepage");
       setStatus("error");
     }
   }

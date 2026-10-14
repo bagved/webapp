@@ -1,4 +1,5 @@
 "use client";
+import {track} from "@/lib/measurement";
 
 // app/contact/page.tsx — KONTAKTSIDEN
 //
@@ -53,9 +54,10 @@ export default function ContactPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) { setErrors(errs); track("form_error","contact"); return; }
     setErrors({});
     setStatus("sending");
+    track("form_start","contact");
     const fd = new FormData(e.currentTarget);
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -63,6 +65,7 @@ export default function ContactPage() {
       body: JSON.stringify({ ...draft, subject, company: fd.get("company") }),
     });
     if (res.ok) {
+      track("generate_lead","contact",crypto.randomUUID());
       clearDraft();
       setDraft(EMPTY);
       setSent(true);
@@ -71,6 +74,7 @@ export default function ContactPage() {
     } else {
       const body = await res.json().catch(() => ({}));
       console.error("Kontaktformular fejl:", body.detail ?? body.error);
+      track("form_error","contact");
       setStatus("error");
     }
   }

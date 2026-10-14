@@ -10,6 +10,7 @@
 //   <link> tags — skifter Google Fonts (opdater også styles/theme.css)
 
 import "./globals.css";
+import Analytics from "@/components/analytics/Analytics";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body>
+        <Analytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-7J3HGDGM6C"} pixelId={process.env.NEXT_PUBLIC_OPENAI_PIXEL_ID || "HvBSQVgUXmJ4xvRvXYuTyZ"} matchingReviewed={true} />
         <Header />
         <main className="pageMain">{children}</main>
         <Footer />
