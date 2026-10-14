@@ -10,7 +10,7 @@
  window.addEventListener('message',function(event){
   if(event.origin!==location.origin || event.source!==window.parent || event.data?.channel!=='bagved-pixel')return;
   const message=event.data.message;if(!Array.isArray(message))return;
-  if(message[0]==='consent' && typeof message[1]==='boolean'){q('consent',message[1]);return;}
+  if(message[0]==='consent' && typeof message[1]==='boolean'){window.oaiq('consent',message[1]);return;}
   if(message[0]!=='measure')return;
   const name=message[1],options=message[3]||{};
   if(name!=='lead_created' && name!=='page_viewed' && !(name==='custom' && custom.has(options.custom_event_name)))return;
@@ -18,7 +18,7 @@
   if(typeof options.event_id==='string' && /^[A-Za-z0-9_-]{1,128}$/.test(options.event_id))safe.event_id=options.event_id;
   if(name==='lead_created' && !safe.event_id)return;
   if(name==='custom')safe.custom_event_name=options.custom_event_name;
-  q('measure',name,{type:name==='lead_created'?'customer_action':name==='page_viewed'?'contents':'custom'},safe);
+  window.oaiq('measure',name,{type:name==='lead_created'?'customer_action':name==='page_viewed'?'contents':'custom'},safe);
  });
  const script=document.createElement('script');script.async=true;script.src='https://bzrcdn.openai.com/sdk/oaiq.min.js';document.head.appendChild(script);
  window.parent.postMessage({channel:'bagved-pixel-ready'},location.origin);

@@ -55,3 +55,20 @@ test('pixel remains disabled until account matching configuration is reviewed',(
  api.syncMeasurement(c);api.track('generate_lead','contact','accepted-2');
  assert.equal(scripts.length,1);assert.equal(win.oaiq,undefined);
 });
+
+test('isolated Pixel forwards events to the live SDK after it replaces the bootstrap queue',()=>{
+ const html=readFileSync(new URL('../public/analytics/openai-pixel.html',import.meta.url),'utf8');
+ const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];let receive;
+ const parent={postMessage:()=>{}},win={parent,addEventListener:(name,fn)=>receive=fn};
+ vm.runInNewContext(script,{window:win,location:{origin:'https://bagved.com',search:'?pixel=test'},URLSearchParams,Set,document:{createElement:()=>({}),head:{appendChild:()=>{}}}});
+ const received=[];win.oaiq=(...args)=>received.push(args);
+ const send=(source,origin,message)=>receive({source,origin,data:{channel:'bagved-pixel',message}});
+ send(parent,'https://bagved.com',['measure','lead_created',{type:'customer_action'},{event_id:'receipt-1',opt_out:true,email:'private@example.org'}]);
+ assert.equal(received.length,1);assert.equal(received[0][1],'lead_created');assert.equal(received[0][3].event_id,'receipt-1');
+ assert.ok(!JSON.stringify(received).includes('private@example.org'));
+ send({},'https://bagved.com',['measure','lead_created',{},{}]);
+ send(parent,'https://evil.example',['measure','lead_created',{},{}]);
+ send(parent,'https://bagved.com',['measure','lead_created',{},{}]);
+ assert.equal(received.length,1);
+ send(parent,'https://bagved.com',['consent',false]);assert.deepEqual(received.at(-1),['consent',false]);
+});
