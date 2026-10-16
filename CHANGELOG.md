@@ -23,3 +23,10 @@ Live receipt testing identified a bootstrap queue timing bug in the isolated Pix
 ## Final verification — 2026-10-14
 Published commits 4959fc1 and cf8423e through main; Vercel reports successful deployment. Live HTML contains both IDs and no consent banner; live isolated Pixel document byte-matches tested source. GA4 DebugView received page_view, form_start, form_error and generate_lead from the synthetic local harness. OpenAI event stream received lead_created (customer_action) through pixel_sdk at 21:18:36 UTC, plus page_viewed and form_start. OpenAI detail shows no email hash or customer fields. Nine automated tests and TypeScript passed; production build passed before the static forwarding fix, which is covered by its regression test and Vercel's successful build.
 Limits: test was synthetic and did not submit mail to Bagved. Existing SMTP delivery was not exercised. Production remains off until actual visitor consent is supplied through the invisible API. There is no UI to obtain it in this scope. No campaigns launched; received test events do not prove ad attribution. Automatic matching remains provider-enabled; the isolated document has no customer fields.
+
+## 16 October 2026 — Enable production Google Ads conversion destination
+- Before: GA4 and isolated ChatGPT Ads Pixel were configured; the Google Ads destination and lead label were empty.
+- After: configure AW-1003664894/xv1vCIHagJ0dEP7ryt4D, read back from the existing Bagved conversion action in Google Ads. A successful contact response now routes the existing event to all permitted destinations. No form or mail handler changes.
+- Files: components/analytics/Analytics.tsx, ANALYTICS.md, CHANGELOG.md.
+- Verification: 9 measurement tests, TypeScript and Next.js webpack production build passed. Existing event is counted once per enquiry id.
+- Limits: visitor consent still required through the invisible integration; no consent UI added as requested. No campaign or spend activated. SMTP mailbox delivery not exercised.

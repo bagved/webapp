@@ -10,7 +10,7 @@ declare global {interface Window {bagvedAnalytics?: {setConsent: (choice: boolea
 export default function Analytics({measurementId, pixelId, matchingReviewed}: {measurementId: string; pixelId: string; matchingReviewed: boolean}) {
  const pathname=usePathname();
  useEffect(()=>{
-  configureMeasurement({ga4:measurementId,googleAds:"",googleAdsLeadLabel:"",openaiPixel:pixelId,openaiMatchingReviewed:matchingReviewed,debug:false});
+  configureMeasurement({ga4:measurementId,googleAds:"AW-1003664894",googleAdsLeadLabel:"xv1vCIHagJ0dEP7ryt4D",openaiPixel:pixelId,openaiMatchingReviewed:matchingReviewed,debug:false});
   const saved=readConsent();
   if(saved){syncMeasurement(saved);trackPage();}
   window.bagvedAnalytics={setConsent(choice){
