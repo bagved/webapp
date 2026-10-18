@@ -30,3 +30,18 @@ Limits: test was synthetic and did not submit mail to Bagved. Existing SMTP deli
 - Files: components/analytics/Analytics.tsx, ANALYTICS.md, CHANGELOG.md.
 - Verification: 9 measurement tests, TypeScript and Next.js webpack production build passed. Existing event is counted once per enquiry id.
 - Limits: visitor consent still required through the invisible integration; no consent UI added as requested. No campaign or spend activated. SMTP mailbox delivery not exercised.
+
+## Maintenance contract — 18 October 2026
+
+- Update this production CHANGELOG.md in the same commit as every future production change. Record date, before/after behavior, affected files, checks actually run, deployment status and unresolved limits. Never store credentials or customer submissions here.
+- The original production baseline remains 18af5a7127f2c346ddf9830b0bc80556826c1136. Technical integration commits are 4959fc1, cf8423e, d3557cf and 12eb89b. Historical intermediate entries above are retained; later final-verification entries supersede their then-pending statuses.
+- This repository is the technical production version. Design, copy, animation, local StageTimer and cookie-banner concepts belong in the separate improved local client version and its own CHANGELOG.md. Client review is required before any future public design release.
+- A log entry is not proof of production event receipt. Last previously documented synthetic GA4/OpenAI receipt is 16 October; no new provider receipt or ad-attribution test was run for this documentation change. Existing form/SMTP delivery has not been re-tested by sending mail.
+
+## 18 October 2026 — Clarify production change tracking
+
+- Before: historical tracking changes were logged, but the ongoing logging rule and local/production boundary were not explicit in repository instructions.
+- After: added this maintenance contract and AGENTS.md instructions requiring the production log to stay current. The improved local version keeps a separate log; it is not copied into production.
+- Files: CHANGELOG.md and AGENTS.md only.
+- Verification: compared production history and changed-file inventory against the original baseline and current head 12eb89b; all historical tracking changes are represented above. This is documentation only; runtime source, form handler, tracking configuration and user-facing content are unchanged.
+- Deployment: this documentation commit follows the repository's existing automatic-deployment mechanism. Provider build result is verified separately where available. No campaign, spend or cookie banner is activated by it.
