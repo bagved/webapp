@@ -12,6 +12,8 @@ Release checks: 12 automated tests, TypeScript and the production webpack build 
 
 Further network-log inspection confirmed GA4 `generate_lead` collector 204 and Google Ads `/pagead/conversion/1003664894/` collector 200 with the synthetic transaction ID. These strengthen transport verification only; the DoubleClick fallback failures remain.
 
+Publication verified: runtime release `88976af2a5de5148d0440e10d02d10c98fa521e3` reached Vercel Production successfully. On bagved.com, fresh consent was unset with no optional providers; reject/reload retained denial; statistics-only loaded GA4 without Pixel. An intercepted homepage API 200 generated the labelled `synthetic-cookie-a-live-20261019` event, with GA4 collector 204, Google Ads collectors 200 and OpenAI lead collector 202. No API request reached the production mail handler. Withdrawing marketing retained only GA4; rejecting all then removed measurement cookies and provider resources after reload. Cross-tab reload was also verified locally. See CHANGELOG.md for the release/deployment record and remaining limits.
+
 Remaining verification: fresh GA4/Google Ads/OpenAI account-side receipt, actual SMTP inbox delivery and ad attribution are unverified. Existing React hydration error #418 was observed; checks used stable loaded UI. Access to existing Safari was rejected by automatic approval review because it could expose unrelated private tabs/sessions. No security settings were changed. Deployment status is recorded in CHANGELOG.md.
 
 ## Historical integration notes — 14–16 October 2026
