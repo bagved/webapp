@@ -33,9 +33,48 @@ test('marketing-only routes one successful lead to Ads and OpenAI; deduplicates 
  const pixel=win.oaiq.q.map(x=>Array.from(x));assert.equal(pixel[0][0],'consent');assert.equal(pixel[0][1],false);assert.equal(pixel.filter(x=>x[0]==='measure'&&x[1]==='lead_created').length,1);assert.equal(pixel.at(-1)[3].event_id,'receipt-123');assert.ok(!JSON.stringify(pixel).includes('private@example.org'));
 });
 test('withdrawal immediately stops new events',()=>{
- const c={statistics:true,marketing:true,media:false};const {api,win}=engine(c);api.syncMeasurement(c);api.track('page_view');const n=win.dataLayer.length;c.statistics=false;c.marketing=false;api.syncMeasurement(c);api.track('generate_lead','contact','new-id');assert.equal(win.dataLayer.length,n);assert.equal(Array.from(win.oaiq.q.at(-1))[1],false);
+ const c={statistics:true,marketing:true,media:false};const {api,win}=engine(c);api.syncMeasurement(c);api.track('page_view');const n=win.dataLayer.filter(x=>x[0]==='event').length;c.statistics=false;c.marketing=false;api.syncMeasurement(c);api.track('generate_lead','contact','new-id');assert.equal(win.dataLayer.filter(x=>x[0]==='event').length,n);assert.equal(Array.from(win.oaiq.q.at(-1))[1],false);
+ const update=Array.from(win.dataLayer.at(-1));assert.equal(update[0],'consent');assert.equal(update[2].analytics_storage,'denied');assert.equal(update[2].ad_storage,'denied');assert.equal(win['ga-disable-G-TEST123'],true);
+});
+
+test('visitor decisions persist and survive reload; blocked storage falls back to this page only',()=>{
+ const records=new Map();const storage={getItem:k=>records.get(k)??null,setItem:(k,v)=>records.set(k,v)};
+ const api=load('lib/consent.ts',{localStorage:storage});
+ assert.equal(api.readConsent(),null);
+ assert.equal(api.saveConsent({statistics:true,marketing:false}).persisted,true);
+ assert.equal(load('lib/consent.ts',{localStorage:storage}).readConsent().statistics,true);
+ api.saveConsent({statistics:false,marketing:false});
+ assert.equal(load('lib/consent.ts',{localStorage:storage}).readConsent().statistics,false);
+ const blocked={getItem(){throw Error('blocked')},setItem(){throw Error('blocked')}};
+ const session=load('lib/consent.ts',{localStorage:blocked});
+ assert.equal(session.saveConsent({statistics:true,marketing:true}).persisted,false);
+ assert.equal(session.readConsent().marketing,true);
+ session.saveConsent({statistics:false,marketing:false});assert.equal(session.readConsent().marketing,false);
+ assert.equal(load('lib/consent.ts',{localStorage:blocked}).readConsent(),null);
 });
 test('arbitrary paths are redacted',()=>{const {api}=engine(null);assert.equal(api.safePagePath('/customer/private@example.org'),'/other');assert.equal(api.safePagePath('/de/contact'),'/de/contact');});
+
+test('failed withdrawal write cannot restore a stale grant after reload when session storage works',()=>{
+ const old=JSON.stringify({version:1,updatedAt:Date.now(),statistics:true,marketing:true,media:false});
+ const records=new Map();
+ const globals={localStorage:{getItem:()=>old,setItem(){throw Error('read only')},removeItem(){throw Error('read only')}},sessionStorage:{getItem:k=>records.get(k),setItem:(k,v)=>records.set(k,v),removeItem:k=>records.delete(k)}};
+ const api=load('lib/consent.ts',globals);
+ assert.equal(api.readConsent().marketing,true);
+ assert.equal(api.saveConsent({statistics:false,marketing:false}).persisted,false);
+ assert.equal(api.readConsent().marketing,false);
+ assert.equal(load('lib/consent.ts',globals).readConsent(),null);
+});
+
+test('withdrawal expires Google and OpenAI cookies without touching other cookies',()=>{
+ const writes=[];
+ const document={get cookie(){return '_ga=1; _gcl_au=2; __oaiq_consent=true; __oppref=3; site_preference=keep';},set cookie(value){writes.push(value);}};
+ load('lib/consent.ts',{document,location:{hostname:'www.bagved.com'}}).clearMeasurementCookies();
+ for(const name of ['_ga','_gcl_au','__oaiq_consent','__oppref']) {
+  assert.ok(writes.includes(`${name}=; Max-Age=0; path=/; SameSite=Lax`));
+  assert.ok(writes.includes(`${name}=; Max-Age=0; path=/; domain=.bagved.com; SameSite=Lax`));
+ }
+ assert.ok(writes.every(value=>!value.includes('site_preference')));
+});
 
 test('one accepted enquiry reaches GA4 and ChatGPT Ads exactly once with the same event id',()=>{
  const c={statistics:true,marketing:true,media:false};const {api,win}=engine(c);

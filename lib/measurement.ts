@@ -26,6 +26,9 @@ function loadScript(id: string, src: string) {
 function googleConsent(c: Consent) { return {analytics_storage:c.statistics?'granted':'denied',ad_storage:c.marketing?'granted':'denied',ad_user_data:c.marketing?'granted':'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted',personalization_storage:'denied'}; }
 export function configureMeasurement(value: MeasurementConfig) { config=value; window.bagvedMeasurement ??= []; }
 export function syncMeasurement(c: Consent) {
+  // Disable GA immediately on withdrawal, before reloading the loaded SDKs away.
+  (window as unknown as Record<string, unknown>)['ga-disable-'+config.ga4]=!c.statistics;
+  if(googleLoaded)window.gtag?.('consent','update',googleConsent(c));
   const ga=/^G-[A-Z0-9]+$/.test(config.ga4), ads=/^AW-\d+$/.test(config.googleAds);
   if ((ga&&c.statistics)||(ads&&c.marketing)) {
     if (!googleLoaded) {

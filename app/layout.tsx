@@ -11,6 +11,7 @@
 
 import "./globals.css";
 import Analytics from "@/components/analytics/Analytics";
+import ConsentBanner from "@/components/analytics/ConsentBanner";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Header />
         <main className="pageMain">{children}</main>
         <Footer />
+        <ConsentBanner />
       </body>
     </html>
   );

@@ -1,12 +1,12 @@
 "use client";
 import {useEffect} from "react";
 import {usePathname} from "next/navigation";
-import {CONSENT_KEY, CONSENT_VERSION, readConsent, deniedConsent, clearMeasurementCookies} from "@/lib/consent";
+import {CONSENT_KEY, readConsent, saveConsent, clearMeasurementCookies} from "@/lib/consent";
 import {configureMeasurement, syncMeasurement, track, trackPage} from "@/lib/measurement";
 
-declare global {interface Window {bagvedAnalytics?: {setConsent: (choice: boolean | {statistics: boolean; marketing: boolean}) => void}}}
+declare global {interface Window {bagvedAnalytics?: {setConsent: (choice: boolean | {statistics: boolean; marketing: boolean}) => boolean}}}
 
-// Invisible integration. A separate consent system must supply the decision.
+// Only a visitor action in the consent banner supplies a new decision.
 export default function Analytics({measurementId, pixelId, matchingReviewed}: {measurementId: string; pixelId: string; matchingReviewed: boolean}) {
  const pathname=usePathname();
  useEffect(()=>{
@@ -16,11 +16,20 @@ export default function Analytics({measurementId, pixelId, matchingReviewed}: {m
   window.bagvedAnalytics={setConsent(choice){
    const granted=typeof choice === "boolean" ? {statistics:choice,marketing:false} : choice;
    const previous=readConsent();
-   const next={...deniedConsent(),version:CONSENT_VERSION,updatedAt:Date.now(),statistics:granted.statistics === true,marketing:granted.marketing === true};
-   try{localStorage.setItem(CONSENT_KEY,JSON.stringify(next));}catch{return;}
-   if((previous?.statistics && !next.statistics) || (previous?.marketing && !next.marketing)){syncMeasurement(next);clearMeasurementCookies();location.reload();return;}
+   const {consent:next,persisted}=saveConsent(granted);
+   window.dispatchEvent(new Event('bagved:consent'));
+   if((previous?.statistics && !next.statistics) || (previous?.marketing && !next.marketing)){
+    syncMeasurement(next);clearMeasurementCookies();
+    // Reload removes already-loaded SDKs. Failed storage must not resurrect an old grant.
+    if(persisted)location.reload();
+    else { try{localStorage.removeItem(CONSENT_KEY);}catch{} }
+    return persisted;
+   }
    syncMeasurement(next);trackPage();
+   return persisted;
   }};
+  const storage=(event:StorageEvent)=>{if(event.key===CONSENT_KEY || event.key===null)location.reload();};
+  window.addEventListener('storage',storage);
   const click=(e:MouseEvent)=>{
    const a=(e.target as Element).closest?.("a");if(!a)return;
    const href=a.getAttribute("href")||"";
@@ -30,7 +39,7 @@ export default function Analytics({measurementId, pixelId, matchingReviewed}: {m
    else if(/\/services([?#]|$)/.test(href))track("service_interest");
   };
   document.addEventListener("click",click);
-  return ()=>{document.removeEventListener("click",click);delete window.bagvedAnalytics;};
+  return ()=>{document.removeEventListener("click",click);window.removeEventListener('storage',storage);delete window.bagvedAnalytics;};
  },[measurementId,pixelId,matchingReviewed]);
  useEffect(()=>{trackPage();},[pathname]);
  return null;
