@@ -1,6 +1,7 @@
 .wrap{position:fixed;inset:0 0 auto;z-index:200;background:transparent}
 .bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;height:64px;gap:0}
 .language{justify-self:start;font-size:var(--t11);font-weight:700;letter-spacing:.14em;color:var(--color-primary)}
+.brandLogo{justify-self:center;display:flex}
 .logo{display:inline-flex;justify-self:center;transition:transform 200ms ease}
 .logo:hover{transform:scale(1.08)}
 .logoImg{display:block;width:195px;height:57.2px;object-fit:contain}
