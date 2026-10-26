@@ -1,3 +1,4 @@
+import ConsentBanner from "@/components/analytics/ConsentBanner";
 import LogoWall from "../../components/sections/LogoWall";
 
 export default function CookiesPage() {
@@ -42,10 +43,12 @@ export default function CookiesPage() {
           </p>
 
           <p>
-            Du kan når som helst trække dit samtykke tilbage eller slette
-            cookies via din browser. Bemærk, at blokering af visse cookies kan
-            påvirke funktionaliteten på sitet.
+            Du kan ændre eller trække dit samtykke tilbage under Dine cookievalg
+            her på siden. Du kan også slette cookies via din browser. Bemærk,
+            at blokering af visse cookies kan påvirke funktionaliteten på sitet.
           </p>
+
+          <ConsentBanner inline />
 
           <p style={{ marginBottom: 0 }}>
             Har du spørgsmål til vores cookie-praksis, kontakt os på

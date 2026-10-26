@@ -65,7 +65,7 @@ a:hover{
 
 .pageMain{
   min-height: calc(100vh - 120px);
-  padding-top: 56px;  /* VIGTIGT: skal svare til headerens højde — ændr kun begge steder */
+  padding-top: 64px;  /* Matcher headerens højde. */
 }
 
 /* Typography helpers (global) */
