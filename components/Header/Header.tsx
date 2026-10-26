@@ -32,7 +32,7 @@ export default function Header() {
 
   const logo = (
     <Link href="/" className={styles.logo} aria-label="BAGVED – forsiden" onClick={closeMenu}>
-      <Image src="/Logo.png" className={styles.logoImg} alt="BAGVED" width={150} height={71} priority />
+      <Image src="/Logo.png" className={styles.logoImg} alt="BAGVED" width={195} height={92} priority />
     </Link>
   );
   const navLink = (href: string, label: string) => {

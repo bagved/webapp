@@ -1,5 +1,5 @@
 .banner{position:fixed;z-index:210;bottom:16px;left:max(16px,calc((100vw - 1088px)/2));right:max(16px,calc((100vw - 1088px)/2));background:var(--color-bg);color:var(--color-primary);border:1px solid var(--color-secondary);box-shadow:0 12px 50px #571b1420;padding:20px;max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;font-family:var(--font-body)}
-.banner h2,.inline h2{font:700 28px/1.05 var(--font-heading);margin:0 0 6px}.banner p,.inline p{font-size:14px;line-height:1.6;margin:10px 0}.copy p{margin:0;max-width:62ch}
+.banner h2,.inline h1{font:700 28px/1.05 var(--font-heading);margin:0 0 6px}.banner p,.inline p{font-size:14px;line-height:1.6;margin:10px 0}.copy p{margin:0;max-width:62ch}
 .banner button,.inline button,.secondary a{font:600 13px/1.4 var(--font-body);padding:12px 18px;min-height:46px;cursor:pointer;border:1px solid var(--color-primary);background:transparent;color:var(--color-primary)}
 .controls{min-width:270px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.actions button{background:var(--color-primary);color:var(--color-bg);border-color:var(--color-primary)}.actions button:hover{background:var(--color-accent);border-color:var(--color-accent)}
 .secondary{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.secondary button,.secondary a{flex:1;text-align:center}
@@ -9,6 +9,6 @@
 .status{color:var(--color-primary);font:14px/1.6 var(--font-body)}
 .notice{position:fixed;bottom:16px;left:16px;right:16px;z-index:210;max-width:65ch;margin:0 auto;padding:16px;background:var(--color-bg);color:var(--color-primary);border:1px solid var(--color-secondary);font:14px/1.6 var(--font-body)}
 .banner button:focus-visible,.banner a:focus-visible,.inline button:focus-visible,.inline a:focus-visible,.inline input:focus-visible{outline:3px solid var(--color-accent);outline-offset:3px}
-@media(max-width:700px){.banner:not(:has(.settings)){display:block}.controls{min-width:0}.banner{left:8px;right:8px;bottom:8px;padding:18px;max-height:calc(100dvh - 16px)}.banner h2,.inline h2{font-size:27px}.copy p{font-size:13px}.actions{margin-top:14px!important}.actions button{padding:12px 8px;font-size:12px}}
+@media(max-width:700px){.banner:not(:has(.settings)){display:block}.controls{min-width:0}.banner{left:8px;right:8px;bottom:8px;padding:18px;max-height:calc(100dvh - 16px)}.banner h2,.inline h1{font-size:27px}.copy p{font-size:13px}.actions{margin-top:14px!important}.actions button{padding:12px 8px;font-size:12px}}
 .inline .controls{min-width:0}
 @media(max-width:400px){.inline{padding:16px}}

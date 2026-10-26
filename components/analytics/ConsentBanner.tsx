@@ -7,6 +7,7 @@ import {readConsent} from "@/lib/consent";
 import styles from "./ConsentBanner.module.css";
 
 export default function ConsentBanner({inline = false}: {inline?: boolean}) {
+ const Heading = inline ? 'h1' : 'h2';
  const pathname = usePathname();
  const [open,setOpen]=useState(false);
  const [statistics,setStatistics]=useState(false),[marketing,setMarketing]=useState(false);
@@ -33,7 +34,7 @@ export default function ConsentBanner({inline = false}: {inline?: boolean}) {
    :'Dine cookievalg er gemt. Du kan altid ændre dem på Cookie Policy-siden.'}</p>}
   {(inline||open)&&<section id={inline?'cookievalg':'bagved-cookie-banner'} className={inline?styles.inline:styles.banner} aria-labelledby={inline?'cookievalg-heading':'bagved-cookie-heading'}>
    <div className={styles.copy}>
-    <h2 id={inline?'cookievalg-heading':'bagved-cookie-heading'}>{inline?'Dine cookievalg':'Cookies på Bagved'}</h2>
+    <Heading id={inline?'cookievalg-heading':'bagved-cookie-heading'}>{inline?'Dine cookievalg':'Cookies på Bagved'}</Heading>
     <p>Vi bruger nødvendige funktioner. Statistik og markedsføring er dit valg.</p>
    </div>
    {inline&&<div className={styles.settings}>
