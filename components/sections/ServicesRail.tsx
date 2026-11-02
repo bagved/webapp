@@ -10,6 +10,7 @@ import styles from "./ServicesRail.module.css";
 
 export default function ServicesRail() {
   const [active, setActive] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
   const [width, setWidth] = useState(1100);
   const stage = useRef<HTMLDivElement>(null);
   const touchStart = useRef<number | null>(null);
@@ -25,7 +26,7 @@ export default function ServicesRail() {
   const select = (index: number) => setActive(Math.max(0, Math.min(productions.length - 1, index)));
   const cardWidth = Math.min(width * (width < 700 ? 0.82 : 0.64), 760);
   const current = productions[active];
-  return <section className={styles.section} id="services" aria-label="Produktioner">
+  return <section data-background-tint="48" className={styles.section} id="services" aria-label="Produktioner">
     <div className="container">
       <h2 className={styles.heading}>Flere måder at gøre indtryk på.</h2>
     </div>
@@ -51,9 +52,11 @@ export default function ServicesRail() {
           aria-roledescription="dias" aria-label={`${index + 1} af ${productions.length}`} aria-hidden={hidden}
           style={{ width: cardWidth, zIndex: 10 - Math.abs(distance), pointerEvents: hidden ? "none" : "auto" }}
           initial={false}
-          animate={{ x: distance * cardWidth * 0.57 - cardWidth / 2, z: reduceMotion ? 0 : -Math.abs(distance) * 320, rotateY: reduceMotion ? 0 : distance === 0 ? 0 : distance < 0 ? 42 : -42, scale: distance === 0 ? 1 : 0.78, opacity: hidden ? 0 : Math.abs(distance) === 2 ? 0.45 : 0.78 }}
+          animate={{ x: distance * cardWidth * 0.57 - cardWidth / 2, z: reduceMotion ? 0 : -Math.abs(distance) * 320, rotateY: reduceMotion ? 0 : distance === 0 ? 0 : distance < 0 ? 42 : -42, scale: distance === 0 ? 1 : 0.78, opacity: hidden ? 0 : distance === 0 ? 1 : Math.abs(distance) === 2 ? 0.45 : 0.78 }}
           transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 190, damping: 29 }}>
           <Link href={`/cases/${item.id}`} className={styles.imageLink} aria-label={item.headline} tabIndex={hidden ? -1 : 0}
+            onPointerEnter={event => { if (event.pointerType !== "touch") setHovered(index); }} onPointerLeave={() => setHovered(null)}
+            onFocus={() => setHovered(index)} onBlur={() => setHovered(null)}
             onClick={event => { if (distance !== 0) { event.preventDefault(); select(index); } }}>
             <div className={styles.image} data-cover-image>
               <Image src={item.image} alt={item.title} fill sizes="(max-width: 700px) 82vw, (max-width: 1200px) 64vw, 760px" />
@@ -66,9 +69,11 @@ export default function ServicesRail() {
       <div className={styles.caption} aria-live="polite" aria-atomic="true">
         <h3><Link href={`/cases/${current.id}`}>{current.headline}</Link></h3>
       </div>
-      <div className={styles.controls}>
-        <button type="button" onClick={() => select(active - 1)} disabled={active === 0} aria-label="Forrige produktion">Forrige</button>
-        <button type="button" onClick={() => select(active + 1)} disabled={active === productions.length - 1} aria-label="Næste produktion">Næste</button>
+      <div className={styles.dots} role="group" aria-label="Vælg produktion">
+        {productions.map((item, index) => <button type="button" key={item.id} className={styles.dot}
+          aria-label={`Vis ${item.title}`} aria-pressed={active === index} data-highlighted={(hovered ?? active) === index}
+          onPointerEnter={event => { if (event.pointerType !== "touch") setHovered(index); }} onPointerLeave={() => setHovered(null)}
+          onFocus={() => setHovered(index)} onBlur={() => setHovered(null)} onClick={() => select(index)} />)}
       </div>
       <Link className={styles.all} href="/cases">Udforsk eksemplerne</Link>
     </div>

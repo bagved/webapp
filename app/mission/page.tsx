@@ -167,7 +167,7 @@ export default function MissionPage() {
       <style>{css}</style>
 
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="mpHero">
+      <section data-background-tint="0" className="mpHero">
         <div className="container">
           <h1 className="mpHeroTitle">
             Vi elsker<br />vores arbejde.
@@ -199,7 +199,7 @@ export default function MissionPage() {
       </section>
 
       {/* ── Benefits ─────────────────────────────────────────── */}
-      <section className="mpBenefits">
+      <section data-background-tint="18" className="mpBenefits">
         <div className="container">
           <h2 className="mpSectionTitle">Det du kan forvente</h2>
 
@@ -216,7 +216,7 @@ export default function MissionPage() {
       </section>
 
       {/* ── Testimonial (single cycling) ─────────────────────── */}
-      <section className="mpTestimonials" aria-label="Testimonials">
+      <section data-background-tint="48" className="mpTestimonials" aria-label="Testimonials">
         <div className="mpTestiInner">
 
           <div className={`mpTestiBody ${teFade ? "mpTestiVisible" : "mpTestiHidden"}`}>
@@ -250,7 +250,7 @@ export default function MissionPage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className="mpFaq">
+      <section data-background-tint="0" className="mpFaq">
         <div className="container">
           <h2 className="mpFaqTitle">Spørgsmål & svar</h2>
           <p className="mpFaqHint">Alt det du måske spekulerer på.</p>
@@ -292,7 +292,7 @@ export default function MissionPage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="mpCta" aria-label="Kontakt os">
+      <section data-background-tint="48" className="mpCta" aria-label="Kontakt os">
         <div className="mpCtaLeft">
           <h2 className="mpCtaTitle">Kontakt os og få et skræddersyet tilbud</h2>
           <p className="mpCtaSub">

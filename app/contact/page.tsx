@@ -85,7 +85,7 @@ export default function ContactPage() {
 
 
 
-      <section className="contactTop" style={{ padding: 0 }}>
+      <section data-background-tint="0" className="contactTop" style={{ padding: 0 }}>
         <div className="container contentLayer" style={{ padding: "96px 0 64px" }}>
           <div className="topInner">
             <h1 className="contactTitle">Kontakt</h1>
@@ -98,7 +98,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="contactFormWrap" id="kontaktformular">
+      <section data-background-tint="48" className="contactFormWrap" id="kontaktformular">
 
         <div className="contactContainer contentLayer">
           <div className="darkGrid">

@@ -6,12 +6,14 @@
 .image{position:relative;width:100%;aspect-ratio:16 / 9;border-radius:8px;overflow:hidden;background:var(--color-secondary);box-shadow:0 24px 34px -24px color-mix(in srgb,var(--color-primary) 44%,transparent)}
 .image img{object-fit:cover}
 .imageLink:focus-visible{outline:3px solid var(--color-accent);outline-offset:6px;border-radius:8px}
-.bottom{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-.caption h3{font-family:var(--font-body);font-size:var(--t16);line-height:1.4;letter-spacing:0;font-weight:700;margin:0;max-width:25ch}
+.bottom{display:flex;flex-direction:column;gap:16px}
+.caption h3{font-family:var(--font-body);font-size:var(--t16);line-height:1.4;letter-spacing:0;font-weight:700;margin:0;text-align:center}
 .caption a{color:var(--color-primary)}
-.controls{display:flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.08em}
-.controls button{min-width:76px;min-height:44px;padding:8px 14px;border:1px solid color-mix(in srgb,var(--color-primary) 30%,transparent);border-radius:50%;background:transparent;color:inherit;font:700 var(--t11)/1.4 var(--font-body);cursor:pointer}
-.controls button:disabled{opacity:.25;cursor:default}
-.controls button:not(:disabled):hover{background:var(--color-primary);color:var(--color-bg)}
-.all{grid-column:1 / -1;justify-self:end;margin-top:20px;font-size:13px;border-bottom:1px solid var(--color-primary);padding-bottom:6px}
-@media(max-width:600px){.bottom{grid-template-columns:1fr}.controls{justify-self:end}.caption h3{max-width:100%}}
+.dots{display:flex;justify-content:center;gap:2px}
+.dot{display:grid;place-items:center;width:30px;height:44px;padding:0;border:0;background:transparent;cursor:pointer}
+.dot::before{content:"";width:5px;height:5px;border-radius:50%;background:color-mix(in srgb,var(--color-primary) 25%,transparent);transition:background 180ms ease,transform 180ms ease}
+.dot[data-highlighted=true]::before{background:var(--color-primary);transform:scale(1.4)}
+.dot:focus-visible{outline:2px solid var(--color-accent);outline-offset:0}
+.all{align-self:flex-end;margin-top:4px;display:inline-flex;align-items:center;padding:11px 22px;font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;white-space:nowrap;background:var(--color-primary);color:var(--color-bg);border:1.5px solid var(--color-primary);transition:background 150ms ease,color 150ms ease,border-color 150ms ease,transform 120ms ease}
+.all:hover{background:var(--color-accent);border-color:var(--color-accent);color:var(--color-bg);transform:translateY(-2px)}
+.all:focus-visible{outline:3px solid var(--color-accent);outline-offset:4px}

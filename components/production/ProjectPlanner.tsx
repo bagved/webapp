@@ -9,32 +9,30 @@ import ShowreelPlayer from "./ShowreelPlayer";
 import styles from "./ProductionPages.module.css";
 
 export default function ProjectPlanner() {
-  const [plan, setPlan] = useState<Plan>(defaultPlan);
+  const [plan, setPlan] = useState<Plan>({ context: "", goal: "", channels: [] });
   const planner = useRef<HTMLElement>(null);
   useEffect(() => {
     const context = new URLSearchParams(window.location.search).get("context");
     if (contexts.some(c => c.id === context)) setPlan(current => ({ ...current, context: context! }));
   }, []);
-  const result = describePlan(plan)!;
+  const result = describePlan(plan);
   const chooseContext = (context: string) => {
-    setPlan(current => ({ ...current, context }));
+    setPlan(current => ({ context, goal: current.goal || defaultPlan.goal, channels: current.channels.length ? current.channels : [...defaultPlan.channels] }));
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     planner.current?.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
   };
   const selectChannel = (id: string) => {
     setPlan(current => {
-      if (current.channels.includes(id) && current.channels.length === 1) return current;
       return { ...current, channels: current.channels.includes(id) ? current.channels.filter(c => c !== id) : [...current.channels, id] };
     });
   };
   return <>
-    <section ref={planner} id="project-planner" className={styles.planner} aria-labelledby="planner-title">
+    <section data-background-tint="0" ref={planner} id="project-planner" className={styles.planner} aria-labelledby="planner-title">
       <div className="container">
         <h1 id="planner-title" className={styles.title}>Hvad skal vi gøre muligt?</h1>
         <p className={styles.lead}>Start med jeres behov. Vi giver et bud på, hvordan én produktion kan få værdi flere steder.</p>
         <div className={styles.sentence}>
-          <label>Vi er <select aria-label="Hvem er I?" value={plan.context} onChange={event => setPlan({ ...plan, context: event.target.value })}>{contexts.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>
-          <label>og vi vil gerne <select aria-label="Hvad vil I opnå?" value={plan.goal} onChange={event => setPlan({ ...plan, goal: event.target.value })}>{goals.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}</select></label>
+          Vi er{" "}<label><select aria-label="Hvem er I?" value={plan.context} onChange={event => setPlan({ ...plan, context: event.target.value })}><option value="" disabled>vælg virksomhedstype</option>{contexts.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>{", og vi vil gerne "}<label><select aria-label="Hvad vil I opnå?" value={plan.goal} onChange={event => setPlan({ ...plan, goal: event.target.value })}><option value="" disabled>vælg jeres mål</option>{goals.map(g => <option key={g.id} value={g.id}>{g.label}</option>)}</select></label>.
         </div>
         <fieldset className={styles.channels}>
           <legend>Her skal indholdet leve <span>Vælg én eller flere</span></legend>
@@ -43,9 +41,10 @@ export default function ProjectPlanner() {
             <span>{channel.label}</span>
           </label>)}
         </fieldset>
+        {!result && <p className={styles.note}>Vælg virksomhedstype, mål og mindst én kanal for at se en idé til jer.</p>}
       </div>
     </section>
-    <section className={styles.recommendation} aria-labelledby="idea-title">
+    {result && <section data-background-tint="48" className={styles.recommendation} aria-labelledby="idea-title">
       <div className={`container ${styles.ideaGrid}`}>
         <div>
           <div aria-live="polite" aria-atomic="true">
@@ -64,8 +63,8 @@ export default function ProjectPlanner() {
           <ul className={styles.outputs}>{result.selected.map(channel => <li key={channel.id}><span>{channel.label}</span>{channel.output}</li>)}</ul>
         </div>
       </div>
-    </section>
-    <section className={`container ${styles.useCases}`} aria-labelledby="use-cases-heading">
+    </section>}
+    <section data-background-tint="0" className={`container ${styles.useCases}`} aria-labelledby="use-cases-heading">
       <h2 id="use-cases-heading" className={styles.sectionTitle}>Forskellige behov. Samme blik for helheden.</h2>
       <div className={styles.useGrid}>{contexts.map(context => <article className={styles.useCard} key={context.id}>
         <div className={styles.cardImage}><Image src={context.image} alt="" fill sizes="(max-width: 700px) 100vw, 50vw" /></div>

@@ -69,7 +69,7 @@ export default function HomeHero() {
   }, []);
 
   return (
-    <section className="homeHero" aria-label="Home hero">
+    <section data-background-tint="0" className="homeHero" aria-label="Home hero">
       <style>{css}</style>
 
       <div className="container heroInner">

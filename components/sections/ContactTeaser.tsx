@@ -65,7 +65,7 @@ export default function ContactTeaserSection() {
   }
 
   return (
-    <section className="ct" id="contact-teaser" aria-label="Kontakt">
+    <section data-background-tint="0" className="ct" id="contact-teaser" aria-label="Kontakt">
       <style>{css}</style>
 
 
