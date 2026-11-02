@@ -10,6 +10,7 @@
 //   <link> tags — skifter Google Fonts (opdater også styles/theme.css)
 
 import "./globals.css";
+import PageBackground from "@/components/ui/PageBackground";
 import Analytics from "@/components/analytics/Analytics";
 import ConsentBanner from "@/components/analytics/ConsentBanner";
 import type { ReactNode } from "react";
@@ -48,7 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Analytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-7J3HGDGM6C"} pixelId={process.env.NEXT_PUBLIC_OPENAI_PIXEL_ID || "HvBSQVgUXmJ4xvRvXYuTyZ"} matchingReviewed={true} />
         <Header />
-        <main className="pageMain">{children}</main>
+        <main className="pageMain"><PageBackground>{children}</PageBackground></main>
         <Footer />
         <ConsentBanner />
       </body>

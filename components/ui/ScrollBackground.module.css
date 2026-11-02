@@ -1,1 +1,1 @@
-.surface{--scroll-tint:0%;background-color:color-mix(in srgb,var(--color-secondary) var(--scroll-tint),var(--color-bg))}
+.surface{min-height:inherit;--scroll-tint:0%;background-color:color-mix(in srgb,var(--color-secondary) var(--scroll-tint),var(--color-bg))}

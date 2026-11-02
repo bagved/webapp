@@ -5,7 +5,6 @@ import {track} from "@/lib/measurement";
 // Contact details, draft prefill and submission retain the existing behavior.
 // The page background is shared with the homepage and Mission scroll treatment.
 
-import ScrollBackground from "@/components/ui/ScrollBackground";
 import React, { useEffect, useState } from "react";
 import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 
@@ -81,7 +80,6 @@ export default function ContactPage() {
   }, []);
 
   return (
-    <ScrollBackground page="contact">
     <div className="contactPage">
       <style>{css}</style>
 
@@ -163,7 +161,6 @@ export default function ContactPage() {
 
       </section>
     </div>
-    </ScrollBackground>
   );
 }
 

@@ -11,7 +11,7 @@
 .channels label span{display:block;border:1px solid var(--color-secondary);border-radius:30px;font-size:13px;padding:10px 18px;color:var(--color-primary)}
 .channels input:checked+span{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-bg)}
 .channels input:focus-visible+span{outline:3px solid var(--color-accent);outline-offset:3px}
-.recommendation{background:color-mix(in srgb,var(--color-secondary) 18%,var(--color-bg));padding:clamp(48px,7vw,96px) 0}
+.recommendation{background:transparent;padding:clamp(48px,7vw,96px) 0}
 .ideaGrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,88px)}
 .sectionTitle{font-family:var(--font-body);font-size:clamp(28px,3.4vw,46px);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin:0 0 24px;color:var(--color-primary)}
 .body{font-family:var(--font-body);font-size:var(--t16);line-height:1.8;color:var(--color-primary);max-width:56ch;margin:0 0 20px}

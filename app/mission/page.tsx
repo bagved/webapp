@@ -1,6 +1,5 @@
 "use client";
 
-import ScrollBackground from "@/components/ui/ScrollBackground";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -164,7 +163,6 @@ export default function MissionPage() {
   const t = TESTIMONIALS[teIdx];
 
   return (
-    <ScrollBackground page="mission">
     <div className="mp" aria-label="Mission">
       <style>{css}</style>
 
@@ -325,7 +323,6 @@ export default function MissionPage() {
       </section>
 
     </div>
-    </ScrollBackground>
   );
 }
 
