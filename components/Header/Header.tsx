@@ -25,6 +25,7 @@ export default function Header() {
   const closeButton = useRef<HTMLButtonElement>(null);
   const menuLinks = useRef<HTMLElement>(null);
   const [highlightedHref, setHighlightedHref] = useState("/");
+  const [previewHref, setPreviewHref] = useState<string | null>(null);
   const [ballY, setBallY] = useState<number | null>(null);
   const pathname = usePathname();
   const closeMenu = () => setNavOpen(false);
@@ -68,6 +69,7 @@ export default function Header() {
   useEffect(() => {
     if (!navOpen) {
       setBallY(null);
+      setPreviewHref(null);
       return;
     }
     const nav = menuLinks.current;
@@ -96,10 +98,22 @@ export default function Header() {
     return <Link key={href} href={href} onClick={closeMenu}
       aria-label={label} aria-describedby={descriptionId}
       aria-current={active ? "page" : undefined} data-highlighted={highlightedHref === href}
-      onPointerEnter={event => { if (event.pointerType !== "touch") highlightLink(event.currentTarget); }}
-      onFocus={event => highlightLink(event.currentTarget)}>
+      onPointerEnter={event => {
+        if (event.pointerType === "touch") return;
+        highlightLink(event.currentTarget);
+        setPreviewHref(href);
+      }}
+      onPointerLeave={event => {
+        if (document.activeElement !== event.currentTarget)
+          setPreviewHref(current => current === href ? null : current);
+      }}
+      onFocus={event => { highlightLink(event.currentTarget); setPreviewHref(href); }}
+      onBlur={event => {
+        if (!event.currentTarget.matches(":hover"))
+          setPreviewHref(current => current === href ? null : current);
+      }}>
       <span className={styles.linkLabel} data-menu-label>{label}</span>
-      <span className={styles.linkDescription} id={descriptionId}>{description}</span>
+      <span className={styles.screenReaderOnly} id={descriptionId}>{description}</span>
     </Link>;
   };
 
@@ -136,12 +150,24 @@ export default function Header() {
         </div>
       </Container>
       <div className={styles.menuContent}>
-        <nav ref={menuLinks} className={styles.links} aria-label="Hovednavigation">
-          <motion.span className={styles.menuBall} aria-hidden="true"
-            initial={false} animate={{ y: ballY ?? 0, opacity: ballY === null ? 0 : 1 }}
-            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 22, mass: 1 }} />
-          {MENU_ITEMS.map(navLink)}
-        </nav>
+        <div className={styles.menuNavigation}>
+          <nav ref={menuLinks} className={styles.links} aria-label="Hovednavigation">
+            <motion.span className={styles.menuBall} aria-hidden="true"
+              initial={false} animate={{ y: ballY ?? 0, opacity: ballY === null ? 0 : 1 }}
+              transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 22, mass: 1 }} />
+            {MENU_ITEMS.map(navLink)}
+          </nav>
+          <div className={styles.menuPreview} aria-hidden="true">
+            {MENU_ITEMS.map(({ href, label, description }) => (
+              <motion.div key={href} className={styles.previewItem} data-preview={href}
+                initial={false} animate={{ opacity: previewHref === href ? 1 : 0, x: reduceMotion || previewHref === href ? 0 : 16 }}
+                transition={{ duration: reduceMotion ? 0 : 0.22 }}>
+                <span className={styles.previewLabel}>{label}</span>
+                <p>{description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
         <nav className={styles.policies} aria-label="Politikker">
           <Link href="/privacy" onClick={closeMenu}>Privacy Policy</Link>
           <Link href="/cookies" onClick={closeMenu}>Cookie Policy</Link>
