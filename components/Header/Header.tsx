@@ -3,10 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import styles from "./Header.module.css";
 import Container from "../ui/Container";
+
+const MENU_ITEMS = [
+  { href: "/", label: "Forside", description: "Få et indblik i Bagved og det, vi kan skabe sammen." },
+  { href: "/services", label: "Ydelser", description: "Se use cases og forstå, hvilken værdi vi kan skabe for dig." },
+  { href: "/cases", label: "Eksempler", description: "Se specifikke produktioner, vi har lavet, og hvordan vi løste udfordringerne." },
+  { href: "/mission", label: "Mission", description: "Mød tankerne og ambitionerne bag Bagved." },
+  { href: "/contact", label: "Kontakt", description: "Fortæl os om din idé, og lad os finde den rette løsning sammen." },
+];
 
 export default function Header() {
   const [navOpen, setNavOpen] = useState(false);
@@ -15,6 +23,9 @@ export default function Header() {
   const reduceMotion = useReducedMotion();
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const menuLinks = useRef<HTMLElement>(null);
+  const [highlightedHref, setHighlightedHref] = useState("/");
+  const [ballY, setBallY] = useState<number | null>(null);
   const pathname = usePathname();
   const closeMenu = () => setNavOpen(false);
 
@@ -45,14 +56,51 @@ export default function Header() {
     };
   }, [navOpen]);
 
+  const highlightLink = useCallback((link: HTMLAnchorElement) => {
+    const nav = menuLinks.current;
+    const label = link.querySelector<HTMLElement>("[data-menu-label]");
+    if (!nav || !label) return;
+    const bounds = label.getBoundingClientRect();
+    setBallY(bounds.top - nav.getBoundingClientRect().top + bounds.height / 2 - 6);
+    setHighlightedHref(link.getAttribute("href") || "/");
+  }, []);
+
+  useEffect(() => {
+    if (!navOpen) {
+      setBallY(null);
+      return;
+    }
+    const nav = menuLinks.current;
+    if (!nav) return;
+    const currentLink = nav.querySelector<HTMLAnchorElement>('a[aria-current="page"]')
+      || nav.querySelector<HTMLAnchorElement>("a");
+    if (currentLink) highlightLink(currentLink);
+    const observer = new ResizeObserver(() => {
+      const link = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"))
+        .find(element => element.dataset.highlighted === "true");
+      if (link) highlightLink(link);
+    });
+    observer.observe(nav);
+    nav.querySelectorAll("a").forEach(link => observer.observe(link));
+    return () => observer.disconnect();
+  }, [navOpen, pathname, highlightLink]);
+
   const logo = (hidden = false) => (
     <Link href="/" className={styles.logo} aria-label="BAGVED – forsiden" onClick={closeMenu} tabIndex={hidden ? -1 : undefined}>
       <Image src="/Logo.png" className={styles.logoImg} alt="BAGVED" width={195} height={92} priority />
     </Link>
   );
-  const navLink = (href: string, label: string) => {
+  const navLink = ({ href, label, description }: typeof MENU_ITEMS[number]) => {
     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
-    return <Link href={href} onClick={closeMenu} aria-current={active ? "page" : undefined}>{label}</Link>;
+    const descriptionId = `menu-description-${href === "/" ? "home" : href.slice(1)}`;
+    return <Link key={href} href={href} onClick={closeMenu}
+      aria-label={label} aria-describedby={descriptionId}
+      aria-current={active ? "page" : undefined} data-highlighted={highlightedHref === href}
+      onPointerEnter={event => { if (event.pointerType !== "touch") highlightLink(event.currentTarget); }}
+      onFocus={event => highlightLink(event.currentTarget)}>
+      <span className={styles.linkLabel} data-menu-label>{label}</span>
+      <span className={styles.linkDescription} id={descriptionId}>{description}</span>
+    </Link>;
   };
 
   return <>
@@ -88,12 +136,11 @@ export default function Header() {
         </div>
       </Container>
       <div className={styles.menuContent}>
-        <nav className={styles.links} aria-label="Hovednavigation">
-          {navLink("/", "Forside")}
-          {navLink("/services", "Ydelser")}
-          {navLink("/cases", "Eksempler")}
-          {navLink("/mission", "Mission")}
-          {navLink("/contact", "Kontakt")}
+        <nav ref={menuLinks} className={styles.links} aria-label="Hovednavigation">
+          <motion.span className={styles.menuBall} aria-hidden="true"
+            initial={false} animate={{ y: ballY ?? 0, opacity: ballY === null ? 0 : 1 }}
+            transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 22, mass: 1 }} />
+          {MENU_ITEMS.map(navLink)}
         </nav>
         <nav className={styles.policies} aria-label="Politikker">
           <Link href="/privacy" onClick={closeMenu}>Privacy Policy</Link>
