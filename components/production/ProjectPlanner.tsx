@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "@/components/i18n/LocalizedLink";
 import { useEffect, useState } from "react";
 import { contexts, goals, channels, activities, frequencies, deliveryModes, describePlan, planContactHref, type Plan } from "@/lib/productionPlan";
-import ShowreelPlayer from "./ShowreelPlayer";
 import styles from "./ProductionPages.module.css";
 
 export default function ProjectPlanner() {
@@ -59,8 +58,9 @@ export default function ProjectPlanner() {
           <p className={styles.note}>{t("Dine valg bliver til et redigerbart oplæg i kontaktformularen. Intet bliver sendt, før du selv sender det.")}</p>
         </div>
         <div>
-          <ShowreelPlayer key={plan.context} poster={result.recommendation.image} />
-          <p className={styles.mediaCaption}>{t("Bagveds showreel · inspiration til jeres næste produktion")}</p>
+          <div className={styles.media}>
+            <Image src={result.recommendation.image} alt="" fill sizes="(max-width: 780px) 100vw, 60vw" />
+          </div>
           <h3 className={styles.smallTitle}>{t("Én produktion. Flere steder at bruge den.")}</h3>
           <ul className={styles.outputs}>{result.selected.map(channel => <li key={channel.id}><span>{t(channel.label)}</span>{t(channel.output)}</li>)}</ul>
         </div>
