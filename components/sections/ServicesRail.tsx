@@ -1,398 +1,79 @@
 "use client";
 
+import ArrowUpRight from "@/components/ui/ArrowUpRight";
+
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "motion/react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { SPORTS } from "../../lib/features";
-import InView from "../motion/InView";
-import { revealFade, staggerContainer } from "../motion/reveal";
-
-// Gør <Link> animérbar. Skal ligge uden for komponenten, ellers bygges den
-// forfra ved hver gentegning og animationen starter om.
-const MotionLink = motion.create(Link);
-
-type Item = {
-  id: string;
-  img: string;
-  title: string;
-  subtitle: string;
-  href: string;
-};
+import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { productions } from "@/lib/productions";
+import styles from "./ServicesRail.module.css";
 
 export default function ServicesRail() {
-  const items: Item[] = useMemo(() => [
-    { id: "livestream",               img: "/photos/Livestream.jpg",      title: "Livestream",                subtitle: "Live & broadcast",          href: "/cases?cat=live-broadcast&case=livestream" },
-    ...(SPORTS === "yes" ? [{ id: "sportsbroadcast", img: "/photos/sportsbroadcast.jpg", title: "Sportsbroadcast", subtitle: "Live & broadcast", href: "/cases?cat=live-broadcast&case=sportsbroadcast" }] : []),
-    { id: "webinar-studieproduktion", img: "/photos/studie_pre.jpg",      title: "Webinar & studieproduktion", subtitle: "Live & broadcast",          href: "/cases?cat=live-broadcast&case=webinar-studieproduktion" },
-    { id: "virksomhedsvideo",         img: "/photos/virksomhedsfilm.jpg", title: "Virksomhedsvideo",           subtitle: "Virksomhedsfilm & reklame", href: "/cases?cat=virksomhedsfilm-reklame&case=virksomhedsvideo" },
-    { id: "eventvideo",               img: "/photos/eventfilm.jpg",       title: "Eventvideo",                 subtitle: "Eventvideo & eventteknik",  href: "/cases?cat=eventvideo-eventteknik&case=eventvideo" },
-    { id: "eventteknik",              img: "/photos/lys_lyd_pre.jpg",     title: "Lyd, lys & eventteknik",     subtitle: "Eventvideo & eventteknik",  href: "/cases?cat=eventvideo-eventteknik&case=eventteknik" },
-  ], []);
-
-  const railRef = useRef<HTMLDivElement | null>(null);
-  const [scrollActive, setScrollActive] = useState(2);
-  const [hoverActive, setHoverActive]   = useState<number | null>(null);
-  const active = hoverActive ?? scrollActive;
-  const [canLeft, setCanLeft]   = useState(false);
-  const [canRight, setCanRight] = useState(false);
-
+  const [active, setActive] = useState(0);
+  const [width, setWidth] = useState(1100);
+  const stage = useRef<HTMLDivElement>(null);
+  const touchStart = useRef<number | null>(null);
+  const swiped = useRef(false);
+  const reduceMotion = useReducedMotion();
   useEffect(() => {
-    const el = railRef.current;
-    if (!el) return;
-    const update = () => {
-      const max = Math.max(1, el.scrollWidth - el.clientWidth);
-      const x   = el.scrollLeft;
-      setCanLeft(x > 6);
-      setCanRight(x < max - 6);
-    };
-    update();
-    el.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => { el.removeEventListener("scroll", update as any); window.removeEventListener("resize", update); };
+    const element = stage.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    const el = railRef.current;
-    if (!el) return;
-    let raf = 0;
-    const pickCentered = () => {
-      const mid   = el.getBoundingClientRect().left + el.clientWidth / 2;
-      const cards = Array.from(el.querySelectorAll<HTMLElement>("[data-card]"));
-      if (!cards.length) return;
-      let bestIdx = 0, bestDist = Infinity;
-      for (const card of cards) {
-        const r = card.getBoundingClientRect();
-        const d = Math.abs(r.left + r.width / 2 - mid);
-        if (d < bestDist) { bestDist = d; bestIdx = Number(card.dataset.idx ?? "0"); }
-      }
-      setScrollActive(bestIdx);
-    };
-    const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pickCentered); };
-    pickCentered();
-    el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => { cancelAnimationFrame(raf); el.removeEventListener("scroll", onScroll as any); window.removeEventListener("resize", onScroll); };
-  }, []);
-
-  useEffect(() => {
-    const card = railRef.current?.querySelector<HTMLElement>('[data-idx="2"]');
-    if (!card) return;
-    const y = window.scrollY;
-    card.scrollIntoView({ inline: "center", block: "nearest" });
-    window.scrollTo({ top: y, behavior: "instant" } as ScrollToOptions);
-  }, []);
-
-  const scrollTo = (idx: number) => {
-    const el = railRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>(`[data-idx="${idx}"]`);
-    if (!card) return;
-    const railRect = el.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-    const cardPosInScroll = el.scrollLeft + (cardRect.left - railRect.left);
-    el.scrollTo({ left: cardPosInScroll - (el.clientWidth - cardRect.width) / 2, behavior: "smooth" });
-  };
-
-  return (
-    <section className="srv" id="services" aria-label="Services">
-      <style>{css}</style>
-
-      <InView className="container srvTop">
-        <h2 className="srvHeading">Et udpluk af vores produktioner</h2>
-        <p className="srvSub">
-          Reklamefilm, livestream, og events, der skaber opmærksomhed og gør indtryk.
-        </p>
-      </InView>
-
-      <div className="railWrap">
-        <button
-          className={`navBtn navPrev ${canLeft ? "navVisible" : ""}`}
-          onClick={() => scrollTo(active - 1)}
-          aria-label="Forrige"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="10 3 5 8 10 13" />
-          </svg>
-        </button>
-
-        {/* staggerContainer: fliserne toner ind én ad gangen, første gang
-            man scroller ned til railen. Rækkefølgen styres i motion/reveal.ts */}
-        <motion.div
-          ref={railRef}
-          className="rail"
-          role="list"
-          aria-label="Service tiles"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={staggerContainer}
-        >
-          {items.map((it, i) => (
-            <MotionLink
-              key={it.id}
-              href={it.href}
-              className="tile"
-              role="listitem"
-              data-card
-              data-idx={i}
-              data-reveal
-              /* Kun opacity — ikke transform. Flisernes hover-zoom ligger i
-                 CSS (.tile:hover), og en inline transform ville slå den ud. */
-              variants={revealFade}
-              onMouseEnter={() => setHoverActive(i)}
-              onMouseLeave={() => setHoverActive(null)}
-            >
-              <div className="img">
-                {/* next/image: leverer AVIF/WebP i flisens faktiske bredde
-                    i stedet for den rå JPG. `sizes` skal matche --tileW i CSS. */}
-                <Image
-                  src={it.img}
-                  alt=""
-                  fill
-                  sizes="(max-width: 780px) 68vw, (max-width: 1480px) 27vw, 400px"
-                  className="imgEl"
-                />
-              </div>
-              <div className="meta">
-                <span className="t2">{it.subtitle}</span>
-                <span className="t1">{it.title}</span>
-              </div>
-            </MotionLink>
-          ))}
-        </motion.div>
-
-        <button
-          className={`navBtn navNext ${canRight ? "navVisible" : ""}`}
-          onClick={() => scrollTo(active + 1)}
-          aria-label="Næste"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 3 11 8 6 13" />
-          </svg>
-        </button>
+  const select = (index: number) => setActive(Math.max(0, Math.min(productions.length - 1, index)));
+  const cardWidth = Math.min(width * (width < 700 ? 0.82 : 0.64), 760);
+  const current = productions[active];
+  return <section className={styles.section} id="services" aria-label="Produktioner">
+    <div className="container">
+      <p className={styles.eyebrow}>Billeder, der gør noget ved dig</p>
+      <h2 className={styles.heading}>Flere måder at<br />gøre indtryk på.</h2>
+    </div>
+    <div ref={stage} className={styles.stage} role="region" aria-roledescription="karrusel" aria-label="Produktionsformater"
+      style={{ height: cardWidth * 9 / 16 + 76 }}
+      onKeyDown={event => {
+        if (event.key === "ArrowRight") { event.preventDefault(); select(active + 1); }
+        if (event.key === "ArrowLeft") { event.preventDefault(); select(active - 1); }
+      }}
+      onPointerDown={event => { if (event.pointerType === "touch") { touchStart.current = event.clientX; swiped.current = false; } }}
+      onPointerUp={event => {
+        if (touchStart.current === null) return;
+        const delta = event.clientX - touchStart.current;
+        if (Math.abs(delta) > 40) { swiped.current = true; select(active + (delta < 0 ? 1 : -1)); }
+        touchStart.current = null;
+      }}
+      onPointerCancel={() => { touchStart.current = null; }}
+      onClickCapture={event => { if (swiped.current) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
+      {productions.map((item, index) => {
+        const distance = index - active;
+        const hidden = Math.abs(distance) > 2;
+        return <motion.div key={item.id} className={styles.card} data-cover-card data-active={index === active} role="group"
+          aria-roledescription="dias" aria-label={`${index + 1} af ${productions.length}`} aria-hidden={hidden}
+          style={{ width: cardWidth, zIndex: 10 - Math.abs(distance), pointerEvents: hidden ? "none" : "auto" }}
+          initial={false}
+          animate={{ x: distance * cardWidth * 0.57 - cardWidth / 2, z: reduceMotion ? 0 : -Math.abs(distance) * 320, rotateY: reduceMotion ? 0 : distance === 0 ? 0 : distance < 0 ? 42 : -42, scale: distance === 0 ? 1 : 0.78, opacity: hidden ? 0 : Math.abs(distance) === 2 ? 0.45 : 0.78 }}
+          transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 190, damping: 29 }}>
+          <Link href={`/cases/${item.id}`} className={styles.imageLink} aria-label={item.headline} tabIndex={hidden ? -1 : 0}
+            onClick={event => { if (distance !== 0) { event.preventDefault(); select(index); } }}>
+            <div className={styles.image} data-cover-image>
+              <Image src={item.image} alt={item.title} fill sizes="(max-width: 700px) 82vw, (max-width: 1200px) 64vw, 760px" />
+            </div>
+          </Link>
+        </motion.div>;
+      })}
+    </div>
+    <div className={`container ${styles.bottom}`}>
+      <div className={styles.caption} aria-live="polite" aria-atomic="true">
+        <h3><Link href={`/cases/${current.id}`}>{current.headline} <ArrowUpRight /></Link></h3>
       </div>
-
-      {/* Dots — centered */}
-      <div className="srvDots" aria-hidden>
-        {items.map((_, i) => (
-          <button key={i} className={`dot ${i === active ? "dotOn" : ""}`} onClick={() => scrollTo(i)} />
-        ))}
+      <div className={styles.controls}>
+        <button type="button" onClick={() => select(active - 1)} disabled={active === 0} aria-label="Forrige produktion">←</button>
+        <span aria-live="off">{String(active + 1).padStart(2, "0")} / {String(productions.length).padStart(2, "0")}</span>
+        <button type="button" onClick={() => select(active + 1)} disabled={active === productions.length - 1} aria-label="Næste produktion">→</button>
       </div>
-
-      {/* CTA — right-aligned in container, same x as vpBtn / ctFooterRow */}
-      <InView className="container srvCtaRow" delay={0.1}>
-        <Link className="srvCta" href="/cases">Se alle eksempler →</Link>
-      </InView>
-
-    </section>
-  );
+      <Link className={styles.all} href="/cases">Udforsk eksemplerne <ArrowUpRight /></Link>
+    </div>
+  </section>;
 }
-
-const css = `
-.srv{
-  padding: clamp(32px, 4vw, 56px) 0 clamp(24px, 3vw, 40px);
-  background: color-mix(in srgb, var(--color-secondary) 18%, var(--color-bg));
-  overflow: hidden;
-}
-
-.srvTop{
-  text-align: left;
-  margin-bottom: clamp(20px, 3vw, 36px);
-}
-
-.srvHeading{
-  margin: 0 0 10px;
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: clamp(22px, 2.6vw, 36px);
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  color: var(--color-primary);
-}
-
-.srvSub{
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(14px, 1.25vw, 17px);
-  font-weight: 400;
-  line-height: 1.75;
-  color: color-mix(in srgb, var(--color-text) 72%, transparent);
-  max-width: 46ch;
-  text-align: left;
-}
-
-/* Rail wrapper */
-.railWrap{
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* Scrollable rail — tileW sized so 3 full + ~¼ tile visible on each side */
-.rail{
-  --tileW: clamp(240px, 27vw, 400px);
-  --tileH: clamp(300px, 34vw, 460px);
-  --edgePad: clamp(48px, 8vw, 120px);
-  --gap: clamp(12px, 1.6vw, 20px);
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: var(--tileW);
-  gap: var(--gap);
-  overflow-x: auto;
-  overflow-y: visible;
-  padding: 24px var(--edgePad) 32px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  flex: 1;
-}
-.rail::-webkit-scrollbar{ display: none; }
-
-/* Card */
-.tile{
-  display: flex;
-  flex-direction: column;
-  height: var(--tileH);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 340ms cubic-bezier(0.16,1,0.3,1);
-  transform-origin: center bottom;
-  will-change: transform;
-}
-
-@media (hover:hover){
-  .tile:hover{ transform: scale(1.04); }
-  .tile:hover .t1{ color: var(--color-accent); }
-  .tile:hover .t2{ color: var(--color-accent); }
-}
-
-/* Billedbeholder — position:relative kræves af <Image fill> */
-.img{
-  position: relative;
-  flex: 1;
-  overflow: hidden;
-  background-color: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
-}
-
-/* Selve billedet — cover/center giver samme beskæring som background-size: cover */
-.imgEl{
-  object-fit: cover;
-  object-position: center;
-}
-
-.meta{
-  flex: 0 0 auto;
-  padding: clamp(14px, 2vw, 20px) 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  text-align: center;
-}
-
-.t2{
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.20em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  transition: color 200ms ease;
-}
-
-.t1{
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 1.4;
-  color: var(--color-primary);
-  transition: color 200ms ease;
-}
-
-/* Arrow nav buttons */
-.navBtn{
-  position: absolute;
-  z-index: 2;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-  background: var(--color-bg);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--color-primary);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease, border-color 150ms ease, transform 130ms ease;
-}
-.navVisible{ opacity: 0.72; pointer-events: auto; }
-.navBtn:hover{ opacity: 1; border-color: var(--color-primary); transform: scale(1.08); }
-.navPrev{ left: clamp(8px, 1.5vw, 24px); }
-.navNext{ right: clamp(8px, 1.5vw, 24px); }
-
-/* Dots row — centered */
-.srvDots{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin-top: clamp(6px, 1vw, 12px);
-}
-
-.dot{
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  border: none;
-  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
-  cursor: pointer;
-  padding: 0;
-  transition: background 200ms ease, transform 200ms ease;
-}
-.dotOn{
-  background: var(--color-primary);
-  transform: scale(1.35);
-}
-
-/* CTA row — right-aligned in container, matches vpBtn / ctFooterRow x-position */
-.srvCtaRow{
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 16px;
-}
-
-.srvCta{
-  display: inline-flex;
-  align-items: center;
-  padding: 11px 22px;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background: transparent;
-  color: var(--color-primary);
-  border: 1.5px solid color-mix(in srgb, var(--color-primary) 28%, transparent);
-  transition: border-color 150ms ease, color 150ms ease, transform 120ms ease;
-}
-.srvCta:hover{
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  transform: translateY(-2px);
-}
-
-@media (max-width: 780px){
-  .rail{
-    --tileW: 68vw;
-    --tileH: clamp(300px, 88vw, 420px);
-    --edgePad: 16vw;
-    --gap: 12px;
-  }
-  .navBtn{ display: none; }
-}
-`;

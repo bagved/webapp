@@ -9,6 +9,7 @@
 // På MOBIL er videoen i stedet placeret inde i HomeHero (se HomeHero.tsx).
 // De to videoer er separate for at undgå konflikter med autoplay.
 
+import HomeExperience from "../components/sections/HomeExperience";
 import HomeHero from "../components/sections/HomeHero";
 import VideoPeek from "../components/sections/VideoPeek";
 import ServicesRail from "../components/sections/ServicesRail";
@@ -17,7 +18,7 @@ import { SPORTS } from "../lib/features";
 
 export default function Page() {
   return (
-    <>
+    <HomeExperience>
       <HomeHero />
 
       {SPORTS === "yes" && (
@@ -29,6 +30,6 @@ export default function Page() {
 
       <ServicesRail />
       <ContactTeaserSection />
-    </>
+    </HomeExperience>
   );
 }

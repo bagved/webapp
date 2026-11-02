@@ -1,4 +1,5 @@
 "use client";
+import { decodePlan, describePlan } from "@/lib/productionPlan";
 import {track} from "@/lib/measurement";
 
 // app/contact/page.tsx — KONTAKTSIDEN
@@ -33,7 +34,13 @@ export default function ContactPage() {
     const params = new URLSearchParams(window.location.search);
     const sub = params.get("subject");
     if (sub) setSubject(sub);
-    setDraft(loadDraft());
+    const existing = loadDraft();
+    const plan = decodePlan(params.get("idea"));
+    const idea = plan ? describePlan(plan) : null;
+    const message = idea && !existing.message.includes(idea.message)
+      ? [existing.message.trim(), idea.message].filter(Boolean).join("\n\n— Idé til produktion —\n\n")
+      : existing.message;
+    setDraft({ ...existing, message });
   }, []);
 
   const update = (key: keyof Draft) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
