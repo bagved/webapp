@@ -32,8 +32,10 @@ export default function ServicesRail() {
     if (!element) return;
     const onWheel = (event: WheelEvent) => {
       if (event.ctrlKey) return; // Preserve browser pinch zoom.
-      const horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY);
-      const raw = horizontal ? event.deltaX : event.deltaY;
+      // Ordinary vertical/diagonal scrolling always belongs to the page.
+      // A mouse can request horizontal navigation with Shift + wheel.
+      const horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.4;
+      const raw = horizontal ? event.deltaX : event.shiftKey ? event.deltaY : 0;
       if (!raw) return;
       const delta = raw * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1);
       const gesture = wheelGesture.current;
