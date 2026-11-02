@@ -6,7 +6,7 @@ import Link from "@/components/i18n/LocalizedLink";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { productions } from "@/lib/productions";
+import { examples } from "@/lib/examples";
 import styles from "./ServicesRail.module.css";
 
 export default function ServicesRail() {
@@ -26,7 +26,7 @@ export default function ServicesRail() {
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
-  const select = (index: number) => setActive(Math.max(0, Math.min(productions.length - 1, index)));
+  const select = (index: number) => setActive(Math.max(0, Math.min(examples.length - 1, index)));
   useEffect(() => {
     const element = stage.current;
     if (!element) return;
@@ -44,11 +44,11 @@ export default function ServicesRail() {
       gesture.lastEvent = now;
       const direction = Math.sign(delta);
       // Let vertical scrolling continue at the ends; never trap the page.
-      if ((active === 0 && direction < 0) || (active === productions.length - 1 && direction > 0)) return;
+      if ((active === 0 && direction < 0) || (active === examples.length - 1 && direction > 0)) return;
       event.preventDefault();
       gesture.amount += delta;
       if (Math.abs(gesture.amount) >= 45 && now - gesture.lastStep > 280) {
-        setActive(index => Math.max(0, Math.min(productions.length - 1, index + direction)));
+        setActive(index => Math.max(0, Math.min(examples.length - 1, index + direction)));
         gesture.amount = 0;
         gesture.lastStep = now;
       }
@@ -57,7 +57,7 @@ export default function ServicesRail() {
     return () => element.removeEventListener("wheel", onWheel);
   }, [active]);
   const cardWidth = Math.min(width * (width < 700 ? 0.82 : 0.64), 760);
-  const current = productions[active];
+  const current = examples[active];
   return <section data-background-tint="48" className={styles.section} id="services" aria-label={t("Produktioner")}>
     <div className="container">
       <h2 className={styles.heading}>{t("Flere måder at gøre indtryk på.")}</h2>
@@ -89,11 +89,11 @@ export default function ServicesRail() {
       onLostPointerCapture={() => { touchStart.current = null; }}
       onPointerCancel={() => { touchStart.current = null; }}
       onClickCapture={event => { if (swiped.current) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
-      {productions.map((item, index) => {
+      {examples.map((item, index) => {
         const distance = index - active;
         const hidden = Math.abs(distance) > 2;
         return <motion.div key={item.id} className={styles.card} data-cover-card data-active={index === active} role="group"
-          aria-roledescription={t("dias")} aria-label={t("{index} af {total}", { index: index + 1, total: productions.length })} aria-hidden={hidden}
+          aria-roledescription={t("dias")} aria-label={t("{index} af {total}", { index: index + 1, total: examples.length })} aria-hidden={hidden}
           style={{ width: cardWidth, zIndex: 10 - Math.abs(distance), pointerEvents: hidden ? "none" : "auto" }}
           initial={false}
           animate={{ x: distance * cardWidth * 0.57 - cardWidth / 2, z: reduceMotion ? 0 : -Math.abs(distance) * 320, rotateY: reduceMotion ? 0 : distance === 0 ? 0 : distance < 0 ? 42 : -42, scale: distance === 0 ? 1 : 0.78, opacity: hidden ? 0 : distance === 0 ? 1 : Math.abs(distance) === 2 ? 0.45 : 0.78 }}
@@ -114,7 +114,7 @@ export default function ServicesRail() {
         <h3><Link href={`/cases/${current.id}`}>{t(current.headline)}</Link></h3>
       </div>
       <div className={styles.dots} role="group" aria-label={t("Vælg produktion")}>
-        {productions.map((item, index) => <button type="button" key={item.id} className={styles.dot}
+        {examples.map((item, index) => <button type="button" key={item.id} className={styles.dot}
           aria-label={t("Vis {title}", { title: t(item.title) })} aria-pressed={active === index} data-highlighted={(hovered ?? active) === index}
           onPointerEnter={event => { if (event.pointerType !== "touch") setHovered(index); }} onPointerLeave={() => setHovered(null)}
           onFocus={() => setHovered(index)} onBlur={() => setHovered(null)} onClick={() => select(index)} />)}

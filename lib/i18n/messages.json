@@ -1698,5 +1698,113 @@
   "Dit valgte sprog gemmes lokalt i browseren, når du skifter sprog. Sprogvalget kan også følge med i sidens link og ændrer ikke dine cookievalg.": {
     "en": "Your selected language is stored locally in the browser when you switch languages. It may also be included in the page link and does not change your cookie choices.",
     "de": "Deine Sprachauswahl wird beim Sprachwechsel lokal im Browser gespeichert. Sie kann auch im Seitenlink mitgegeben werden und ändert deine Cookie-Auswahl nicht."
+  },
+  "Se hele casen": {
+    "en": "View the full case",
+    "de": "Die ganze Referenz ansehen"
+  },
+  "Produktionen omfattede": {
+    "en": "The production included",
+    "de": "Die Produktion umfasste"
+  },
+  "Livestream af events og konferencer.": {
+    "en": "Livestreams for events and conferences.",
+    "de": "Livestreams für Events und Konferenzen."
+  },
+  "En livestream af jeres event, konference eller lancering med flere kameraer, lyd og grafik. Publikum kan følge med online, mens arrangementet finder sted.": {
+    "en": "A livestream of your event, conference or launch with multiple cameras, audio and graphics. Your audience can follow online as the event happens.",
+    "de": "Ein Livestream eures Events, eurer Konferenz oder Präsentation mit mehreren Kameras, Ton und Grafik. Euer Publikum kann das Geschehen live online verfolgen."
+  },
+  "Sportsproduktion til broadcast og livestream.": {
+    "en": "Sports production for broadcast and livestream.",
+    "de": "Sportproduktion für Broadcast und Livestream."
+  },
+  "En sportsproduktion til broadcast, livestream eller storskærm. Vi kan vise konkurrencer, kampe og atletikstævner til seere hjemme og publikum på stedet.": {
+    "en": "Sports production for broadcast, livestream or big screens. We can bring competitions, matches and athletics meetings to viewers at home and audiences at the venue.",
+    "de": "Sportproduktion für Broadcast, Livestream oder Großbildschirme. Wir können Wettbewerbe, Spiele und Leichtathletikveranstaltungen für Zuschauer zu Hause und vor Ort zeigen."
+  },
+  "Webinarer og studieproduktion.": {
+    "en": "Webinars and studio production.",
+    "de": "Webinare und Studioproduktion."
+  },
+  "Webinarer, præsentationer og samtaler optaget i studie eller sendt live. Formatet kan rumme oplæg, interviews og flere medvirkende.": {
+    "en": "Webinars, presentations and conversations recorded in a studio or broadcast live. The format can include talks, interviews and multiple participants.",
+    "de": "Webinare, Präsentationen und Gespräche, im Studio aufgezeichnet oder live gesendet. Das Format bietet Raum für Vorträge, Interviews und mehrere Mitwirkende."
+  },
+  "Virksomhedsfilm til web og præsentation.": {
+    "en": "Company films for websites and presentations.",
+    "de": "Unternehmensfilme für Web und Präsentationen."
+  },
+  "En virksomhedsfilm med interviews, hverdagsbilleder og produkter. Brug filmen til at præsentere virksomheden på hjemmesiden, i salg eller over for kommende kolleger.": {
+    "en": "A company film with interviews, everyday scenes and products. Use it to introduce your business on your website, in sales or to future colleagues.",
+    "de": "Ein Unternehmensfilm mit Interviews, Alltagsszenen und Produkten. Präsentiert euer Unternehmen auf der Website, im Vertrieb oder gegenüber künftigen Kollegen."
+  },
+  "Eventfilm, highlights og interviews.": {
+    "en": "Event films, highlights and interviews.",
+    "de": "Eventfilme, Highlights und Interviews."
+  },
+  "En eventfilm med stemningsbilleder, highlights og korte interviews. Materialet kan bruges som tilbageblik, på sociale medier og til at invitere til næste arrangement.": {
+    "en": "An event film with atmosphere shots, highlights and short interviews. Use it for a recap, on social media and to invite people to your next event.",
+    "de": "Ein Eventfilm mit Stimmungsbildern, Highlights und kurzen Interviews. Nutzt das Material als Rückblick, auf Social Media und als Einladung zum nächsten Event."
+  },
+  "Lyd, lys og teknik til events.": {
+    "en": "Sound, lighting and technology for events.",
+    "de": "Ton, Licht und Technik für Events."
+  },
+  "Lyd, lys og billedafvikling til events, konferencer og hybride arrangementer. Vi kan planlægge teknikken og koordinere afviklingen på dagen.": {
+    "en": "Sound, lighting and visual production for events, conferences and hybrid gatherings. We can plan the technology and coordinate delivery on the day.",
+    "de": "Ton, Licht und Bildregie für Events, Konferenzen und hybride Veranstaltungen. Wir können die Technik planen und den Ablauf vor Ort koordinieren."
+  },
+  "Virksomhedsfilm til web og sociale medier.": {
+    "en": "Company films for websites and social media.",
+    "de": "Unternehmensfilme für Web und Social Media."
+  },
+  "Sportsproduktion til livestream og storskærm.": {
+    "en": "Sports production for livestream and big screens.",
+    "de": "Sportproduktion für Livestream und Großbildschirme."
+  },
+  "En sportsproduktion med flere kameraer til livestream, broadcast eller storskærm, tilpasset jeres arrangement.": {
+    "en": "Multi-camera sports production for livestream, broadcast or big screens, tailored to your event.",
+    "de": "Eine Sportproduktion mit mehreren Kameras für Livestream, Broadcast oder Großbildschirme, passend zu eurer Veranstaltung."
+  },
+  "Vi kan samle liveproduktion, interviews og highlights, så både publikum på stedet og seerne hjemme kan følge med.": {
+    "en": "We can combine live production, interviews and highlights so audiences at the venue and viewers at home can follow the action.",
+    "de": "Wir können Liveproduktion, Interviews und Highlights verbinden, damit Zuschauer vor Ort und zu Hause das Geschehen verfolgen können."
+  },
+  "Livestream af hybridevents og konferencer.": {
+    "en": "Livestreams for hybrid events and conferences.",
+    "de": "Livestreams für Hybridevents und Konferenzen."
+  },
+  "Eventfilm, highlights og fotos.": {
+    "en": "Event films, highlights and photos.",
+    "de": "Eventfilme, Highlights und Fotos."
+  },
+  "Webinar med præsentation og samtale.": {
+    "en": "Webinars with presentations and conversation.",
+    "de": "Webinare mit Präsentationen und Gesprächen."
+  },
+  "Atletik stævne til Broadcast og Storskærm": {
+    "en": "Athletics meeting for broadcast and big screens",
+    "de": "Leichtathletikveranstaltung für Broadcast und Großbildschirme"
+  },
+  "CAG 2025 · Østerbro Stadion": {
+    "en": "CAG 2025 · Østerbro Stadion",
+    "de": "CAG 2025 · Østerbro Stadion"
+  },
+  "Broadcast og storskærmsproduktion fra atletikstævnet CAG 2025 på Østerbro Stadion. Produceret i samarbejde med Sports Productions.": {
+    "en": "Broadcast and big-screen production from the CAG 2025 athletics meeting at Østerbro Stadion. Produced in collaboration with Sports Productions.",
+    "de": "Broadcast- und Großbildschirmproduktion vom Leichtathletikmeeting CAG 2025 im Østerbro Stadion. Produziert in Zusammenarbeit mit Sports Productions."
+  },
+  "Bagved deltog i produktionen til broadcast og storskærm i samarbejde med Sports Productions.": {
+    "en": "Bagved contributed to the broadcast and big-screen production in collaboration with Sports Productions.",
+    "de": "Bagved wirkte in Zusammenarbeit mit Sports Productions an der Broadcast- und Großbildschirmproduktion mit."
+  },
+  "Broadcast af atletikstævnet": {
+    "en": "Broadcast of the athletics meeting",
+    "de": "Übertragung des Leichtathletikmeetings"
+  },
+  "Billedproduktion til stadionets storskærm": {
+    "en": "Visual production for the stadium’s big screen",
+    "de": "Bildproduktion für den Großbildschirm im Stadion"
   }
 }

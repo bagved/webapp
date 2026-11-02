@@ -4,7 +4,8 @@ import { useI18n } from "@/components/i18n/LanguageProvider";
 import Link from "@/components/i18n/LocalizedLink";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { productions, productionCategories } from "@/lib/productions";
+import { productionCategories } from "@/lib/productions";
+import { examples } from "@/lib/examples";
 import ProductionMedia from "./ProductionMedia";
 import styles from "./ProductionPages.module.css";
 
@@ -14,7 +15,7 @@ export default function CasesExplorer({ initialCategory = "all", initialFormat =
   const [expanded, setExpanded] = useState<string | null>(initialFormat);
   const [columns, setColumns] = useState(3);
   const panel = useRef<HTMLElement>(null);
-  const formats = productions.filter(item => category === "all" || item.category === category);
+  const formats = examples.filter(item => category === "all" || item.category === category);
   useEffect(() => {
     const tablet = window.matchMedia("(max-width: 780px)");
     const mobile = window.matchMedia("(max-width: 600px)");
@@ -54,7 +55,7 @@ export default function CasesExplorer({ initialCategory = "all", initialFormat =
                   onClick={() => setExpanded(isOpen ? null : item.id)}>
                   <div className={styles.cardImage}><Image src={item.image} alt={t("")} fill sizes="(max-width: 600px) 100vw, (max-width: 780px) 50vw, 33vw" /></div>
                   <h2>{t(item.headline)}</h2>
-                  <p>{t(item.title)}</p>
+                  <p>{t(item.kind === "case" ? item.subtitle : item.title)}</p>
                 </button>
               </article>;
             })}
@@ -62,8 +63,8 @@ export default function CasesExplorer({ initialCategory = "all", initialFormat =
           {selected && <section ref={panel} id={`case-${selected.id}`} className={styles.expandedFormat} aria-labelledby={`expanded-heading-${selected.id}`}>
             <div className={styles.expandedTop}><h2 id={`expanded-heading-${selected.id}`} className={styles.sectionTitle}>{t(selected.title)}</h2><button type="button" className={styles.closeFormat} onClick={close}>{t("Luk eksempel")}</button></div>
             <div className={styles.ideaGrid}>
-              <div><p className={styles.body}>{t(selected.intro)}</p><h3 className={styles.smallTitle}>{t(selected.challenge)}</h3><p className={styles.body}>{t(selected.approach)}</p><Link className={styles.button} href={`/contact?subject=${encodeURIComponent(selected.subject)}#kontaktformular`}>{t("Lad os tale om jeres idé")}</Link></div>
-              <div><ProductionMedia key={selected.id} production={selected} /><h3 className={styles.smallTitle}>{t("Det kan I få med videre")}</h3><ul className={styles.outputs}>{selected.deliverables.map(text => <li key={text}>{t(text)}</li>)}</ul></div>
+              <div><p className={styles.body}>{t(selected.intro)}</p>{selected.kind === "case" ? <><p className={styles.body}>{t(selected.role)}</p><Link className={styles.breadcrumb} href={`/cases/${selected.id}`}>{t("Se hele casen")}</Link></> : <><h3 className={styles.smallTitle}>{t(selected.challenge)}</h3><p className={styles.body}>{t(selected.approach)}</p></>}<Link className={styles.button} href={`/contact?subject=${encodeURIComponent(selected.subject)}#kontaktformular`}>{t("Lad os tale om jeres idé")}</Link></div>
+              <div><ProductionMedia key={selected.id} production={selected} />{selected.kind === "case" && selected.illustrative !== false && <p className={styles.mediaCaption}>{t("Illustrationsbillede · viser produktionsformatet, ikke den konkrete opgave")}</p>}<h3 className={styles.smallTitle}>{t(selected.kind === "case" ? "Produktionen omfattede" : "Det kan I få med videre")}</h3><ul className={styles.outputs}>{selected.deliverables.map(text => <li key={text}>{t(text)}</li>)}</ul></div>
             </div>
           </section>}
         </div>;

@@ -1,11 +1,21 @@
-// Project facts supplied by the owner. Images illustrate formats; they are not project documentation.
-export const clientCases = [
+import type { ProductionVideo } from "./productions";
+
+export type ClientCase = {
+  id: string; category: "live" | "film" | "event"; title: string; subtitle: string;
+  image: string; partner: string | null; client: string; intro: string; role: string;
+  deliverables: string[]; subject: string; featured?: boolean; video?: ProductionVideo;
+  illustrative?: boolean;
+};
+
+// Project facts supplied by the owner. Generic images remain labelled as illustrations.
+export const clientCases: ClientCase[] = [
   {
-    id: "cag-2025", category: "live", title: "CAG 2025", subtitle: "Østerbro Stadion · Livestream & storskærm",
+    id: "cag-2025", category: "live", title: "Atletik stævne til Broadcast og Storskærm", subtitle: "CAG 2025 · Østerbro Stadion",
+    featured: true, illustrative: true,
     image: "/photos/sportsbroadcast.jpg", partner: "Sports Productions", client: "CAG 2025",
-    intro: "Livestream og storskærm ved CAG 2025 på Østerbro Stadion. Opgaven blev gennemført i samarbejde med Sports Productions.",
-    role: "Livestream og storskærm i samarbejde med Sports Productions.",
-    deliverables: ["Livestream", "Storskærm"], subject: "Sportsbroadcast",
+    intro: "Broadcast og storskærmsproduktion fra atletikstævnet CAG 2025 på Østerbro Stadion. Produceret i samarbejde med Sports Productions.",
+    role: "Bagved deltog i produktionen til broadcast og storskærm i samarbejde med Sports Productions.",
+    deliverables: ["Broadcast af atletikstævnet", "Billedproduktion til stadionets storskærm"], subject: "Sportsbroadcast",
   },
   {
     id: "finansforbundet-nytaarskur", category: "event", title: "Nytårskur for Finansforbundet", subtitle: "Eventproduktion · I samarbejde med Moot Agency",
@@ -21,4 +31,4 @@ export const clientCases = [
     role: "Virksomhedsvideo og hjemmesidelayout.",
     deliverables: ["Virksomhedsvideo", "Hjemmesidelayout"], subject: "Virksomhedsvideo",
   },
-] as const;
+];

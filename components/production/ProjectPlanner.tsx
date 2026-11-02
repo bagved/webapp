@@ -8,6 +8,7 @@ import Link from "@/components/i18n/LocalizedLink";
 import { useEffect, useState } from "react";
 import { contexts, goals, channels, activities, frequencies, deliveryModes, describePlan, planContactHref, type Plan } from "@/lib/productionPlan";
 import styles from "./ProductionPages.module.css";
+import { clientCases } from "@/lib/clientCases";
 
 export default function ProjectPlanner() {
   const { t } = useI18n();
@@ -72,6 +73,7 @@ export default function ProjectPlanner() {
         <div className={styles.cardImage}><Image src={context.image} alt={t("")} fill sizes="(max-width: 700px) 100vw, 50vw" /></div>
         <h3>{t(context.title)}</h3>
         <p>{t(context.lead)}</p><p>{t(context.value)}</p>
+        {"caseId" in context && <p><Link href={`/cases/${context.caseId}`}>{t(clientCases.find(project => project.id === context.caseId)!.title)}</Link></p>}
       </article>)}</div>
     </section>
   </>;

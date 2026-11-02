@@ -52,3 +52,19 @@ Den tilføjer ikke særskilte SEO-ruter eller serverrenderede engelske/tyske sid
 embed-URL og videotitel. `ProductionMedia` viser casens billede, indtil dette
 felt findes. En specifik video indlæses først efter klik. Cases bruger ikke
 længere den fælles showreel som erstatning for en endnu ikke tilføjet casevideo.
+
+## Kundecases og egne videofiler
+
+`lib/examples.ts` samler de udvalgte kundecases (`featured: true` i
+`lib/clientCases.ts`) og produktionsformaterne til én fælles liste. Forsidens hjul
+og den lille, udfoldelige oversigt på Eksempler bruger den samme rækkefølge og
+samme tekster. De øvrige kundecases kan stadig have egne detaljesider uden at
+blive fremhævet automatisk.
+
+En godkendt MP4/WebM-fil kan tilføjes på en case eller et produktionsformat som
+`video: { kind: "file", src: "https://…/video.mp4", title: "…" }`. Afspilleren
+bruger browserens egne kontroller, `playsInline` og `preload="none"`, uden autoplay
+eller en ekstern video-iframe. URL'en skal være en tilgængelig videofil, ikke en
+Creative Cloud-side, der kræver login. Vælg et rigtigt stillbillede fra produktionen
+som `image`, og sæt `illustrative: false`, når billedet faktisk dokumenterer casen.
+Bevar illustrationsmærkningen, så længe der bruges et generisk formatbillede.

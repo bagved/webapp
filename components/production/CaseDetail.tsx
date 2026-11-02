@@ -1,7 +1,6 @@
 "use client";
 import { useI18n } from "@/components/i18n/LanguageProvider";
 import Link from "@/components/i18n/LocalizedLink";
-import Image from "next/image";
 import { productions } from "@/lib/productions";
 import { clientCases } from "@/lib/clientCases";
 import ProductionMedia from "./ProductionMedia";
@@ -18,8 +17,8 @@ export default function CaseDetail({ slug }: { slug: string }) {
       <h1 className={styles.title}>{t(project ? project.title : format!.headline)}</h1>
       <p className={styles.lead}>{t(item.intro)}</p>
       <figure style={{ margin: 0 }}>
-        {format ? <ProductionMedia key={format.id} production={format} priority /> : <div className={styles.media}><Image src={item.image} alt={t("Illustration af produktionsformatet")} fill sizes="100vw" priority /></div>}
-        {project && <figcaption className={styles.mediaCaption}>{t("Illustrationsbillede · viser produktionsformatet, ikke den konkrete opgave")}</figcaption>}
+        <ProductionMedia key={item.id} production={item} priority />
+        {project && project.illustrative !== false && <figcaption className={styles.mediaCaption}>{t("Illustrationsbillede · viser produktionsformatet, ikke den konkrete opgave")}</figcaption>}
       </figure>
     </section>
     {project ? <section className={styles.detailCopy} aria-label={t("Om projektet")}>
