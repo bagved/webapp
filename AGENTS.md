@@ -19,3 +19,5 @@ Use meaningful tests for changes. Document unperformed checks honestly. Do not s
 
 - The homepage Cover Flow carousel uses an opaque front cover and dot navigation that indicates the front/hovered item; do not replace the dots with Forrige/Næste buttons or padded counters. Its examples CTA matches the existing homepage Se eksempler button.
 - The services needs selector reads as a continuous sentence with clearly interactive dropdowns. Start with unselected context/goal/channels and show a personalized recommendation only after a valid deliberate selection. Keep the fixed use-case cards visible before selection.
+
+- Services and Contact use the shared transparent, underlined ThemedSelect control. Services includes activity, recurrence and participation format in its recommendation and contact brief; keep legacy idea links readable. The Mission invitation contains a purely decorative escaping Nej label, never a real refusal/consent control; Ja is the only navigation action. Respect reduced motion and never apply this joke to cookies, forms or actual consent choices.

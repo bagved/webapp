@@ -17,21 +17,51 @@ export const channels = [
   { id: "youtube", label: "YouTube", output: "En længere 16:9-version og korte uddrag til YouTube." },
   { id: "internal", label: "Internt / nyhedsbrev", output: "Udvalgte klip og fotos til intern kommunikation og nyhedsbreve." },
 ] as const;
-export type Plan = { context: string; goal: string; channels: string[] };
-export const defaultPlan: Plan = { context: "hybrid", goal: "awareness", channels: ["website", "linkedin"] };
-export function validatePlan(value: Plan): Plan | null {
+export const activities = [
+  { id: "event", label: "et event" },
+  { id: "livestream", label: "en livestream" },
+  { id: "film", label: "en video" },
+  { id: "webinar", label: "et webinar" },
+  { id: "unsure", label: "en idé, vi gerne vil udforske" },
+] as const;
+export const frequencies = [
+  { id: "once", label: "som en enkelt produktion", note: "Vi kan samle planlægning, optagelse og levering i ét afgrænset forløb." },
+  { id: "frequent", label: "flere gange om ugen", note: "Et fast setup, genkendelig grafik og en tydelig afviklingsplan kan gøre hyppige produktioner lettere at gennemføre." },
+  { id: "weekly", label: "hver uge", note: "Et ugentligt format kan bygges op som en serie med et fast udtryk og en genkendelig rytme." },
+  { id: "monthly", label: "hver måned", note: "En månedlig plan kan samle idéer, optagelser og udgivelser, så der er en rød tråd fra gang til gang." },
+  { id: "quarterly", label: "hvert kvartal", note: "Et tilbagevendende koncept kan tilpasses hvert kvartals budskaber og aktiviteter." },
+  { id: "yearly", label: "hvert år", note: "Et årligt koncept kan skabe genkendelighed, mens indhold og afvikling tilpasses den enkelte udgave." },
+  { id: "as-needed", label: "efter behov", note: "Vi kan finde et fleksibelt setup, hvor hver produktion tager udgangspunkt i den konkrete opgave." },
+  { id: "unsure", label: "med endnu ukendt hyppighed", note: "Vi kan sammen afklare, om et enkelt projekt eller et tilbagevendende format passer bedst." },
+] as const;
+export const deliveryModes = [
+  { id: "hybrid", label: "hybridt", note: "Vi tænker oplevelsen i lokalet og online sammen, så lyd, billeder og deltagelse fungerer for begge målgrupper." },
+  { id: "online", label: "online", note: "Vi planlægger indhold og afvikling til dem, der følger med på skærmen." },
+  { id: "onsite", label: "fysisk", note: "Vi tager udgangspunkt i oplevelsen på stedet og kan dokumentere den til brug bagefter." },
+  { id: "mixed", label: "forskelligt fra gang til gang", note: "Vi kan tilpasse samme grundidé til fysiske, digitale og hybride udgaver." },
+  { id: "unsure", label: "ikke afklaret endnu", note: "Format og teknik finder vi ud af sammen, inden vi lægger den endelige plan." },
+] as const;
+export type Plan = { context: string; goal: string; channels: string[]; activity?: string; frequency?: string; mode?: string };
+export type ValidPlan = Plan & { activity: string; frequency: string; mode: string };
+export const defaultPlan: ValidPlan = { context: "hybrid", goal: "awareness", channels: ["website", "linkedin"], activity: "event", frequency: "once", mode: "hybrid" };
+export function validatePlan(value: Plan): ValidPlan | null {
   if (!contexts.some(c => c.id === value.context) || !goals.some(g => g.id === value.goal)) return null;
   if (!value.channels.length || value.channels.length > channels.length || !value.channels.every(id => channels.some(c => c.id === id))) return null;
-  return { context: value.context, goal: value.goal, channels: [...new Set(value.channels)] };
+  // Missing new fields represent a legacy link. Explicit empty fields remain incomplete choices.
+  const activity = value.activity ?? "unsure", frequency = value.frequency ?? "unsure", mode = value.mode ?? "unsure";
+  if (!activities.some(item => item.id === activity) || !frequencies.some(item => item.id === frequency) || !deliveryModes.some(item => item.id === mode)) return null;
+  return { context: value.context, goal: value.goal, channels: [...new Set(value.channels)], activity, frequency, mode };
 }
 export function encodePlan(plan: Plan) {
-  return `${plan.context}:${plan.goal}:${plan.channels.join(",")}`;
+  const valid = validatePlan(plan);
+  return valid ? `v2:${valid.context}:${valid.goal}:${valid.channels.join(",")}:${valid.activity}:${valid.frequency}:${valid.mode}` : "";
 }
 export function decodePlan(raw: string | null): Plan | null {
   if (!raw || raw.length > 200) return null;
   const parts = raw.split(":");
-  if (parts.length !== 3) return null;
-  return validatePlan({ context: parts[0], goal: parts[1], channels: parts[2].split(",") });
+  if (parts.length === 3) return validatePlan({ context: parts[0], goal: parts[1], channels: parts[2].split(",") });
+  if (parts.length !== 7 || parts[0] !== "v2") return null;
+  return validatePlan({ context: parts[1], goal: parts[2], channels: parts[3].split(","), activity: parts[4], frequency: parts[5], mode: parts[6] });
 }
 export function describePlan(plan: Plan) {
   const valid = validatePlan(plan);
@@ -39,14 +69,22 @@ export function describePlan(plan: Plan) {
   const context = contexts.find(c => c.id === valid.context)!;
   const goal = goals.find(g => g.id === valid.goal)!;
   const selected = channels.filter(c => valid.channels.includes(c.id));
+  const activity = activities.find(item => item.id === valid.activity)!;
+  const frequency = frequencies.find(item => item.id === valid.frequency)!;
+  const mode = deliveryModes.find(item => item.id === valid.mode)!;
+  let recommendation: { title: string; lead: string; value: string; image: string; subject: string } = context;
+  if (activity.id === "film") recommendation = contexts[0];
+  else if (activity.id === "livestream") recommendation = context.id === "sports" ? contexts[1] : contexts[2];
+  else if (activity.id === "event") recommendation = mode.id === "online" || mode.id === "hybrid" ? contexts[2] : contexts[3];
+  else if (activity.id === "webinar") recommendation = { title: "Viden, man kan følge med i.", lead: "Et webinar med klar struktur, god lyd og plads til jeres faglighed.", value: "Optagelsen kan blive til korte faglige klip og materiale til jeres vidensbank.", image: "/photos/studie_pre.jpg", subject: "Livestream" };
   return {
-    context, goal, selected,
-    message: `Hej Bagved,\n\nVi er ${context.label}, og vi vil gerne ${goal.label}.\n\nVi vil gerne tale om denne idé:\n${context.lead}\n\nVi vil bruge indholdet på: ${selected.map(c => c.label).join(", ")}.\n${selected.map(c => `- ${c.output}`).join("\n")}\n\nLad os finde ud af, hvad der passer til vores rammer.`,
+    context, goal, selected, activity, frequency, mode, recommendation,
+    message: `Hej Bagved,\n\nVi er ${context.label}, og vi vil gerne ${goal.label}.\nVi planlægger ${activity.label} ${frequency.label}, og formatet er ${mode.label}.\n\nVi vil gerne tale om denne idé:\n${recommendation.lead}\n\n${frequency.note}\n${mode.note}\n\nVi vil bruge indholdet på: ${selected.map(c => c.label).join(", ")}.\n${selected.map(c => `- ${c.output}`).join("\n")}\n\nLad os finde ud af, hvad der passer til vores rammer.`,
   };
 }
 export function planContactHref(plan: Plan) {
   const result = describePlan(plan);
   if (!result) return "/contact#kontaktformular";
-  const params = new URLSearchParams({ subject: result.context.subject, idea: encodePlan(plan) });
+  const params = new URLSearchParams({ subject: result.recommendation.subject, idea: encodePlan(plan) });
   return `/contact?${params.toString()}#kontaktformular`;
 }

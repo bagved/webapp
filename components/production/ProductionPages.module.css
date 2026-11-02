@@ -2,9 +2,10 @@
 .lead{font-family:var(--font-body);font-size:clamp(14px,1.2vw,17px);line-height:1.7;max-width:56ch;margin:0;color:var(--color-primary)}
 .planner{font-family:var(--font-body);padding:96px 0 64px;scroll-margin-top:80px;background:transparent}
 .sentence{margin-top:40px;color:var(--color-primary);font-family:var(--font-body);font-size:clamp(18px,2.2vw,28px);line-height:2.2}
-.sentence label{display:inline-block;vertical-align:baseline;max-width:100%;margin:3px 4px}
-.sentence select{font:inherit;font-size:.85em;font-weight:400;line-height:1.5;border:1px solid var(--color-secondary);border-bottom:2px solid var(--color-primary);background:color-mix(in srgb,var(--color-primary) 4%,var(--color-bg));color:var(--color-primary);padding:8px 12px;max-width:100%;min-width:0;border-radius:0;cursor:pointer;appearance:auto}
-.sentence option{color:var(--color-primary);background:var(--color-bg);font-size:16px}
+.sentence+.sentence{margin-top:18px}
+.sentence label{display:inline-flex;align-items:baseline;gap:2px;vertical-align:baseline;max-width:100%;margin:3px 4px}
+.sentence label>span{min-width:0}
+.sentence select{font-size:.85em;color:var(--color-primary);background-color:transparent}
 .channels{border:0;padding:0;margin:40px 0 0;display:flex;flex-wrap:wrap;gap:10px}
 .channels legend{font-size:13px;margin-bottom:16px;color:var(--color-primary)}.channels legend span{margin-left:10px;opacity:.65;font-size:11px}
 .channels label{position:relative;cursor:pointer}.channels input{position:absolute;opacity:0;width:100%;height:100%;margin:0;inset:0;cursor:pointer}
@@ -38,7 +39,7 @@
 .empty{padding:24px 0 64px;font-size:16px;color:var(--color-primary)}
 .planner select:focus-visible,.button:focus-visible,.play:focus-visible,.filters button:focus-visible,.cardActions button:focus-visible{outline:3px solid var(--color-accent);outline-offset:4px}
 @media(max-width:780px){.ideaGrid,.detailCopy{grid-template-columns:1fr}.useGrid{gap:40px 24px}.sentence{margin-top:36px}}
-@media(max-width:600px){.useGrid{grid-template-columns:1fr}.sentence label{margin-inline:0}.sentence select{font-size:16px;padding:8px;max-width:100%}.channels legend span{display:block;margin-left:0;margin-top:5px}.button{width:100%;gap:12px}}
+@media(max-width:600px){.useGrid{grid-template-columns:1fr}.sentence label{margin-inline:0}.sentence select{font-size:var(--t14);max-width:100%}.channels legend span{display:block;margin-left:0;margin-top:5px}.button{width:100%;gap:12px}}
 .cardActions button,.cardActions a{display:inline-flex;align-items:center;gap:8px}
 
 .formats{padding-bottom:80px;font-family:var(--font-body)}

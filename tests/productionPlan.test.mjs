@@ -17,7 +17,7 @@ test('every context and goal produces an editable contact brief with exactly the
   const url=new URL(api.planContactHref(plan),'https://bagved.test');
   assert.equal(url.pathname,'/contact');assert.equal(url.hash,'#kontaktformular');
   assert.equal(url.searchParams.get('subject'),context.subject);
-  assert.equal(JSON.stringify(api.decodePlan(url.searchParams.get('idea'))),JSON.stringify(plan));
+  assert.equal(JSON.stringify(api.decodePlan(url.searchParams.get('idea'))),JSON.stringify(api.validatePlan(plan)));
  }
 });
 test('unknown, oversized or malformed query data never becomes a contact brief',()=>{
@@ -33,4 +33,26 @@ test('all channel combinations stay local data and duplicate channel IDs are nor
  }
  const valid=api.validatePlan({context:'event',goal:'sales',channels:['youtube','youtube']});
  assert.equal(valid.channels.length,1);
+});
+
+test('new activity, frequency and mode choices survive sharing and alter recommendations',()=>{
+ for(const activity of api.activities)for(const frequency of api.frequencies)for(const mode of api.deliveryModes){
+  const plan={context:'business',goal:'knowledge',channels:['linkedin'],activity:activity.id,frequency:frequency.id,mode:mode.id};
+  const brief=api.describePlan(plan);assert.ok(brief);
+  assert.ok(brief.message.includes(activity.label));assert.ok(brief.message.includes(frequency.label));assert.ok(brief.message.includes(mode.label));
+  const url=new URL(api.planContactHref(plan),'https://bagved.test');
+  assert.equal(JSON.stringify(api.decodePlan(url.searchParams.get('idea'))),JSON.stringify(api.validatePlan(plan)));
+ }
+ const film=api.describePlan({context:'sports',goal:'awareness',channels:['website'],activity:'film',frequency:'weekly',mode:'onsite'});
+ assert.equal(film.recommendation.subject,'Virksomhedsvideo');
+ const live=api.describePlan({context:'sports',goal:'awareness',channels:['website'],activity:'livestream',frequency:'yearly',mode:'hybrid'});
+ assert.equal(live.recommendation.subject,'Sportsbroadcast');
+});
+test('legacy briefs remain usable while explicit incomplete or unapproved new choices are rejected',()=>{
+ const legacy=api.decodePlan('hybrid:awareness:website,linkedin');
+ assert.ok(legacy);assert.equal(legacy.activity,'unsure');assert.equal(legacy.frequency,'unsure');assert.equal(legacy.mode,'unsure');
+ for(const field of ['activity','frequency','mode'])for(const value of ['', 'unapproved']){
+  const plan={...api.defaultPlan,[field]:value};assert.equal(api.validatePlan(plan),null);assert.equal(api.encodePlan(plan),'');
+ }
+ for(const raw of ['v2:hybrid:awareness:website:event:weekly:nope','v3:hybrid:awareness:website:event:weekly:online','v2:hybrid:awareness:website:event:weekly'])assert.equal(api.decodePlan(raw),null);
 });

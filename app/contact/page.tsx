@@ -1,5 +1,6 @@
 "use client";
 import { decodePlan, describePlan } from "@/lib/productionPlan";
+import ThemedSelect from "@/components/ui/ThemedSelect";
 import {track} from "@/lib/measurement";
 
 // Contact details, draft prefill and submission retain the existing behavior.
@@ -186,10 +187,9 @@ function LinedSelect({ label, name, options, value, onChange }: {
   return (
     <label className="field">
       <span className="lab">{label}</span>
-      <select className="inp sel" name={name} value={value} onChange={onChange}>
+      <ThemedSelect name={name} value={value} onChange={onChange}>
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>
-      <span className="line" aria-hidden />
+      </ThemedSelect>
     </label>
   );
 }
@@ -357,15 +357,6 @@ const css = `
 
 .ta{ resize: vertical; min-height: 140px; }
 
-.sel{
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235b4bb7' fill-opacity='0.45'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 2px center;
-  padding-right: 18px;
-}
 
 .line{
   height: 1px;

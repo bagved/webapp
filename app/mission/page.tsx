@@ -1,5 +1,6 @@
 "use client";
 
+import MissionInvitation from "@/components/sections/MissionInvitation";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -322,6 +323,7 @@ export default function MissionPage() {
         </div>
       </section>
 
+      <MissionInvitation />
     </div>
   );
 }
