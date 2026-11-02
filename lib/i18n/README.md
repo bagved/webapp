@@ -68,3 +68,20 @@ eller en ekstern video-iframe. URL'en skal være en tilgængelig videofil, ikke 
 Creative Cloud-side, der kræver login. Vælg et rigtigt stillbillede fra produktionen
 som `image`, og sæt `illustrative: false`, når billedet faktisk dokumenterer casen.
 Bevar illustrationsmærkningen, så længe der bruges et generisk formatbillede.
+
+## Forsidens automatiske video
+
+`VideoPeek` bruger `HomepageVideo` til en direkte videofil i stedet for en
+TwentyThree-iframe. Angiv den godkendte direkte MP4/WebM-URL i
+`NEXT_PUBLIC_HOMEPAGE_VIDEO_URL` før build. Uden en URL vises det eksisterende
+stillbillede; der opfindes ikke en filadresse til en upload, der ikke er tilgængelig.
+
+Afspilningen er uden lyd, i loop og inline på mobil. Afspilleren har native
+kontroller og forsøger automatisk afspilning, når den kommer ind i skærmbilledet.
+Skjulte mobil/desktop-placeringer får først en kilde, når de bliver synlige;
+afspilning pauser uden for skærmen og i en skjult browserfane. Reduceret bevægelse
+slår automatisk afspilning fra, men manuel afspilning er stadig mulig. Browserens
+autoplayregler kan også kræve manuel start. Bevar originalen uden for Git og
+vurder opløsning, bitrate og codec på det faktiske materiale, før webversionen
+produceres. Et stillbillede fra den konkrete video kan erstatte den generiske
+poster, når filen er tilgængelig.

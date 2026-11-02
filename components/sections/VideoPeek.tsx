@@ -1,22 +1,14 @@
 "use client";
 import { useI18n } from "@/components/i18n/LanguageProvider";
 
-// components/sections/VideoPeek.tsx — VIDEOAFSPILLER
-//
-// Videoen hostes hos TwentyThree (mootagency.twentythree.com).
-//
-// HVAD DU KAN ÆNDRE:
-//   Ny video  → hent embed-koden i TwentyThree og indsæt HELE src-URL'en
-//               herunder. Token og photo_id hører sammen — et token fra
-//               én video virker ikke på en anden, så skift dem samlet.
-//   Knap-tekst → skift "Se alle ydelser →" herunder
-//   Knap-link  → skift href="/services"
-//   Sideafstand → CSS .videoPeek { padding-bottom } — afstand under videoen
-//   Sidepadding → CSS .videoOuter { padding } — afstand til siden af skærmen
+// Native homepage video. Set NEXT_PUBLIC_HOMEPAGE_VIDEO_URL to the approved
+// direct MP4/WebM URL. Until a file is available, retain an image rather than
+// a broken video URL or a third-party player.
 
 import Link from "@/components/i18n/LocalizedLink";
 import InView from "../motion/InView";
 import { revealFade } from "../motion/reveal";
+import HomepageVideo from "./HomepageVideo";
 
 export default function VideoPeek() {
   const { t } = useI18n();
@@ -28,20 +20,8 @@ export default function VideoPeek() {
         {/* revealFade = kun ind-toning, ingen bevægelse. En video der glider
             i position kan flimre, fordi browseren tegner videolaget om. */}
         <InView className="videoFrame" variants={revealFade}>
-          {/* src: hele embed-URL'en fra TwentyThree */}
-          <iframe
-            className="video"
-            src="https://mootagency.twentythree.com/v.ihtml/player.html?token=de39eac8c2202dff9f3519e2ddd8b52e&source=embed&photo%5fid=131882502"
-            title={t("Video Player")}
-            /* loading="lazy": afspilleren hentes først når videoen er tæt
-               på at være synlig, i stedet for ved sideload. */
-            loading="lazy"
-            frameBorder={0}
-            scrolling="no"
-            allowFullScreen
-            style={{ border: 0 }}
-            allow="autoplay; fullscreen"
-          />
+          <HomepageVideo className="video" src={process.env.NEXT_PUBLIC_HOMEPAGE_VIDEO_URL}
+            poster="/photos/Livestream.jpg" />
         </InView>
 
         {/* Knap under videoen — på mobil er denne skjult via CSS i HomeHero */}
@@ -81,6 +61,7 @@ const css = `
   width: 100%;
   height: 100%;
   border: 0;
+  object-fit: cover;
 }
 
 .vpCtaRow{
