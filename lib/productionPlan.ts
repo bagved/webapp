@@ -63,7 +63,7 @@ export function decodePlan(raw: string | null): Plan | null {
   if (parts.length !== 7 || parts[0] !== "v2") return null;
   return validatePlan({ context: parts[1], goal: parts[2], channels: parts[3].split(","), activity: parts[4], frequency: parts[5], mode: parts[6] });
 }
-export function describePlan(plan: Plan) {
+export function describePlan(plan: Plan, t: (source: string, values?: Record<string, string | number>) => string = (source, values) => source.replace(/\{(\w+)\}/g, (token, name) => String(values?.[name] ?? token))) {
   const valid = validatePlan(plan);
   if (!valid) return null;
   const context = contexts.find(c => c.id === valid.context)!;
@@ -79,7 +79,16 @@ export function describePlan(plan: Plan) {
   else if (activity.id === "webinar") recommendation = { title: "Viden, man kan følge med i.", lead: "Et webinar med klar struktur, god lyd og plads til jeres faglighed.", value: "Optagelsen kan blive til korte faglige klip og materiale til jeres vidensbank.", image: "/photos/studie_pre.jpg", subject: "Livestream" };
   return {
     context, goal, selected, activity, frequency, mode, recommendation,
-    message: `Hej Bagved,\n\nVi er ${context.label}, og vi vil gerne ${goal.label}.\nVi planlægger ${activity.label} ${frequency.label}, og formatet er ${mode.label}.\n\nVi vil gerne tale om denne idé:\n${recommendation.lead}\n\n${frequency.note}\n${mode.note}\n\nVi vil bruge indholdet på: ${selected.map(c => c.label).join(", ")}.\n${selected.map(c => `- ${c.output}`).join("\n")}\n\nLad os finde ud af, hvad der passer til vores rammer.`,
+    message: [
+      t("Hej Bagved,"),
+      t("Vi er {context}, og vi vil gerne {goal}.", { context: t(context.label), goal: t(goal.label) }),
+      t("Vi planlægger {activity} {frequency}, og formatet er {mode}.", { activity: t(activity.label), frequency: t(frequency.label), mode: t(mode.label) }),
+      t("Vi vil gerne tale om denne idé:"), t(recommendation.lead),
+      t(frequency.note), t(mode.note),
+      t("Vi vil bruge indholdet på: {channels}.", { channels: selected.map(c => t(c.label)).join(", ") }),
+      selected.map(c => `- ${t(c.output)}`).join("\n"),
+      t("Lad os finde ud af, hvad der passer til vores rammer."),
+    ].join("\n\n"),
   };
 }
 export function planContactHref(plan: Plan) {

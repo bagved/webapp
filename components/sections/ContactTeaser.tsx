@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 import {track} from "@/lib/measurement";
 
 // components/sections/ContactTeaser.tsx — KONTAKT-TEASER (forsiden)
@@ -11,12 +12,13 @@ import {track} from "@/lib/measurement";
 //   CTA-knap nederst     → skift tekst eller href på <Link className="cta">
 //   Formular-felter      → LinedInput/LinedTextarea-elementerne i <form>
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import { useEffect, useState } from "react";
 import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 import InView from "../motion/InView";
 
 export default function ContactTeaserSection() {
+  const { t } = useI18n();
   const [draft,  setDraft]  = useState<Draft>(EMPTY);
   const [status, setStatus] = useState<"idle"|"sending"|"sent"|"error">("idle");
   const [sent,   setSent]   = useState(false);
@@ -65,7 +67,7 @@ export default function ContactTeaserSection() {
   }
 
   return (
-    <section data-background-tint="0" className="ct" id="contact-teaser" aria-label="Kontakt">
+    <section data-background-tint="0" className="ct" id="contact-teaser" aria-label={t("Kontakt")}>
       <style>{css}</style>
 
 
@@ -76,7 +78,7 @@ export default function ContactTeaserSection() {
           <InView className="ctLeft">
             <h2 className="ctTitle">
               {/* Statisk del af overskriften */}
-              <span className="ctTitleStatic">Skriv til os</span>
+              <span className="ctTitleStatic">{t("Skriv til os")}</span>
               {/* Typewriter: skifter automatisk mellem sætningerne i `phrases` */}
               <TypeLine phrases={[
                 "her, eller ring på +45 61 74 64 16.",
@@ -86,44 +88,44 @@ export default function ContactTeaserSection() {
 
             {/* Korte sætninger under overskriften */}
             <div className="ctSubLines">
-              <p className="ctSubLine">Intet projekt er for stort eller for småt</p>
-              <p className="ctSubLine">og vi svarer inden for 24 timer.</p>
+              <p className="ctSubLine">{t("Intet projekt er for stort eller for småt")}</p>
+              <p className="ctSubLine">{t("og vi svarer inden for 24 timer.")}</p>
             </div>
             <div className="ctMeta">
               <a href="tel:+4561746416"      className="ctMetaLine">+45 61 74 64 16</a>
-              <a href="mailto:info@bagved.com" className="ctMetaLine">info@bagved.com</a>
+              <a href="mailto:info@bagved.com" className="ctMetaLine">{t("info@bagved.com")}</a>
             </div>
           </InView>
 
           {/* RIGHT: formular-panel */}
-          <InView className="ctPanel" aria-label="Kontaktformular" delay={0.12}>
+          <InView className="ctPanel" aria-label={t("Kontaktformular")} delay={0.12}>
             <div className="ctPanelWrap">
 
               {/* Thank you overlay */}
               <div className="ctDone" aria-hidden={!sent} style={{ opacity: sent ? 1 : 0, pointerEvents: sent ? "auto" : "none" }}>
-                <p className="ctDoneText">Tak for din henvendelse.</p>
+                <p className="ctDoneText">{t("Tak for din henvendelse.")}</p>
               </div>
 
               {/* Form — always in DOM to hold panel height */}
               <form className="ctForm" onSubmit={handleSubmit} style={{ visibility: sent ? "hidden" : "visible" }}>
-                <LinedInput label="Navn" name="name" autoComplete="name"
+                <LinedInput label={t("Navn")} name="name" autoComplete="name"
                   value={draft.name} onChange={update("name")} error={errors.name} />
 
                 <div className="ctFormTwo">
-                  <LinedInput label="Email" name="email" type="email" autoComplete="email"
+                  <LinedInput label={t("Email")} name="email" type="email" autoComplete="email"
                     value={draft.email} onChange={update("email")} error={errors.contact} />
-                  <LinedInput label="Telefon" name="phone" type="tel" autoComplete="tel"
+                  <LinedInput label={t("Telefon")} name="phone" type="tel" autoComplete="tel"
                     value={draft.phone} onChange={update("phone")} />
                 </div>
 
-                <LinedTextarea label="Besked" name="message" rows={5}
+                <LinedTextarea label={t("Besked")} name="message" rows={5}
                   value={draft.message} onChange={update("message")} error={errors.message} />
 
                 <div className="ctSubmitRow">
                   <button className="ctSubmit" type="submit" disabled={status === "sending"}>
-                    {status === "sending" ? "Sender…" : "Send besked"}
+                    {t(status === "sending" ? "Sender…" : "Send besked")}
                   </button>
-                  {status === "error" && <span className="ctError">Noget gik galt — prøv igen.</span>}
+                  {status === "error" && <span className="ctError">{t("Noget gik galt — prøv igen.")}</span>}
                 </div>
               </form>
 
@@ -133,7 +135,7 @@ export default function ContactTeaserSection() {
         </div>
 
         <InView className="ctFooterRow" delay={0.2}>
-          <Link className="cta" href="/contact#kontaktformular">UDDYB DIN EFTERSPØRGSEL HER</Link>
+          <Link className="cta" href="/contact#kontaktformular">{t("UDDYB DIN EFTERSPØRGSEL HER")}</Link>
         </InView>
       </div>
     </section>
@@ -147,10 +149,12 @@ export default function ContactTeaserSection() {
 //   2600ms = pause efter en sætning er skrevet færdig
 //   900ms  = ekstra pause inden sletning begynder
 function TypeLine({ phrases }: { phrases: string[] }) {
+  const { t, locale } = useI18n();
+  useEffect(() => { setTxt(""); setPhase("typing"); }, [locale]);
   const [i, setI]         = useState(0);
   const [txt, setTxt]     = useState("");
   const [phase, setPhase] = useState<"typing"|"hold"|"deleting">("typing");
-  const phrase = phrases[i] ?? "";
+  const phrase = t(phrases[i] ?? "");
 
   useEffect(() => {
     let t = 0;
@@ -176,8 +180,8 @@ function TypeLine({ phrases }: { phrases: string[] }) {
   }
 
   return (
-    <span className="tw" aria-label={phrase}>
-      <span className="twText"> {renderTxt(txt)}<span className="twCursor" aria-hidden /></span>
+    <span className="tw" aria-label={t(phrase)}>
+      <span className="twText"> {t(renderTxt(txt))}<span className="twCursor" aria-hidden /></span>
     </span>
   );
 }
@@ -186,12 +190,13 @@ function LinedInput({ label, name, type = "text", autoComplete, value, onChange,
   label: string; name: string; type?: string; autoComplete?: string;
   value?: string; onChange?: React.ChangeEventHandler<HTMLInputElement>; error?: string;
 }) {
+  const { t, locale } = useI18n();
   return (
     <label className="field">
-      <span className="fieldLab">{label}</span>
+      <span className="fieldLab">{t(label)}</span>
       <input className="fieldInp" name={name} type={type} autoComplete={autoComplete} value={value} onChange={onChange} />
       <span className="fieldLine" aria-hidden />
-      {error && <span className="fieldErr">{error}</span>}
+      {error && <span className="fieldErr">{t(error)}</span>}
     </label>
   );
 }
@@ -200,12 +205,13 @@ function LinedTextarea({ label, name, rows = 5, value, onChange, error }: {
   label: string; name: string; rows?: number;
   value?: string; onChange?: React.ChangeEventHandler<HTMLTextAreaElement>; error?: string;
 }) {
+  const { t, locale } = useI18n();
   return (
     <label className="field">
-      <span className="fieldLab">{label}</span>
+      <span className="fieldLab">{t(label)}</span>
       <textarea className="fieldInp fieldTa" name={name} rows={rows} value={value} onChange={onChange} />
       <span className="fieldLine" aria-hidden />
-      {error && <span className="fieldErr">{error}</span>}
+      {error && <span className="fieldErr">{t(error)}</span>}
     </label>
   );
 }

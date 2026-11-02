@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
 // components/sections/HomeHero.tsx — HERO-SEKTION (forsiden øverst)
 //
@@ -16,7 +17,7 @@
 //   størst mulige skriftstørrelse der stadig passer uden at overlappe videoen.
 //   Det fungerer ved "binary search" — prøv middelværdien, juster op/ned.
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import VideoPeek from "./VideoPeek";
 import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
@@ -32,6 +33,7 @@ const enterFromBelow = {
 };
 
 export default function HomeHero() {
+  const { t, locale } = useI18n();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -66,10 +68,10 @@ export default function HomeHero() {
     ro.observe(el.parentElement!);
     fit();
     return () => ro.disconnect();
-  }, []);
+  }, [locale]);
 
   return (
-    <section data-background-tint="0" className="homeHero" aria-label="Home hero">
+    <section data-background-tint="0" className="homeHero" aria-label={t("Home hero")}>
       <style>{css}</style>
 
       <div className="container heroInner">
@@ -77,8 +79,8 @@ export default function HomeHero() {
         {/* Venstre kolonne: overskrift + undertekst */}
         <div className="heroLeft">
           <h1 ref={headingRef} className="heroBig">
-            Bagved den<br />
-            gode <em className="heroAccent">oplevelse</em>.
+            {t("Bagved den")}<br />
+            {t("gode ")}<em className="heroAccent">{t("oplevelse")}</em>.
           </h1>
           <motion.p
             className="heroSub"
@@ -86,8 +88,7 @@ export default function HomeHero() {
             {...enterFromBelow}
             transition={{ ...revealTransition, delay: 0.15 }}
           >
-            Pålidelig video- og eventproduktion med fokus på kvalitet og detalje. Vi laver reklamefilm, livestream, konceptudvikling og mere til virksomheder og foreninger der vil ses, høres og huskes.
-          </motion.p>
+            {t("Pålidelig video- og eventproduktion med fokus på kvalitet og detalje. Vi laver reklamefilm, livestream, konceptudvikling og mere til virksomheder og foreninger der vil ses, høres og huskes.")}</motion.p>
         </div>
 
         {/* Højre kolonne: knapper — flugter med bunden af venstre tekst */}
@@ -101,9 +102,9 @@ export default function HomeHero() {
             {...enterFromBelow}
             transition={{ ...revealTransition, delay: 0.28 }}
           >
-            <Link href="/cases"    className="btnPrimary">Se eksempler</Link>
-            <Link href="/services" className="btnOutline">Vores ydelser</Link>
-            <Link href="/contact"  className="btnGhost">Kontakt</Link>
+            <Link href="/cases"    className="btnPrimary">{t("Se eksempler")}</Link>
+            <Link href="/services" className="btnOutline">{t("Vores ydelser")}</Link>
+            <Link href="/contact"  className="btnGhost">{t("Kontakt")}</Link>
           </motion.div>
         </div>
 

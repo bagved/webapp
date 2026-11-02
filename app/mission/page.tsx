@@ -1,7 +1,8 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
 import MissionInvitation from "@/components/sections/MissionInvitation";
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -142,6 +143,7 @@ const BENEFITS = [
 
 // ─────────────────────────────────────────────────────────────────────
 export default function MissionPage() {
+  const { t } = useI18n();
   const [activeCat, setActiveCat] = useState("proces");
   const [openQ, setOpenQ]         = useState<number | null>(null);
   const [teIdx, setTeIdx]         = useState(0);
@@ -161,22 +163,20 @@ export default function MissionPage() {
   }, [teIdx]);
 
   const visibleFaq = FAQ_ITEMS.filter(f => f.cat === activeCat);
-  const t = TESTIMONIALS[teIdx];
+  const testimonial = TESTIMONIALS[teIdx];
 
   return (
-    <div className="mp" aria-label="Mission">
+    <div className="mp" aria-label={t("Mission")}>
       <style>{css}</style>
 
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section data-background-tint="0" className="mpHero">
         <div className="container">
           <h1 className="mpHeroTitle">
-            Vi elsker<br />vores arbejde.
-          </h1>
+            {t("Vi elsker")}<br />{t("vores arbejde.")}</h1>
           <p className="mpHeroSub">
-            Bag enhver god produktion er et team der lytter,<br />
-            forstår og leverer — uden kompromis.
-          </p>
+            {t("Bag enhver god produktion er et team der lytter,")}<br />
+            {t("forstår og leverer — uden kompromis.")}</p>
         </div>
         <div className="mpHeroLine" aria-hidden />
       </section>
@@ -184,15 +184,15 @@ export default function MissionPage() {
       {/* ── Process timeline ──────────────────────────────────── */}
       <section className="mpProcess">
         <div className="container">
-          <h2 className="mpSectionTitle">Fra idé til færdig produktion</h2>
+          <h2 className="mpSectionTitle">{t("Fra idé til færdig produktion")}</h2>
         </div>
 
         <div className="mpStepsOuter">
           <div className="mpSteps">
             {STEPS.map((s) => (
               <article key={s.title} className="mpStep">
-                <h3 className="mpStepTitle">{s.title}</h3>
-                <p className="mpStepBody">{s.body}</p>
+                <h3 className="mpStepTitle">{t(s.title)}</h3>
+                <p className="mpStepBody">{t(s.body)}</p>
               </article>
             ))}
           </div>
@@ -202,14 +202,14 @@ export default function MissionPage() {
       {/* ── Benefits ─────────────────────────────────────────── */}
       <section data-background-tint="18" className="mpBenefits">
         <div className="container">
-          <h2 className="mpSectionTitle">Det du kan forvente</h2>
+          <h2 className="mpSectionTitle">{t("Det du kan forvente")}</h2>
 
           <div className="mpBenGrid">
             {BENEFITS.map((b, i) => (
               <article key={i} className="mpBenCard">
                 <div className="mpBenIcon" aria-hidden>{b.icon}</div>
-                <h3 className="mpBenTitle">{b.title}</h3>
-                <p className="mpBenBody">{b.body}</p>
+                <h3 className="mpBenTitle">{t(b.title)}</h3>
+                <p className="mpBenBody">{t(b.body)}</p>
               </article>
             ))}
           </div>
@@ -217,21 +217,21 @@ export default function MissionPage() {
       </section>
 
       {/* ── Testimonial (single cycling) ─────────────────────── */}
-      <section data-background-tint="48" className="mpTestimonials" aria-label="Testimonials">
+      <section data-background-tint="48" className="mpTestimonials" aria-label={t("Testimonials")}>
         <div className="mpTestiInner">
 
           <div className={`mpTestiBody ${teFade ? "mpTestiVisible" : "mpTestiHidden"}`}>
             <div className="mpTestiMark" aria-hidden>"</div>
-            <blockquote className="mpTestiQuote">{t.quote}</blockquote>
+            <blockquote className="mpTestiQuote">{t(testimonial.quote)}</blockquote>
             <footer className="mpTestiFooter">
-              <span className="mpTestiName">{t.name}</span>
+              <span className="mpTestiName">{testimonial.name}</span>
               <span className="mpTestiDivider" aria-hidden>·</span>
-              <span className="mpTestiRole">{t.role}</span>
+              <span className="mpTestiRole">{t(testimonial.role)}</span>
             </footer>
           </div>
 
-          <div className="mpTestiControls" aria-label="Naviger citater">
-            <button className="mpTestiBtn" onClick={() => goTo(teIdx - 1)} aria-label="Forrige citat">
+          <div className="mpTestiControls" aria-label={t("Naviger citater")}>
+            <button className="mpTestiBtn" onClick={() => goTo(teIdx - 1)} aria-label={t("Forrige citat")}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="11 4 6 9 11 14" />
               </svg>
@@ -241,7 +241,7 @@ export default function MissionPage() {
                 <button key={i} className={`mpTestiDot ${i === teIdx ? "mpTestiDotOn" : ""}`} onClick={() => goTo(i)} />
               ))}
             </div>
-            <button className="mpTestiBtn" onClick={() => goTo(teIdx + 1)} aria-label="Næste citat">
+            <button className="mpTestiBtn" onClick={() => goTo(teIdx + 1)} aria-label={t("Næste citat")}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="7 4 12 9 7 14" />
               </svg>
@@ -253,19 +253,19 @@ export default function MissionPage() {
       {/* ── FAQ ──────────────────────────────────────────────── */}
       <section data-background-tint="0" className="mpFaq">
         <div className="container">
-          <h2 className="mpFaqTitle">Spørgsmål & svar</h2>
-          <p className="mpFaqHint">Alt det du måske spekulerer på.</p>
+          <h2 className="mpFaqTitle">{t("Spørgsmål & svar")}</h2>
+          <p className="mpFaqHint">{t("Alt det du måske spekulerer på.")}</p>
 
           <div className="mpFaqLayout">
             {/* Sidebar */}
-            <nav className="mpFaqSidebar" aria-label="FAQ kategorier">
+            <nav className="mpFaqSidebar" aria-label={t("FAQ kategorier")}>
               {FAQ_CATS.map(c => (
                 <button
                   key={c.id}
                   className={`mpFaqCat ${activeCat === c.id ? "mpFaqCatOn" : ""}`}
                   onClick={() => { setActiveCat(c.id); setOpenQ(null); }}
                 >
-                  {c.label}
+                  {t(c.label)}
                 </button>
               ))}
             </nav>
@@ -279,11 +279,11 @@ export default function MissionPage() {
                     onClick={() => setOpenQ(openQ === i ? null : i)}
                     aria-expanded={openQ === i}
                   >
-                    <span className="mpFaqQLabel">{item.q}</span>
-                    <span className="mpFaqQChevron" aria-hidden>{openQ === i ? "−" : "+"}</span>
+                    <span className="mpFaqQLabel">{t(item.q)}</span>
+                    <span className="mpFaqQChevron" aria-hidden>{t(openQ === i ? "−" : "+")}</span>
                   </button>
                   <div className="mpFaqA">
-                    <p>{item.a}</p>
+                    <p>{t(item.a)}</p>
                   </div>
                 </div>
               ))}
@@ -293,21 +293,19 @@ export default function MissionPage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
-      <section data-background-tint="48" className="mpCta" aria-label="Kontakt os">
+      <section data-background-tint="48" className="mpCta" aria-label={t("Kontakt os")}>
         <div className="mpCtaLeft">
-          <h2 className="mpCtaTitle">Kontakt os og få et skræddersyet tilbud</h2>
+          <h2 className="mpCtaTitle">{t("Kontakt os og få et skræddersyet tilbud")}</h2>
           <p className="mpCtaSub">
-            Har du spørgsmål, eller ønsker du et tilbud på en livestream,
-            virksomhedsvideo eller et event? Vi sidder klar til at hjælpe dig.
-          </p>
-          <Link href="/contact" className="mpCtaBtn">Kontakt os</Link>
+            {t("Har du spørgsmål, eller ønsker du et tilbud på en livestream, virksomhedsvideo eller et event? Vi sidder klar til at hjælpe dig.")}</p>
+          <Link href="/contact" className="mpCtaBtn">{t("Kontakt os")}</Link>
         </div>
 
         <div className="mpCtaRight">
           <div className="mpCtaImgWrap">
             <Image
               src="/photos/Livestream.jpg"
-              alt=""
+              alt={t("")}
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
               className="mpCtaImg"

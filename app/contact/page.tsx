@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 import { decodePlan, describePlan } from "@/lib/productionPlan";
 import ThemedSelect from "@/components/ui/ThemedSelect";
 import {track} from "@/lib/measurement";
@@ -6,10 +7,12 @@ import {track} from "@/lib/measurement";
 // Contact details, draft prefill and submission retain the existing behavior.
 // The page background is shared with the homepage and Mission scroll treatment.
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 
 export default function ContactPage() {
+  const { t, ready } = useI18n();
+  const initialised = useRef(false);
   const [subject, setSubject]     = useState("General");
   const [draft,   setDraft]       = useState<Draft>(EMPTY);
   const [status,  setStatus]      = useState<"idle"|"sending"|"sent"|"error">("idle");
@@ -17,17 +20,19 @@ export default function ContactPage() {
   const [errors,  setErrors]      = useState<Record<string,string>>({});
 
   useEffect(() => {
+    if (!ready || initialised.current) return;
+    initialised.current = true;
     const params = new URLSearchParams(window.location.search);
     const sub = params.get("subject");
     if (sub) setSubject(sub);
     const existing = loadDraft();
     const plan = decodePlan(params.get("idea"));
-    const idea = plan ? describePlan(plan) : null;
+    const idea = plan ? describePlan(plan, t) : null;
     const message = idea && !existing.message.includes(idea.message)
-      ? [existing.message.trim(), idea.message].filter(Boolean).join("\n\n— Idé til produktion —\n\n")
+      ? [existing.message.trim(), idea.message].filter(Boolean).join(`\n\n${t("Idé til produktion")}\n\n`)
       : existing.message;
     setDraft({ ...existing, message });
-  }, []);
+  }, [ready, t]);
 
   const update = (key: keyof Draft) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const next = { ...draft, [key]: e.target.value };
@@ -89,11 +94,9 @@ export default function ContactPage() {
       <section data-background-tint="0" className="contactTop" style={{ padding: 0 }}>
         <div className="container contentLayer" style={{ padding: "96px 0 64px" }}>
           <div className="topInner">
-            <h1 className="contactTitle">Kontakt</h1>
+            <h1 className="contactTitle">{t("Kontakt")}</h1>
             <p className="contactLead">
-              Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format.
-              Vi er altid åbne for nye samarbejder og hører gerne fra dig.
-            </p>
+              {t("Skriv til os hvis du har et event, en konkret forespørgsel eller bare vil vende et format. Vi er altid åbne for nye samarbejder og hører gerne fra dig.")}</p>
           </div>
 
         </div>
@@ -104,53 +107,52 @@ export default function ContactPage() {
         <div className="contactContainer contentLayer">
           <div className="darkGrid">
             <div className="darkSide" aria-hidden="false">
-              <h2 className="darkHeading">Et godt samarbejde starter med en samtale.</h2>
+              <h2 className="darkHeading">{t("Et godt samarbejde starter med en samtale.")}</h2>
               <p className="darkBody">
-                Uanset om du har et konkret projekt, en løs idé eller bare vil høre mere om hvad vi laver — så skriv til os. Vi svarer hurtigt og uden forpligtelser.
-              </p>
+                {t("Uanset om du har et konkret projekt, en løs idé eller bare vil høre mere om hvad vi laver — så skriv til os. Vi svarer hurtigt og uden forpligtelser.")}</p>
               <div className="darkMeta">
                 <a href="tel:+4561746416" className="darkMetaLine">+45 61 74 64 16</a>
-                <a href="mailto:info@bagved.com" className="darkMetaLine">info@bagved.com</a>
+                <a href="mailto:info@bagved.com" className="darkMetaLine">{t("info@bagved.com")}</a>
               </div>
             </div>
 
-            <div className="ctPanel" aria-label="Kontaktformular">
+            <div className="ctPanel" aria-label={t("Kontaktformular")}>
               <div className="panelWrap">
 
                 {/* Thank you — absolute overlay, only visible when sent */}
                 <div className="thankYou" aria-hidden={!sent} style={{ opacity: sent ? 1 : 0, pointerEvents: sent ? "auto" : "none" }}>
-                  <p className="thankYouText">Tak for din henvendelse.</p>
+                  <p className="thankYouText">{t("Tak for din henvendelse.")}</p>
                 </div>
 
                 {/* Form — always in DOM to hold panel height */}
                 <form className="ctForm" onSubmit={handleSubmit} style={{ visibility: sent ? "hidden" : "visible" }}>
                   <div className="row">
-                    <LinedInput label="Navn" name="name" autoComplete="name"
+                    <LinedInput label={t("Navn")} name="name" autoComplete="name"
                       value={draft.name} onChange={update("name")} error={errors.name} />
                   </div>
                   <div className="row">
-                    <LinedInput label="Virksomhedsnavn" name="company" autoComplete="organization" />
+                    <LinedInput label={t("Virksomhedsnavn")} name="company" autoComplete="organization" />
                   </div>
                   <div className="row two">
-                    <LinedInput label="Email" name="email" type="email" autoComplete="email"
+                    <LinedInput label={t("Email")} name="email" type="email" autoComplete="email"
                       value={draft.email} onChange={update("email")} error={errors.contact} />
-                    <LinedInput label="Telefonnummer" name="phone" type="tel" autoComplete="tel"
+                    <LinedInput label={t("Telefonnummer")} name="phone" type="tel" autoComplete="tel"
                       value={draft.phone} onChange={update("phone")} />
                   </div>
                   <div className="row">
-                    <LinedSelect label="Emne" name="subject" value={subject}
+                    <LinedSelect label={t("Emne")} name="subject" value={subject}
                       onChange={e => setSubject(e.target.value)}
                       options={["General","Livestream","Sportsbroadcast","Virksomhedsvideo","Eventvideo","Eventteknik","Samarbejde","Tilbud","Job"]} />
                   </div>
                   <div className="row">
-                    <LinedTextarea label="Besked" name="message" rows={6}
+                    <LinedTextarea label={t("Besked")} name="message" rows={6}
                       value={draft.message} onChange={update("message")} error={errors.message} />
                   </div>
                   <div className="ctaRow">
                     <button className="send" type="submit" disabled={status === "sending"}>
-                      {status === "sending" ? "Sender…" : "Send besked"}
+                      {t(status === "sending" ? "Sender…" : "Send besked")}
                     </button>
-                    {status === "error" && <span className="sendError">Noget gik galt — prøv igen.</span>}
+                    {status === "error" && <span className="sendError">{t("Noget gik galt — prøv igen.")}</span>}
                   </div>
                 </form>
 
@@ -169,13 +171,14 @@ function LinedInput({ label, name, type = "text", autoComplete, value, onChange,
   label: string; name: string; type?: string; autoComplete?: string;
   value?: string; onChange?: React.ChangeEventHandler<HTMLInputElement>; error?: string;
 }) {
+  const { t, locale } = useI18n();
   return (
     <label className="field">
-      <span className="lab">{label}</span>
+      <span className="lab">{t(label)}</span>
       <input className="inp" name={name} type={type} autoComplete={autoComplete}
         value={value} onChange={onChange} />
       <span className="line" aria-hidden />
-      {error && <span className="fieldErr">{error}</span>}
+      {error && <span className="fieldErr">{t(error)}</span>}
     </label>
   );
 }
@@ -184,11 +187,12 @@ function LinedSelect({ label, name, options, value, onChange }: {
   label: string; name: string; options: string[];
   value?: string; onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }) {
+  const { t, locale } = useI18n();
   return (
     <label className="field">
-      <span className="lab">{label}</span>
+      <span className="lab">{t(label)}</span>
       <ThemedSelect name={name} value={value} onChange={onChange}>
-        {options.map((o) => <option key={o} value={o}>{o}</option>)}
+        {options.map((o) => <option key={o} value={o}>{t(o)}</option>)}
       </ThemedSelect>
     </label>
   );
@@ -198,12 +202,13 @@ function LinedTextarea({ label, name, rows = 6, value, onChange, error }: {
   label: string; name: string; rows?: number;
   value?: string; onChange?: React.ChangeEventHandler<HTMLTextAreaElement>; error?: string;
 }) {
+  const { t, locale } = useI18n();
   return (
     <label className="field">
-      <span className="lab">{label}</span>
+      <span className="lab">{t(label)}</span>
       <textarea className="inp ta" name={name} rows={rows} value={value} onChange={onChange} />
       <span className="line" aria-hidden />
-      {error && <span className="fieldErr">{error}</span>}
+      {error && <span className="fieldErr">{t(error)}</span>}
     </label>
   );
 }

@@ -16,6 +16,7 @@ import ConsentBanner from "@/components/analytics/ConsentBanner";
 import type { ReactNode } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 
 export const metadata = {
   title: "Bagved",
@@ -47,11 +48,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body>
+        <LanguageProvider>
         <Analytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || "G-7J3HGDGM6C"} pixelId={process.env.NEXT_PUBLIC_OPENAI_PIXEL_ID || "HvBSQVgUXmJ4xvRvXYuTyZ"} matchingReviewed={true} />
         <Header />
         <main className="pageMain"><PageBackground>{children}</PageBackground></main>
         <Footer />
         <ConsentBanner />
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -1,10 +1,12 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 
 export default function Footer() {
+  const { t } = useI18n();
   return (
-    <footer className="ft" aria-label="Footer">
+    <footer className="ft" aria-label={t("Footer")}>
       <style>{css}</style>
 
       <div className="container">
@@ -12,35 +14,34 @@ export default function Footer() {
         <div className="ftDesktop">
           <div className="ftRows">
             <div className="ftRow">
-              <div className="ftCell ftLeft">CVR: 42597376</div>
+              <div className="ftCell ftLeft">{t("CVR: 42597376")}</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/mission">Mission</Link>
+                <Link className="ftLink" href="/mission">{t("Mission")}</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
 
             <div className="ftRow">
-              <div className="ftCell ftLeft">Tlf: +45 61 74 64 16</div>
+              <div className="ftCell ftLeft">{t("Tlf: +45 61 74 64 16")}</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/cookies">Cookie Policy</Link>
+                <Link className="ftLink" href="/cookies">{t("Cookie Policy")}</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
 
             <div className="ftRow">
-              <div className="ftCell ftLeft">Mail: info@bagved.com</div>
+              <div className="ftCell ftLeft">{t("Mail: info@bagved.com")}</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/privacy">Privacy Policy</Link>
+                <Link className="ftLink" href="/privacy">{t("Privacy Policy")}</Link>
               </div>
               <div className="ftCell ftRight" />
             </div>
 
             <div className="ftRow">
               <div className="ftCell ftLeft">
-                Adresse: Frederiksvej 34, st. tv., 2000 Frederiksberg
-              </div>
+                {t("Adresse: Frederiksvej 34, st. tv., 2000 Frederiksberg")}</div>
               <div className="ftCell ftMid">
-                <Link className="ftLink" href="/terms">Terms and Conditions</Link>
+                <Link className="ftLink" href="/terms">{t("Terms and Conditions")}</Link>
               </div>
               <div className="ftCell ftRight">© 2026</div>
             </div>
@@ -50,19 +51,19 @@ export default function Footer() {
         {/* Mobile layout: grouped blocks + divider lines */}
         <div className="ftMobile">
           <div className="ftBlock">
-            <div className="ftCell">CVR: 42597376</div>
-            <div className="ftCell">Tlf: +45 61 74 64 16</div>
-            <div className="ftCell">Mail: info@bagved.com</div>
-            <div className="ftCell">Adresse: Frederiksvej 34, st. tv., 2000 Frederiksberg</div>
+            <div className="ftCell">{t("CVR: 42597376")}</div>
+            <div className="ftCell">{t("Tlf: +45 61 74 64 16")}</div>
+            <div className="ftCell">{t("Mail: info@bagved.com")}</div>
+            <div className="ftCell">{t("Adresse: Frederiksvej 34, st. tv., 2000 Frederiksberg")}</div>
           </div>
 
           <div className="ftDivider" aria-hidden />
 
           <div className="ftBlock">
-            <Link className="ftLink ftCell" href="/mission">Mission</Link>
-            <Link className="ftLink ftCell" href="/cookies">Cookie Policy</Link>
-            <Link className="ftLink ftCell" href="/privacy">Privacy Policy</Link>
-            <Link className="ftLink ftCell" href="/terms">Terms and Conditions</Link>
+            <Link className="ftLink ftCell" href="/mission">{t("Mission")}</Link>
+            <Link className="ftLink ftCell" href="/cookies">{t("Cookie Policy")}</Link>
+            <Link className="ftLink ftCell" href="/privacy">{t("Privacy Policy")}</Link>
+            <Link className="ftLink ftCell" href="/terms">{t("Terms and Conditions")}</Link>
           </div>
 
           <div className="ftDivider" aria-hidden />

@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
 // components/sections/VideoPeek.tsx — VIDEOAFSPILLER
 //
@@ -13,13 +14,14 @@
 //   Sideafstand → CSS .videoPeek { padding-bottom } — afstand under videoen
 //   Sidepadding → CSS .videoOuter { padding } — afstand til siden af skærmen
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import InView from "../motion/InView";
 import { revealFade } from "../motion/reveal";
 
 export default function VideoPeek() {
+  const { t } = useI18n();
   return (
-    <section className="videoPeek" id="video" aria-label="Video">
+    <section className="videoPeek" id="video" aria-label={t("Video")}>
       <style>{css}</style>
 
       <div className="videoOuter">
@@ -30,7 +32,7 @@ export default function VideoPeek() {
           <iframe
             className="video"
             src="https://mootagency.twentythree.com/v.ihtml/player.html?token=de39eac8c2202dff9f3519e2ddd8b52e&source=embed&photo%5fid=131882502"
-            title="Video Player"
+            title={t("Video Player")}
             /* loading="lazy": afspilleren hentes først når videoen er tæt
                på at være synlig, i stedet for ved sideload. */
             loading="lazy"
@@ -39,14 +41,12 @@ export default function VideoPeek() {
             allowFullScreen
             style={{ border: 0 }}
             allow="autoplay; fullscreen"
-          >
-            <p>Din browser understøtter ikke iframes, så videoen kan ikke afspilles.</p>
-          </iframe>
+          />
         </InView>
 
         {/* Knap under videoen — på mobil er denne skjult via CSS i HomeHero */}
         <InView className="vpCtaRow" delay={0.12}>
-          <Link className="vpBtn" href="/services">Se alle ydelser →</Link>
+          <Link className="vpBtn" href="/services">{t("Se alle ydelser →")}</Link>
         </InView>
       </div>
     </section>

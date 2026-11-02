@@ -11,6 +11,8 @@ export type Production = {
   approach: string;
   deliverables: string[];
   subject: string;
+  // Add each approved case-specific embed here. With no video, show its image.
+  video?: { src: string; title: string };
 };
 
 // Production formats, not attributed customer projects. Add approved client work separately.

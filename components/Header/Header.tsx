@@ -1,11 +1,13 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import styles from "./Header.module.css";
+import LanguageSelect from "@/components/i18n/LanguageSelect";
 import Container from "../ui/Container";
 
 const MENU_ITEMS = [
@@ -17,6 +19,7 @@ const MENU_ITEMS = [
 ];
 
 export default function Header() {
+  const { t } = useI18n();
   const [navOpen, setNavOpen] = useState(false);
   const [brandHidden, setBrandHidden] = useState(false);
   const { scrollY } = useScroll();
@@ -63,7 +66,7 @@ export default function Header() {
     if (!nav || !label) return;
     const bounds = label.getBoundingClientRect();
     setBallY(bounds.top - nav.getBoundingClientRect().top + bounds.height / 2 - 6);
-    setHighlightedHref(link.getAttribute("href") || "/");
+    setHighlightedHref(new URL(link.href).pathname);
   }, []);
 
   useEffect(() => {
@@ -88,15 +91,15 @@ export default function Header() {
   }, [navOpen, pathname, highlightLink]);
 
   const logo = (hidden = false) => (
-    <Link href="/" className={styles.logo} aria-label="BAGVED – forsiden" onClick={closeMenu} tabIndex={hidden ? -1 : undefined}>
-      <Image src="/Logo.png" className={styles.logoImg} alt="BAGVED" width={195} height={92} priority />
+    <Link href="/" className={styles.logo} aria-label={t("BAGVED – forsiden")} onClick={closeMenu} tabIndex={hidden ? -1 : undefined}>
+      <Image src="/Logo.png" className={styles.logoImg} alt={t("BAGVED")} width={195} height={92} priority />
     </Link>
   );
   const navLink = ({ href, label, description }: typeof MENU_ITEMS[number]) => {
     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
     const descriptionId = `menu-description-${href === "/" ? "home" : href.slice(1)}`;
     return <Link key={href} href={href} onClick={closeMenu}
-      aria-label={label} aria-describedby={descriptionId}
+      aria-label={t(label)} aria-describedby={descriptionId}
       aria-current={active ? "page" : undefined} data-highlighted={highlightedHref === href}
       onPointerEnter={event => {
         if (event.pointerType === "touch") return;
@@ -112,8 +115,8 @@ export default function Header() {
         if (!event.currentTarget.matches(":hover"))
           setPreviewHref(current => current === href ? null : current);
       }}>
-      <span className={styles.linkLabel} data-menu-label>{label}</span>
-      <span className={styles.screenReaderOnly} id={descriptionId}>{description}</span>
+      <span className={styles.linkLabel} data-menu-label>{t(label)}</span>
+      <span className={styles.screenReaderOnly} id={descriptionId}>{t(description)}</span>
     </Link>;
   };
 
@@ -121,15 +124,14 @@ export default function Header() {
     <header className={styles.wrap}>
       <Container>
         <div className={styles.bar}>
-          <motion.span className={styles.language} lang="da" aria-label="Sprog: dansk"
-            initial={false} animate={brandAnimation} transition={brandTransition} aria-hidden={brandHidden}>
-            DA
-          </motion.span>
+          <motion.span className={styles.language}
+            initial={false} animate={brandAnimation} transition={brandTransition} aria-hidden={brandHidden} style={{ pointerEvents: brandHidden ? "none" : "auto" }}>
+            <LanguageSelect hidden={brandHidden} /></motion.span>
           <motion.div className={styles.brandLogo} initial={false} animate={brandAnimation}
             transition={brandTransition} aria-hidden={brandHidden} style={{ pointerEvents: brandHidden ? "none" : "auto" }}>
             {logo(brandHidden)}
           </motion.div>
-          <button type="button" className={styles.menuButton} aria-label="Åbn menu"
+          <button type="button" className={styles.menuButton} aria-label={t("Åbn menu")}
             aria-haspopup="dialog" aria-controls="site-menu" aria-expanded={navOpen} onClick={() => setNavOpen(true)}>
             <span className={styles.menuIcon} aria-hidden="true"><span /><span /><span /></span>
           </button>
@@ -137,12 +139,12 @@ export default function Header() {
       </Container>
     </header>
 
-    <dialog ref={dialog} id="site-menu" className={styles.overlay} aria-label="Menu" onCancel={closeMenu}>
+    <dialog ref={dialog} id="site-menu" className={styles.overlay} aria-label={t("Menu")} onCancel={closeMenu}>
       <Container>
         <div className={styles.bar}>
-          <span className={styles.language} lang="da" aria-label="Sprog: dansk">DA</span>
+          <span className={styles.language}><LanguageSelect /></span>
           {logo()}
-          <button ref={closeButton} type="button" className={styles.menuButton} onClick={closeMenu} aria-label="Luk menu">
+          <button ref={closeButton} type="button" className={styles.menuButton} onClick={closeMenu} aria-label={t("Luk menu")}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <path d="m4 4 16 16M20 4 4 20" />
             </svg>
@@ -151,7 +153,7 @@ export default function Header() {
       </Container>
       <div className={styles.menuContent}>
         <div className={styles.menuNavigation}>
-          <nav ref={menuLinks} className={styles.links} aria-label="Hovednavigation">
+          <nav ref={menuLinks} className={styles.links} aria-label={t("Hovednavigation")}>
             <motion.span className={styles.menuBall} aria-hidden="true"
               initial={false} animate={{ y: ballY ?? 0, opacity: ballY === null ? 0 : 1 }}
               transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 22, mass: 1 }} />
@@ -162,16 +164,16 @@ export default function Header() {
               <motion.div key={href} className={styles.previewItem} data-preview={href}
                 initial={false} animate={{ opacity: previewHref === href ? 1 : 0, x: reduceMotion || previewHref === href ? 0 : 16 }}
                 transition={{ duration: reduceMotion ? 0 : 0.22 }}>
-                <span className={styles.previewLabel}>{label}</span>
-                <p>{description}</p>
+                <span className={styles.previewLabel}>{t(label)}</span>
+                <p>{t(description)}</p>
               </motion.div>
             ))}
           </div>
         </div>
-        <nav className={styles.policies} aria-label="Politikker">
-          <Link href="/privacy" onClick={closeMenu}>Privacy Policy</Link>
-          <Link href="/cookies" onClick={closeMenu}>Cookie Policy</Link>
-          <Link href="/terms" onClick={closeMenu}>Terms and Conditions</Link>
+        <nav className={styles.policies} aria-label={t("Politikker")}>
+          <Link href="/privacy" onClick={closeMenu}>{t("Privacy Policy")}</Link>
+          <Link href="/cookies" onClick={closeMenu}>{t("Cookie Policy")}</Link>
+          <Link href="/terms" onClick={closeMenu}>{t("Terms and Conditions")}</Link>
         </nav>
       </div>
     </dialog>

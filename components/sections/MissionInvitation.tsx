@@ -1,12 +1,14 @@
 "use client";
+import { useI18n } from "@/components/i18n/LanguageProvider";
 
 import { escapeTarget, type Point } from "@/lib/escapeTarget";
-import Link from "next/link";
+import Link from "@/components/i18n/LocalizedLink";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import styles from "./MissionInvitation.module.css";
 
 export default function MissionInvitation() {
+  const { t } = useI18n();
   const arena = useRef<HTMLDivElement>(null);
   const yes = useRef<HTMLAnchorElement>(null);
   const no = useRef<HTMLSpanElement>(null);
@@ -41,15 +43,14 @@ export default function MissionInvitation() {
   };
   return <section data-background-tint="0" className={`container ${styles.section}`} aria-labelledby="mission-invitation-title">
     <div className={styles.box}>
-      <h2 id="mission-invitation-title">Er du interesseret i at lave en video eller en livestream?</h2>
+      <h2 id="mission-invitation-title">{t("Er du interesseret i at lave en video eller en livestream?")}</h2>
       <div ref={arena} className={styles.arena} onPointerEnter={dodge} onPointerMove={dodge}>
-        <Link ref={yes} className={`${styles.button} ${styles.yes}`} href="/contact#kontaktformular">Ja</Link>
+        <Link ref={yes} className={`${styles.button} ${styles.yes}`} href="/contact#kontaktformular">{t("Ja")}</Link>
         <motion.span ref={no} className={`${styles.button} ${styles.no}`} data-joke-no aria-hidden="true"
           initial={false} animate={reduceMotion ? { x: 0, y: 0 } : offset}
           transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 450, damping: 34, mass: 0.55 }}
           onPointerDown={event => { event.preventDefault(); dodge(event); }}>
-          Nej
-        </motion.span>
+          {t("Nej")}</motion.span>
       </div>
     </div>
   </section>;
