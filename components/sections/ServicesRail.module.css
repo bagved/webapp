@@ -1,17 +1,16 @@
 .section{padding:clamp(56px,8vw,120px) 0;overflow:hidden;background:transparent;color:var(--color-primary)}
-.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin:0 0 20px}
-.heading{font-size:clamp(34px,5.2vw,72px);line-height:1.05;letter-spacing:-.045em;font-weight:400;margin:0 0 clamp(36px,6vw,76px)}
+.heading{font-family:var(--font-body);font-size:clamp(22px,2.6vw,36px);line-height:1.08;letter-spacing:-.03em;font-weight:800;margin:0 0 clamp(36px,6vw,76px)}
 .stage{position:relative;perspective:1400px;overflow:hidden;touch-action:pan-y}
 .card{position:absolute;top:12px;left:50%;transform-style:preserve-3d;transform-origin:center center}
 .imageLink{display:block;transform:none!important}
-.image{position:relative;width:100%;aspect-ratio:16 / 9;border-radius:8px;overflow:hidden;background:var(--color-secondary);box-shadow:0 24px 34px -24px #571b1470}
+.image{position:relative;width:100%;aspect-ratio:16 / 9;border-radius:8px;overflow:hidden;background:var(--color-secondary);box-shadow:0 24px 34px -24px color-mix(in srgb,var(--color-primary) 44%,transparent)}
 .image img{object-fit:cover}
 .imageLink:focus-visible{outline:3px solid var(--color-accent);outline-offset:6px;border-radius:8px}
 .bottom{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-.caption h3{font-size:clamp(22px,2.8vw,36px);line-height:1.2;letter-spacing:-.03em;font-weight:400;margin:0;max-width:25ch}
-.caption a{color:var(--color-primary)}.caption svg{color:var(--color-accent);vertical-align:baseline;width:.7em;height:.7em}
+.caption h3{font-family:var(--font-body);font-size:var(--t16);line-height:1.4;letter-spacing:0;font-weight:700;margin:0;max-width:25ch}
+.caption a{color:var(--color-primary)}
 .controls{display:flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.08em}
-.controls button{width:44px;height:44px;border:1px solid color-mix(in srgb,var(--color-primary) 30%,transparent);border-radius:50%;background:transparent;color:inherit;font-size:22px;cursor:pointer}
+.controls button{min-width:76px;min-height:44px;padding:8px 14px;border:1px solid color-mix(in srgb,var(--color-primary) 30%,transparent);border-radius:50%;background:transparent;color:inherit;font:700 var(--t11)/1.4 var(--font-body);cursor:pointer}
 .controls button:disabled{opacity:.25;cursor:default}
 .controls button:not(:disabled):hover{background:var(--color-primary);color:var(--color-bg)}
 .all{grid-column:1 / -1;justify-self:end;margin-top:20px;font-size:13px;border-bottom:1px solid var(--color-primary);padding-bottom:6px}

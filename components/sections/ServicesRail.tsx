@@ -1,6 +1,5 @@
 "use client";
 
-import ArrowUpRight from "@/components/ui/ArrowUpRight";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -28,8 +27,7 @@ export default function ServicesRail() {
   const current = productions[active];
   return <section className={styles.section} id="services" aria-label="Produktioner">
     <div className="container">
-      <p className={styles.eyebrow}>Billeder, der gør noget ved dig</p>
-      <h2 className={styles.heading}>Flere måder at<br />gøre indtryk på.</h2>
+      <h2 className={styles.heading}>Flere måder at gøre indtryk på.</h2>
     </div>
     <div ref={stage} className={styles.stage} role="region" aria-roledescription="karrusel" aria-label="Produktionsformater"
       style={{ height: cardWidth * 9 / 16 + 76 }}
@@ -66,14 +64,13 @@ export default function ServicesRail() {
     </div>
     <div className={`container ${styles.bottom}`}>
       <div className={styles.caption} aria-live="polite" aria-atomic="true">
-        <h3><Link href={`/cases/${current.id}`}>{current.headline} <ArrowUpRight /></Link></h3>
+        <h3><Link href={`/cases/${current.id}`}>{current.headline}</Link></h3>
       </div>
       <div className={styles.controls}>
-        <button type="button" onClick={() => select(active - 1)} disabled={active === 0} aria-label="Forrige produktion">←</button>
-        <span aria-live="off">{String(active + 1).padStart(2, "0")} / {String(productions.length).padStart(2, "0")}</span>
-        <button type="button" onClick={() => select(active + 1)} disabled={active === productions.length - 1} aria-label="Næste produktion">→</button>
+        <button type="button" onClick={() => select(active - 1)} disabled={active === 0} aria-label="Forrige produktion">Forrige</button>
+        <button type="button" onClick={() => select(active + 1)} disabled={active === productions.length - 1} aria-label="Næste produktion">Næste</button>
       </div>
-      <Link className={styles.all} href="/cases">Udforsk eksemplerne <ArrowUpRight /></Link>
+      <Link className={styles.all} href="/cases">Udforsk eksemplerne</Link>
     </div>
   </section>;
 }

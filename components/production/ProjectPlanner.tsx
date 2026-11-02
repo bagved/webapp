@@ -1,6 +1,5 @@
 "use client";
 
-import ArrowUpRight from "@/components/ui/ArrowUpRight";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -31,8 +30,7 @@ export default function ProjectPlanner() {
   return <>
     <section ref={planner} id="project-planner" className={styles.planner} aria-labelledby="planner-title">
       <div className="container">
-        <p className={styles.eyebrow}>Fra det, I vil. Til det, vi kan skabe.</p>
-        <h1 id="planner-title" className={styles.title}>Hvad skal vi<br /><em>gøre muligt?</em></h1>
+        <h1 id="planner-title" className={styles.title}>Hvad skal vi gøre muligt?</h1>
         <p className={styles.lead}>Start med jeres behov. Vi giver et bud på, hvordan én produktion kan få værdi flere steder.</p>
         <div className={styles.sentence}>
           <label>Vi er <select aria-label="Hvem er I?" value={plan.context} onChange={event => setPlan({ ...plan, context: event.target.value })}>{contexts.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>
@@ -50,14 +48,13 @@ export default function ProjectPlanner() {
     <section className={styles.recommendation} aria-labelledby="idea-title">
       <div className={`container ${styles.ideaGrid}`}>
         <div>
-          <p className={styles.eyebrow}>En idé til jer</p>
           <div aria-live="polite" aria-atomic="true">
             <h2 id="idea-title" className={styles.sectionTitle}>{result.context.title}</h2>
             <p className={styles.body}>{result.context.lead}</p>
             <p className={styles.body}>{result.context.value}</p>
             <p className={styles.value}>{result.goal.value}</p>
           </div>
-          <Link className={styles.button} href={planContactHref(plan)}>Tag idéen med til en samtale <ArrowUpRight /></Link>
+          <Link className={styles.button} href={planContactHref(plan)}>Tag idéen med til en samtale</Link>
           <p className={styles.note}>Dine valg bliver til et redigerbart oplæg i kontaktformularen. Intet bliver sendt, før du selv sender det.</p>
         </div>
         <div>
@@ -69,14 +66,12 @@ export default function ProjectPlanner() {
       </div>
     </section>
     <section className={`container ${styles.useCases}`} aria-labelledby="use-cases-heading">
-      <p className={styles.eyebrow}>Genkend dit udgangspunkt</p>
-      <h2 id="use-cases-heading" className={styles.sectionTitle}>Forskellige behov.<br />Samme blik for helheden.</h2>
-      <div className={styles.useGrid}>{contexts.map((context, index) => <article className={styles.useCard} key={context.id}>
+      <h2 id="use-cases-heading" className={styles.sectionTitle}>Forskellige behov. Samme blik for helheden.</h2>
+      <div className={styles.useGrid}>{contexts.map(context => <article className={styles.useCard} key={context.id}>
         <div className={styles.cardImage}><Image src={context.image} alt="" fill sizes="(max-width: 700px) 100vw, 50vw" /></div>
-        <p className={styles.eyebrow}>{String(index + 1).padStart(2, "0")} / {context.label}</p>
         <h3>{context.title}</h3>
         <p>{context.lead}</p><p>{context.value}</p>
-        <div className={styles.cardActions}><button type="button" onClick={() => chooseContext(context.id)}>Tilpas til os <ArrowUpRight /></button><Link href={`/cases/${context.production}`}>Udforsk formatet</Link></div>
+        <div className={styles.cardActions}><button type="button" onClick={() => chooseContext(context.id)}>Tilpas til os</button><Link href={`/cases/${context.production}`}>Udforsk formatet</Link></div>
       </article>)}</div>
     </section>
   </>;

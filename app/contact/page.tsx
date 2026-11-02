@@ -2,28 +2,14 @@
 import { decodePlan, describePlan } from "@/lib/productionPlan";
 import {track} from "@/lib/measurement";
 
-// app/contact/page.tsx — KONTAKTSIDEN
-//
-// HVAD DU KAN ÆNDRE:
-//   Overskrift       → <h1 className="contactTitle">Kontakt</h1>
-//   Indledningstekst → <p className="contactLead"> herunder
-//   Kontaktinfo      → telefon, email og adresse i .contactInfo
-//   Formularfelter   → tilføj/fjern <LinedInput>, <LinedSelect> eller <LinedTextarea>
-//   Dropdown-valg    → `options`-arrayet i <LinedSelect>
-//   Mørk-sektion     → CSS .darkLayer { background: var(--color-primary) }
-//                       Den mørke sektion bag formularen bruger --color-primary
-//
-// TEKNISK NOTE om den mørke sektion:
-//   .darkLayer er et fastgjort overlay der klippes til det synlige vinduesudsnit
-//   via clipPath. Det giver effekten af at scrolle ind i en mørk sektion.
+// Contact details, draft prefill and submission retain the existing behavior.
+// The page background is shared with the homepage and Mission scroll treatment.
 
-import React, { useEffect, useRef, useState } from "react";
+import ScrollBackground from "@/components/ui/ScrollBackground";
+import React, { useEffect, useState } from "react";
 import { loadDraft, saveDraft, clearDraft, EMPTY, type Draft } from "../../lib/contactDraft";
 
 export default function ContactPage() {
-  const startMarkerRef = useRef<HTMLDivElement | null>(null);
-  const endMarkerRef = useRef<HTMLDivElement | null>(null);
-  const darkLayerRef = useRef<HTMLDivElement | null>(null);
   const [subject, setSubject]     = useState("General");
   const [draft,   setDraft]       = useState<Draft>(EMPTY);
   const [status,  setStatus]      = useState<"idle"|"sending"|"sent"|"error">("idle");
@@ -94,54 +80,11 @@ export default function ContactPage() {
     }
   }, []);
 
-  useEffect(() => {
-    let raf = 0;
-
-    const vh = () => window.visualViewport?.height ?? window.innerHeight ?? 800;
-
-    const snapPx = (v: number) => {
-      const dpr = window.devicePixelRatio || 1;
-      return Math.round(v * dpr) / dpr;
-    };
-
-    const tick = () => {
-      const startEl = startMarkerRef.current;
-      const endEl = endMarkerRef.current;
-      const darkEl = darkLayerRef.current;
-
-      if (!startEl || !endEl || !darkEl) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-
-      const startRect = startEl.getBoundingClientRect();
-      const endRect = endEl.getBoundingClientRect();
-
-      const viewportH = vh();
-
-      const startY = snapPx(startRect.top);
-      const endY = snapPx(endRect.top);
-
-      const top = snapPx(Math.max(0, Math.min(viewportH, startY)));
-      const bottom = snapPx(Math.max(0, Math.min(viewportH, viewportH - endY)));
-
-      const darkClip = `inset(${top}px 0 ${bottom}px 0)`;
-      darkEl.style.clipPath = darkClip;
-      // @ts-ignore
-      darkEl.style.WebkitClipPath = darkClip;
-
-      raf = requestAnimationFrame(tick);
-    };
-
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
   return (
+    <ScrollBackground page="contact">
     <div className="contactPage">
       <style>{css}</style>
 
-      <div className="darkLayer" ref={darkLayerRef} aria-hidden />
 
 
       <section className="contactTop" style={{ padding: 0 }}>
@@ -158,12 +101,10 @@ export default function ContactPage() {
       </section>
 
       <section className="contactFormWrap" id="kontaktformular">
-        <div ref={startMarkerRef} className="marker markerStart" aria-hidden />
 
         <div className="contactContainer contentLayer">
           <div className="darkGrid">
             <div className="darkSide" aria-hidden="false">
-              <p className="darkEyebrow">Lad os snakke</p>
               <h2 className="darkHeading">Et godt samarbejde starter med en samtale.</h2>
               <p className="darkBody">
                 Uanset om du har et konkret projekt, en løs idé eller bare vil høre mere om hvad vi laver — så skriv til os. Vi svarer hurtigt og uden forpligtelser.
@@ -220,9 +161,9 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div ref={endMarkerRef} className="marker markerEnd" aria-hidden />
       </section>
     </div>
+    </ScrollBackground>
   );
 }
 
@@ -282,17 +223,7 @@ const css = `
   background: transparent;
 }
 
-/* Det mørke overlay der dækker skærmen når man scroller ned til formularen */
-/* background: var(--color-primary) — farven fra theme.css styrer den mørke sektion */
-.darkLayer{
-  position: fixed;
-  inset: 0;
-  background: var(--color-primary);  /* skift til en anden CSS-variabel eller farve */
-  z-index: 5;
-  pointer-events: none;
-  will-change: clip-path;
-  transform: translateZ(0);
-}
+/* The shared ScrollBackground supplies the continuous page color. */
 
 
 .contentLayer{
@@ -337,15 +268,6 @@ const css = `
   background: transparent;
 }
 
-.marker{
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 0;
-  pointer-events: none;
-}
-.markerStart{ top: 0; }
-.markerEnd{ bottom: 0; }
 
 .darkGrid{
   display: grid;
@@ -361,15 +283,6 @@ const css = `
   gap: clamp(18px, 2.5vw, 28px);
 }
 
-.darkEyebrow{
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-}
 
 .darkHeading{
   margin: 0;
@@ -378,7 +291,7 @@ const css = `
   font-size: clamp(28px, 3.4vw, 48px);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: white;
+  color: var(--color-primary);
 }
 
 .darkBody{
@@ -386,7 +299,7 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(14px, 1.15vw, 16px);
   line-height: 1.8;
-  color: rgba(255,255,255,0.62);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
   max-width: 42ch;
 }
 
@@ -401,11 +314,11 @@ const css = `
   font-family: var(--font-body);
   font-size: clamp(13px, 1.1vw, 15px);
   font-weight: 400;
-  color: rgba(255,255,255,0.55);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
   text-decoration: none;
   transition: color 140ms ease;
 }
-.darkMetaLine:hover{ color: white; }
+.darkMetaLine:hover{ color: var(--color-accent); }
 
 .ctPanel{
   background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));

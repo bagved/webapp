@@ -1,5 +1,6 @@
 "use client";
 
+import ScrollBackground from "@/components/ui/ScrollBackground";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -66,10 +67,10 @@ const TESTIMONIALS = [
 
 // ── Process steps ─────────────────────────────────────────────────────
 const STEPS = [
-  { num: "01", title: "Briefing", body: "Vi sætter os ind i jeres mål, målgruppe og de rammer projektet skal leve inden for. Jo mere vi ved, jo bedre bliver resultatet." },
-  { num: "02", title: "Koncept & plan", body: "Vi udvikler konceptet, laver en plan for dagen og sikrer, at alt udstyr og alle folk er klar. Ingen overraskelser på selve dagen." },
-  { num: "03", title: "Produktion", body: "Vores hold møder op velforberedt og leverer. Vi håndterer det tekniske, så I kan fokusere på indholdet og jeres publikum." },
-  { num: "04", title: "Levering", body: "Redigeret og klar til brug. Vi leverer i de formater, I har brug for, og sikrer, at I er tilfredse, inden vi afslutter projektet." },
+  { title: "Briefing", body: "Vi sætter os ind i jeres mål, målgruppe og de rammer projektet skal leve inden for. Jo mere vi ved, jo bedre bliver resultatet." },
+  { title: "Koncept & plan", body: "Vi udvikler konceptet, laver en plan for dagen og sikrer, at alt udstyr og alle folk er klar. Ingen overraskelser på selve dagen." },
+  { title: "Produktion", body: "Vores hold møder op velforberedt og leverer. Vi håndterer det tekniske, så I kan fokusere på indholdet og jeres publikum." },
+  { title: "Levering", body: "Redigeret og klar til brug. Vi leverer i de formater, I har brug for, og sikrer, at I er tilfredse, inden vi afslutter projektet." },
 ];
 
 // ── Why us benefits ───────────────────────────────────────────────────
@@ -163,7 +164,8 @@ export default function MissionPage() {
   const t = TESTIMONIALS[teIdx];
 
   return (
-    <main className="mp" aria-label="Mission">
+    <ScrollBackground page="mission">
+    <div className="mp" aria-label="Mission">
       <style>{css}</style>
 
       {/* ── Hero ──────────────────────────────────────────────── */}
@@ -183,20 +185,13 @@ export default function MissionPage() {
       {/* ── Process timeline ──────────────────────────────────── */}
       <section className="mpProcess">
         <div className="container">
-          <p className="mpSectionEyebrow">Sådan arbejder vi</p>
           <h2 className="mpSectionTitle">Fra idé til færdig produktion</h2>
         </div>
 
         <div className="mpStepsOuter">
-          <div className="mpStepsTrack" aria-hidden>
-            <div className="mpStepsLine" />
-          </div>
           <div className="mpSteps">
             {STEPS.map((s) => (
-              <article key={s.num} className="mpStep">
-                <div className="mpStepBubble">
-                  <span className="mpStepNum">{s.num}</span>
-                </div>
+              <article key={s.title} className="mpStep">
                 <h3 className="mpStepTitle">{s.title}</h3>
                 <p className="mpStepBody">{s.body}</p>
               </article>
@@ -208,7 +203,6 @@ export default function MissionPage() {
       {/* ── Benefits ─────────────────────────────────────────── */}
       <section className="mpBenefits">
         <div className="container">
-          <p className="mpSectionEyebrow">Hvorfor Bagved</p>
           <h2 className="mpSectionTitle">Det du kan forvente</h2>
 
           <div className="mpBenGrid">
@@ -226,7 +220,6 @@ export default function MissionPage() {
       {/* ── Testimonial (single cycling) ─────────────────────── */}
       <section className="mpTestimonials" aria-label="Testimonials">
         <div className="mpTestiInner">
-          <p className="mpSectionEyebrowDark">Hvad kunderne siger</p>
 
           <div className={`mpTestiBody ${teFade ? "mpTestiVisible" : "mpTestiHidden"}`}>
             <div className="mpTestiMark" aria-hidden>"</div>
@@ -303,7 +296,6 @@ export default function MissionPage() {
       {/* ── CTA ──────────────────────────────────────────────── */}
       <section className="mpCta" aria-label="Kontakt os">
         <div className="mpCtaLeft">
-          <p className="mpCtaEyebrow">Kom i gang</p>
           <h2 className="mpCtaTitle">Kontakt os og få et skræddersyet tilbud</h2>
           <p className="mpCtaSub">
             Har du spørgsmål, eller ønsker du et tilbud på en livestream,
@@ -332,28 +324,20 @@ export default function MissionPage() {
         </div>
       </section>
 
-    </main>
+    </div>
+    </ScrollBackground>
   );
 }
 
 const css = `
 .mp{
-  background: var(--color-bg);
+  background: transparent;
 }
 
 /* ── Hero ── */
 .mpHero{
   padding-top: 96px;
   padding-bottom: 0;
-}
-.mpEyebrow{
-  margin: 0 0 18px;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 38%, transparent);
 }
 .mpHeroTitle{
   margin: 0 0 24px;
@@ -379,15 +363,6 @@ const css = `
 }
 
 /* ── Section shared ── */
-.mpSectionEyebrow{
-  margin: 0 0 14px;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 40%, transparent);
-}
 .mpSectionTitle{
   margin: 0 0 clamp(40px, 5.5vw, 72px);
   font-family: var(--font-body);
@@ -396,15 +371,6 @@ const css = `
   letter-spacing: -0.03em;
   line-height: 1.08;
   color: var(--color-primary);
-}
-.mpSectionEyebrowDark{
-  margin: 0 0 32px;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
 }
 
 /* ── Process ── */
@@ -415,15 +381,6 @@ const css = `
   position: relative;
   margin-top: clamp(32px, 4vw, 56px);
   overflow: hidden;
-}
-.mpStepsTrack{
-  position: absolute;
-  top: 28px;
-  left: calc(clamp(16px,3.2vw,48px) + (100% / 8));
-  right: calc(clamp(16px,3.2vw,48px) + (100% / 8));
-  height: 1px;
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  pointer-events: none;
 }
 .mpSteps{
   display: grid;
@@ -437,26 +394,6 @@ const css = `
   align-items: center;
   text-align: center;
   gap: 16px;
-}
-.mpStepBubble{
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--color-primary) 16%, transparent);
-  background: var(--color-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-.mpStepNum{
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-primary);
 }
 .mpStepTitle{
   margin: 0;
@@ -477,7 +414,7 @@ const css = `
 /* ── Benefits ── */
 .mpBenefits{
   padding: clamp(72px, 9vw, 120px) 0;
-  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-bg));
+  background: transparent;
   border-top: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
@@ -520,7 +457,7 @@ const css = `
 /* ── Testimonial (single cycling) ── */
 .mpTestimonials{
   padding: clamp(72px, 9vw, 120px) 0;
-  background: var(--color-primary);
+  background: transparent;
 }
 .mpTestiInner{
   max-width: 800px;
@@ -561,7 +498,7 @@ const css = `
   font-size: clamp(16px, 1.6vw, 22px);
   font-weight: 400;
   line-height: 1.65;
-  color: rgba(255,255,255,0.88);
+  color: color-mix(in srgb, var(--color-primary) 88%, transparent);
   max-width: 68ch;
 }
 .mpTestiFooter{
@@ -576,16 +513,16 @@ const css = `
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.9);
+  color: color-mix(in srgb, var(--color-primary) 90%, transparent);
 }
 .mpTestiDivider{
-  color: rgba(255,255,255,0.28);
+  color: color-mix(in srgb, var(--color-primary) 28%, transparent);
   font-size: 14px;
 }
 .mpTestiRole{
   font-family: var(--font-body);
   font-size: 11px;
-  color: rgba(255,255,255,0.42);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
 }
 .mpTestiControls{
   display: flex;
@@ -595,7 +532,7 @@ const css = `
 }
 .mpTestiBtn{
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -603,12 +540,12 @@ const css = `
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: rgba(255,255,255,0.62);
+  color: color-mix(in srgb, var(--color-primary) 62%, transparent);
   transition: border-color 160ms ease, color 160ms ease;
 }
 .mpTestiBtn:hover{
-  border-color: rgba(255,255,255,0.5);
-  color: #fff;
+  border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  color: var(--color-primary);
 }
 .mpTestiDots{
   display: flex;
@@ -620,13 +557,13 @@ const css = `
   height: 5px;
   border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,0.24);
+  background: color-mix(in srgb, var(--color-primary) 24%, transparent);
   cursor: pointer;
   padding: 0;
   transition: background 200ms ease, transform 200ms ease;
 }
 .mpTestiDotOn{
-  background: rgba(255,255,255,0.9);
+  background: color-mix(in srgb, var(--color-primary) 90%, transparent);
   transform: scale(1.35);
 }
 
@@ -778,7 +715,7 @@ const css = `
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: clamp(360px, 46vw, 580px);
-  background: var(--color-primary);
+  background: transparent;
 }
 .mpCtaLeft{
   display: flex;
@@ -787,15 +724,6 @@ const css = `
   gap: 20px;
   padding: clamp(52px, 7vw, 96px) clamp(32px, 6vw, 88px);
 }
-.mpCtaEyebrow{
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
-}
 .mpCtaTitle{
   margin: 0;
   font-family: var(--font-body);
@@ -803,14 +731,14 @@ const css = `
   font-size: clamp(26px, 3.2vw, 46px);
   letter-spacing: -0.03em;
   line-height: 1.08;
-  color: #ffffff;
+  color: var(--color-primary);
 }
 .mpCtaSub{
   margin: 0;
   font-family: var(--font-body);
   font-size: clamp(14px, 1.15vw, 16px);
   line-height: 1.75;
-  color: rgba(255,255,255,0.62);
+  color: color-mix(in srgb, var(--color-primary) 80%, transparent);
   max-width: 44ch;
 }
 .mpCtaBtn{
@@ -819,7 +747,7 @@ const css = `
   display: inline-block;
   padding: 14px 36px;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-bg);
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 700;
@@ -829,6 +757,7 @@ const css = `
   transition: background 160ms ease;
 }
 .mpCtaBtn:hover{
+  color: var(--color-bg);
   background: color-mix(in srgb, var(--color-accent) 80%, #000);
 }
 .mpCtaRight{
@@ -906,8 +835,7 @@ const css = `
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 16px;
   }
-  .mpStepsTrack{ display: none; }
-  .mpBenGrid{
+    .mpBenGrid{
     grid-template-columns: 1fr;
   }
 }
